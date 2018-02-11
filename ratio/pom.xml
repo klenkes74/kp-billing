@@ -27,9 +27,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>fenum</artifactId>
-    <name>Fenum - Rating Engine</name>
-    <description>The rating engine of the small billing system</description>
+    <artifactId>ratio</artifactId>
+    <name>ratio - Rating engine</name>
+    <description>this module rates the records based on the guidance provided by princeps.</description>
     <url>https://devzone.kaiserpfalz-edv.de/billing/</url>
 
     <dependencies>

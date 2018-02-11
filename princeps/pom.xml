@@ -27,9 +27,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lezdam</artifactId>
-    <name>Lezdam - Tarif Management</name>
-    <description>the tarif management of the small billing engine</description>
+    <artifactId>princeps</artifactId>
+    <name>princeps - Guiding Engine</name>
+    <description>This module guide the records to Customer and Product.</description>
     <url>https://devzone.kaiserpfalz-edv.de/billing/</url>
 
     <dependencies>

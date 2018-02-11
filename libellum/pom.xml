@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>libellum</artifactId>
-    <name>Libellum - Invoice Generator</name>
+    <name>libellum - Invoice Generator</name>
     <description>the invoice generator for the small billing engine</description>
     <url>https://devzone.kaiserpfalz-edv.de/billing/</url>
 

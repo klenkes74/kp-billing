@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>commune</artifactId>
-    <name>Commune - Common Data Exchange Objects</name>
+    <name>commune - Common Data Exchange Objects</name>
     <description>
         This module contains common data interchange objets and their factories. They can be used but subsystems may
         decide to implement them independently. As long as the on-the-wire data format is met.

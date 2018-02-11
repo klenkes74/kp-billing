@@ -28,8 +28,11 @@
     </parent>
 
     <artifactId>invectio</artifactId>
-    <name>Invectio - Data Importer</name>
-    <description>the data importer of the small billing system</description>
+    <name>invectio - Data Importing API</name>
+    <description>
+        this is the data importing interface. For every data source there is an adapter
+        needed to translate the billing records.
+    </description>
     <url>https://devzone.kaiserpfalz-edv.de/billing/</url>
 
     <dependencies>
