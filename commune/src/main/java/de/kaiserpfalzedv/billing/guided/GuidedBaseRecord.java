@@ -14,27 +14,30 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.tarif;
+package de.kaiserpfalzedv.billing.guided;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.UUID;
-
-import javax.money.MonetaryAmount;
+import de.kaiserpfalzedv.billing.base.BaseBillingRecord;
+import de.kaiserpfalzedv.billing.common.EmailAddress;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface Tarif extends Serializable {
-    UUID getId();
+public interface GuidedBaseRecord extends BaseBillingRecord {
+    Customer getCustomer();
 
-    String getTarifName();
+    String getCustomerName();
 
-    String getUnit();
+    EmailAddress getBillingAddress();
 
-    BigDecimal getUnitDivisor();
+    EmailAddress getContactAddress();
 
-    MonetaryAmount getRate();
+    ProductRecordInfo getProductInfo();
+
+    String getProductName();
+
+    String[] getTagTitles();
+
+    String[] getTags();
 }

@@ -14,15 +14,16 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.tarif.impl;
+package de.kaiserpfalzedv.billing.rated.impl;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 
-import de.kaiserpfalzedv.billing.tarif.Tarif;
+import de.kaiserpfalzedv.billing.rated.Tarif;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -106,5 +107,10 @@ public class TarifImpl implements Tarif {
     @Override
     public MonetaryAmount getRate() {
         return rate;
+    }
+
+    @Override
+    public CurrencyUnit getCurrency() {
+        return rate.getCurrency();
     }
 }

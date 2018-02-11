@@ -14,15 +14,16 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.tarif;
+package de.kaiserpfalzedv.billing.rated;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import javax.money.Monetary;
 import javax.money.MonetaryAmount;
 import javax.xml.registry.JAXRException;
 
-import de.kaiserpfalzedv.billing.tarif.impl.TarifBuilder;
+import de.kaiserpfalzedv.billing.rated.impl.TarifBuilder;
 import org.javamoney.moneta.internal.MoneyAmountBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -42,16 +43,18 @@ import static org.junit.Assert.assertNotNull;
  * @version 1.0.0
  * @since 2018-02-10
  */
-@SuppressWarnings("ALL")
 public class TarifTest {
     private static final Logger LOG = LoggerFactory.getLogger(TarifTest.class);
 
     private static final UUID ID = UUID.randomUUID();
     private static final String TARIF_NAME = "unit test";
     private static final String UNIT = "mCore/h";
-    private static final BigDecimal UNIT_DIVISOR = BigDecimal.TEN;
+    private static final BigDecimal UNIT_DIVISOR = BigDecimal.valueOf(1000L);
     private static final BigDecimal DEFAULT_UNIT_DIVISOR = BigDecimal.ONE;
-    private static final MonetaryAmount RATE = new MoneyAmountBuilder().setNumber(0.01d).setCurrency("EUR").create();
+    private static final MonetaryAmount RATE = new MoneyAmountBuilder()
+            .setNumber(10.00d)
+            .setCurrency(Monetary.getCurrency("EUR"))
+            .create();
     private static final Tarif TARIF = new TarifBuilder()
             .setId(ID)
             .setTarifName(TARIF_NAME)

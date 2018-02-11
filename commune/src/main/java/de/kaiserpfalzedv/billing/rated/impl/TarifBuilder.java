@@ -14,14 +14,14 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.tarif.impl;
+package de.kaiserpfalzedv.billing.rated.impl;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.money.MonetaryAmount;
 
-import de.kaiserpfalzedv.billing.tarif.Tarif;
+import de.kaiserpfalzedv.billing.rated.Tarif;
 import org.apache.commons.lang3.builder.Builder;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;

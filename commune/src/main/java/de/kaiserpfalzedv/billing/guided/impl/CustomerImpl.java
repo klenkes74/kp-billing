@@ -14,13 +14,13 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.customer.impl;
+package de.kaiserpfalzedv.billing.guided.impl;
 
 import java.util.Objects;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.common.EmailAddress;
-import de.kaiserpfalzedv.billing.customer.Customer;
+import de.kaiserpfalzedv.billing.guided.Customer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

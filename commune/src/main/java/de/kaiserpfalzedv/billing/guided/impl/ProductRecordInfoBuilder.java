@@ -14,90 +14,80 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.tarif.impl;
+package de.kaiserpfalzedv.billing.guided.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.UUID;
 
-import de.kaiserpfalzedv.billing.tarif.ProductInfo;
+import de.kaiserpfalzedv.billing.guided.ProductInfo;
+import de.kaiserpfalzedv.billing.guided.ProductRecordInfo;
 import org.apache.commons.lang3.builder.Builder;
-
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public class ProductInfoBuilder implements Builder<ProductInfo> {
+public class ProductRecordInfoBuilder implements Builder<ProductRecordInfo> {
+
     private final ArrayList<String> tags = new ArrayList<>();
-    private UUID id = UUID.randomUUID();
-    private String name;
+    private ProductInfo productInfo;
 
     @Override
-    public ProductInfo build() {
+    public ProductRecordInfo build() {
         validate();
 
         try {
-            return new ProductInfoImpl(id, name, tags.toArray(new String[0]));
+            return new ProductRecordInfoImpl(productInfo, tags.toArray(new String[0]));
         } finally {
             reset();
         }
     }
 
     private void validate() {
-        if (isBlank(name)) {
-            throw new IllegalStateException("Can't create a ProductInfo without name");
+        if (productInfo == null) {
+            throw new IllegalStateException("Can't create a ProductRecordInfo without ProductInfo");
         }
     }
 
     private void reset() {
-        id = UUID.randomUUID();
-        name = null;
+        productInfo = null;
         tags.clear();
     }
 
-
-    public ProductInfoBuilder setId(UUID id) {
-        this.id = id;
+    public ProductRecordInfoBuilder setProductInfo(ProductInfo productInfo) {
+        this.productInfo = productInfo;
         return this;
     }
 
-    public ProductInfoBuilder setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public ProductInfoBuilder setTags(String[] tags) {
-        this.tags.clear();
-        Collections.addAll(this.tags, tags);
-
-        return this;
-    }
-
-    public ProductInfoBuilder clearTags() {
+    public ProductRecordInfoBuilder clearTags() {
         this.tags.clear();
 
         return this;
     }
 
-    public ProductInfoBuilder addTag(final String tag) {
+    public ProductRecordInfoBuilder addTag(final String tag) {
         this.tags.add(tag);
 
         return this;
     }
 
-    public ProductInfoBuilder removeTag(final String tag) {
+    public ProductRecordInfoBuilder removeTag(final String tag) {
         this.tags.remove(tag);
 
         return this;
     }
 
-    public ProductInfoBuilder copy(final ProductInfo orig) {
-        this.id = orig.getId();
-        this.name = orig.getName();
-        Collections.addAll(this.tags, orig.getTags());
+    public ProductRecordInfoBuilder copy(final ProductRecordInfo orig) {
+        this.productInfo = orig.getProductInfo();
+        setTags(orig.getTags());
+
+        return this;
+    }
+
+    public ProductRecordInfoBuilder setTags(String[] tags) {
+        this.tags.clear();
+        Collections.addAll(this.tags, tags);
 
         return this;
     }

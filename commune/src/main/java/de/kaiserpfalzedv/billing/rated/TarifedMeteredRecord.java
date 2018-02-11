@@ -16,12 +16,12 @@
 
 package de.kaiserpfalzedv.billing.rated;
 
-import de.kaiserpfalzedv.billing.imported.RawMeteredRecord;
+import de.kaiserpfalzedv.billing.guided.GuidedMeteredRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface TarifedMeteredRecord extends RawMeteredRecord, TarifedBaseRecord {
+public interface TarifedMeteredRecord extends GuidedMeteredRecord, TarifedBaseRecord {
 }

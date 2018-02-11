@@ -14,14 +14,30 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.billed;
+package de.kaiserpfalzedv.billing.rated;
 
-import de.kaiserpfalzedv.billing.base.BaseMeteredBillingRecord;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.UUID;
+
+import javax.money.CurrencyUnit;
+import javax.money.MonetaryAmount;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface BilledMeteredRecord extends BilledBaseRecord, BaseMeteredBillingRecord {
+public interface Tarif extends Serializable {
+    UUID getId();
+
+    String getTarifName();
+
+    String getUnit();
+
+    BigDecimal getUnitDivisor();
+
+    MonetaryAmount getRate();
+
+    CurrencyUnit getCurrency();
 }

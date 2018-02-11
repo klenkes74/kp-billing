@@ -14,28 +14,14 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.customer;
+package de.kaiserpfalzedv.billing.guided;
 
-import java.io.Serializable;
-import java.util.UUID;
-
-import de.kaiserpfalzedv.billing.common.EmailAddress;
-import de.kaiserpfalzedv.billing.common.Identifiable;
-
+import de.kaiserpfalzedv.billing.base.BaseMeteredBillingRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface Customer extends Identifiable, Serializable {
-    UUID getId();
-
-    String getName();
-
-    String getCostReference();
-
-    EmailAddress getContactAddress();
-
-    EmailAddress getBillingAddress();
+public interface GuidedMeteredRecord extends GuidedBaseRecord, BaseMeteredBillingRecord {
 }

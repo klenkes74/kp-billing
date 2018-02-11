@@ -14,11 +14,12 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.tarif;
+package de.kaiserpfalzedv.billing.rated;
 
 import java.util.UUID;
 
-import de.kaiserpfalzedv.billing.tarif.impl.ProductInfoBuilder;
+import de.kaiserpfalzedv.billing.guided.ProductInfo;
+import de.kaiserpfalzedv.billing.guided.impl.ProductInfoBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

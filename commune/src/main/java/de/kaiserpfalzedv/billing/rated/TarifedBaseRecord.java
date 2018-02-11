@@ -16,23 +16,23 @@
 
 package de.kaiserpfalzedv.billing.rated;
 
+import java.math.BigDecimal;
+
 import javax.money.MonetaryAmount;
 
-import de.kaiserpfalzedv.billing.base.BaseBillingRecord;
-import de.kaiserpfalzedv.billing.tarif.Tarif;
+import de.kaiserpfalzedv.billing.guided.GuidedBaseRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface TarifedBaseRecord extends BaseBillingRecord {
+public interface TarifedBaseRecord extends GuidedBaseRecord {
     Tarif getTarif();
-
     String getTarifName();
-
     String getUnit();
 
+    BigDecimal getUnitDivisor();
     MonetaryAmount getRate();
 
     MonetaryAmount getAmount();

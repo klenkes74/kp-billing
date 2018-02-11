@@ -14,10 +14,10 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.tarif.impl;
+package de.kaiserpfalzedv.billing.guided.impl;
 
-import de.kaiserpfalzedv.billing.tarif.ProductInfo;
-import de.kaiserpfalzedv.billing.tarif.ProductRecordInfo;
+import de.kaiserpfalzedv.billing.guided.ProductInfo;
+import de.kaiserpfalzedv.billing.guided.ProductRecordInfo;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -25,6 +25,7 @@ import de.kaiserpfalzedv.billing.tarif.ProductRecordInfo;
  * @since 2018-02-10
  */
 public class ProductRecordInfoImpl implements ProductRecordInfo {
+    private static final long serialVersionUID = -3474606968988268416L;
 
     private final ProductInfo productInfo;
     private final String[] tags;
@@ -39,6 +40,17 @@ public class ProductRecordInfoImpl implements ProductRecordInfo {
     public ProductInfo getProductInfo() {
         return productInfo;
     }
+
+    @Override
+    public String getProductName() {
+        return productInfo.getName();
+    }
+
+    @Override
+    public String[] getTagTitles() {
+        return productInfo.getTags();
+    }
+
 
     @Override
     public String[] getTags() {

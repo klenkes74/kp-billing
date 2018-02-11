@@ -21,11 +21,8 @@
              version="2.1">
 
     <persistence-unit name="ACOUNTING">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
         <non-jta-data-source>java:comp/env/datasources/contacts</non-jta-data-source>
 
-        <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <validation-mode>AUTO</validation-mode>
 
         <properties>

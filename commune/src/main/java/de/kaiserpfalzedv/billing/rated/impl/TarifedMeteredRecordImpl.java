@@ -22,9 +22,11 @@ import java.util.UUID;
 
 import javax.money.MonetaryAmount;
 
-import de.kaiserpfalzedv.billing.imported.impl.RawMeteredRecordImpl;
+import de.kaiserpfalzedv.billing.guided.Customer;
+import de.kaiserpfalzedv.billing.guided.ProductRecordInfo;
+import de.kaiserpfalzedv.billing.guided.impl.GuidedMeteredRecordImpl;
+import de.kaiserpfalzedv.billing.rated.Tarif;
 import de.kaiserpfalzedv.billing.rated.TarifedMeteredRecord;
-import de.kaiserpfalzedv.billing.tarif.Tarif;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -33,12 +35,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-10
  */
-public class TarifedMeteredRecordImpl extends RawMeteredRecordImpl implements TarifedMeteredRecord {
-    private static final long serialVersionUID = -1517864163494689498L;
+public class TarifedMeteredRecordImpl extends GuidedMeteredRecordImpl implements TarifedMeteredRecord {
+    private static final long serialVersionUID = 5539278989504062696L;
 
-
-    private String meteredCustomer;
-    private String meteringProduct;
     private Tarif tarif;
     private MonetaryAmount amount;
 
@@ -46,19 +45,17 @@ public class TarifedMeteredRecordImpl extends RawMeteredRecordImpl implements Ta
     protected TarifedMeteredRecordImpl(
             final UUID id,
             final String meteringId,
+            final Customer customer,
             final OffsetDateTime recordedDate,
             final OffsetDateTime importedDate,
             final OffsetDateTime valueDate,
-            final String meteredCustomer,
-            final String meteringProduct,
+            final ProductRecordInfo productInfo,
             final BigDecimal meteredValue,
             final Tarif tarif,
             final MonetaryAmount amount
     ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate, meteringProduct, meteredCustomer, meteredValue);
+        super(id, meteringId, customer, recordedDate, importedDate, valueDate, productInfo, meteredValue);
 
-        this.meteredCustomer = meteredCustomer;
-        this.meteringProduct = meteringProduct;
         this.tarif = tarif;
         this.amount = amount;
     }
@@ -80,6 +77,11 @@ public class TarifedMeteredRecordImpl extends RawMeteredRecordImpl implements Ta
     }
 
     @Override
+    public BigDecimal getUnitDivisor() {
+        return tarif.getUnitDivisor();
+    }
+
+    @Override
     public MonetaryAmount getRate() {
         return tarif.getRate();
     }
@@ -91,23 +93,10 @@ public class TarifedMeteredRecordImpl extends RawMeteredRecordImpl implements Ta
 
 
     @Override
-    public String getMeteredCustomer() {
-        return meteredCustomer;
-    }
-
-    @Override
-    public String getMeteringProduct() {
-        return meteringProduct;
-    }
-
-
-    @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .appendSuper(super.toString())
                 .append("tarif", tarif)
-                .append("customer", meteredCustomer)
-                .append("product", meteringProduct)
                 .append("amount", amount)
                 .toString();
     }

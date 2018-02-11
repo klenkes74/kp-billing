@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.tarif;
+package de.kaiserpfalzedv.billing.guided;
 
 import de.kaiserpfalzedv.billing.common.Identifiable;
 

@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.customer;
+package de.kaiserpfalzedv.billing.guided;
 
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ import javax.xml.registry.JAXRException;
 import de.kaiserpfalzedv.billing.common.EmailAddress;
 import de.kaiserpfalzedv.billing.common.impl.EmailAddressBuilder;
 import de.kaiserpfalzedv.billing.common.impl.NullEmailAddress;
-import de.kaiserpfalzedv.billing.customer.impl.CustomerBuilder;
+import de.kaiserpfalzedv.billing.guided.impl.CustomerBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

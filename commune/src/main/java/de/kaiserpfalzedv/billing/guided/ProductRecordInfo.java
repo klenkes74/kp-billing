@@ -14,14 +14,22 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.billed;
+package de.kaiserpfalzedv.billing.guided;
 
-import de.kaiserpfalzedv.billing.base.BaseTimedBillingRecord;
+import java.io.Serializable;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface BilledTimedRecord extends BilledBaseRecord, BaseTimedBillingRecord {
+public interface ProductRecordInfo extends Serializable {
+    ProductInfo getProductInfo();
+
+    String getProductName();
+
+    String[] getTagTitles();
+
+    String[] getTags();
+    boolean matchTags(String[] info);
 }

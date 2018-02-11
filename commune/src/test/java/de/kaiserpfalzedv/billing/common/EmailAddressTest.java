@@ -14,13 +14,12 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.customer;
+package de.kaiserpfalzedv.billing.common;
 
 import java.util.UUID;
 
 import javax.xml.registry.JAXRException;
 
-import de.kaiserpfalzedv.billing.common.EmailAddress;
 import de.kaiserpfalzedv.billing.common.impl.EmailAddressBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
