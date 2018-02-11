@@ -244,7 +244,7 @@ public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<
         this.productInfo = orig.getProductInfo();
         this.customer = orig.getCustomer();
 
-        if (GuidedBaseRecord.class.isAssignableFrom(orig.getClass())) {
+        if (GuidedMeteredRecord.class.isAssignableFrom(orig.getClass())) {
             this.meteredValue = ((GuidedMeteredRecord) orig).getMeteredValue();
         } else {
             this.meteredStartDate = ((GuidedTimedRecord) orig).getMeteredStartDate();
