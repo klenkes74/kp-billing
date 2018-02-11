@@ -31,11 +31,10 @@
 
     <modules>
         <module>commune</module>
-        <module>fenum</module>
         <module>invectio</module>
-        <module>lezdam</module>
+        <module>princeps</module>
+        <module>ratio</module>
         <module>libellum</module>
-        <module>pretium</module>
     </modules>
 
     <properties>

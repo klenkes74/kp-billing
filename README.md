@@ -4,19 +4,18 @@ Small Billing-Engine
 ## Sub Modules
 
 ### invectio
-The importer
+The import engine. This module imports the raw records via a public interface. There are different adapters needed for
+the datasources to transfer the data source native format to the import format.
 
-### fenum
-The rating engine
+### princeps
+The guiding engine. This engine decides on the customer and the product of the record.
 
-### lezdam
-The tariff decision maker
-
-### pretium
-The actual price calculator
+### ratio
+The rating engine. This module rates the record on basis of the customer and product of the record.
 
 ### libellum
-The Invoice generator
+The invoice and report engine. This module generates the invoices and reports for cucstomers based on the rated
+records.
 
 ### commune
 Common classes like the record sets to work on (data interchange format)
