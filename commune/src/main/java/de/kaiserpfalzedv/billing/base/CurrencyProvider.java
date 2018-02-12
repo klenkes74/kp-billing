@@ -14,20 +14,15 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.billed;
+package de.kaiserpfalzedv.billing.base;
 
-import java.io.Serializable;
-import java.time.OffsetDateTime;
-
-import de.kaiserpfalzedv.billing.common.Identifiable;
+import javax.money.CurrencyUnit;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-11
+ * @since 2018-02-12
  */
-public interface Attachment extends Identifiable, Serializable {
-    String getTitle();
-
-    OffsetDateTime getTimestamp();
+public interface CurrencyProvider {
+    CurrencyUnit getCurrency();
 }

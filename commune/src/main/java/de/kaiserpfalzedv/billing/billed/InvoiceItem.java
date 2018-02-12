@@ -16,13 +16,21 @@
 
 package de.kaiserpfalzedv.billing.billed;
 
-import de.kaiserpfalzedv.billing.base.BaseBillingRecord;
-import de.kaiserpfalzedv.billing.rated.TarifedInformation;
+import java.io.Serializable;
+
+import javax.money.MonetaryAmount;
+
+import de.kaiserpfalzedv.billing.common.Identifiable;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-11
  */
-public interface InvoiceItem extends BaseBillingRecord, TarifedInformation {
+public interface InvoiceItem extends Identifiable, Serializable {
+    String getItemId();
+
+    String getTitle();
+
+    MonetaryAmount getAmount();
 }

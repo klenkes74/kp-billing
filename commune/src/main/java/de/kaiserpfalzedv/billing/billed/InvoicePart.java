@@ -16,6 +16,8 @@
 
 package de.kaiserpfalzedv.billing.billed;
 
+import java.io.Serializable;
+
 import javax.money.MonetaryAmount;
 
 import de.kaiserpfalzedv.billing.common.Identifiable;
@@ -25,10 +27,10 @@ import de.kaiserpfalzedv.billing.common.Identifiable;
  * @version 1.0.0
  * @since 2018-02-11
  */
-public interface InvoicePart extends Identifiable {
+public interface InvoicePart extends Identifiable, Serializable {
     String getTitle();
 
     InvoiceItem[] getItems();
 
-    MonetaryAmount getAmont();
+    MonetaryAmount getAmount();
 }
