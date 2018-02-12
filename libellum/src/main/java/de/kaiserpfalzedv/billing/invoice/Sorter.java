@@ -14,14 +14,17 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.rated;
+package de.kaiserpfalzedv.billing.invoice;
 
-import de.kaiserpfalzedv.billing.guided.GuidedBaseRecord;
+import java.util.Comparator;
+
+import de.kaiserpfalzedv.billing.rated.TarifedBaseRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-10
+ * @since 2018-02-11
  */
-public interface TarifedBaseRecord extends GuidedBaseRecord, TarifedInformation {
+public interface Sorter {
+    TarifedBaseRecord[] sort(TarifedBaseRecord[] unsortedData, Comparator<TarifedBaseRecord> comparator);
 }

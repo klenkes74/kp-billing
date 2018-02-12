@@ -14,14 +14,19 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.rated;
+package de.kaiserpfalzedv.billing.billed;
 
-import de.kaiserpfalzedv.billing.guided.GuidedBaseRecord;
+import java.time.OffsetDateTime;
+
+import de.kaiserpfalzedv.billing.common.Identifiable;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-10
+ * @since 2018-02-11
  */
-public interface TarifedBaseRecord extends GuidedBaseRecord, TarifedInformation {
+public interface Attachment extends Identifiable {
+    String getTitle();
+
+    OffsetDateTime getTimestamp();
 }

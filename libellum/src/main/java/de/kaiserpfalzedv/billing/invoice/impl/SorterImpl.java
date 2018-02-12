@@ -14,14 +14,26 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.rated;
+package de.kaiserpfalzedv.billing.invoice.impl;
 
-import de.kaiserpfalzedv.billing.guided.GuidedBaseRecord;
+import java.util.Arrays;
+import java.util.Comparator;
+
+import de.kaiserpfalzedv.billing.invoice.Sorter;
+import de.kaiserpfalzedv.billing.rated.TarifedBaseRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-10
+ * @since 2018-02-11
  */
-public interface TarifedBaseRecord extends GuidedBaseRecord, TarifedInformation {
+public class SorterImpl implements Sorter {
+    private static final Logger LOG = LoggerFactory.getLogger(SorterImpl.class);
+
+    @Override
+    public TarifedBaseRecord[] sort(TarifedBaseRecord[] unsortedData, Comparator<TarifedBaseRecord> comparator) {
+        return (TarifedBaseRecord[]) Arrays.stream(unsortedData).sorted(comparator).toArray();
+    }
 }
