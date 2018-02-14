@@ -159,15 +159,6 @@ public class InvoiceBuilder implements Builder<Invoice> {
         return this;
     }
 
-    public InvoiceBuilder setParts(final ArrayList<InvoicePart> parts) {
-        this.parts.clear();
-
-        if (parts != null) {
-            this.parts.addAll(parts);
-        }
-        return this;
-    }
-
     public InvoiceBuilder addPart(
             final String title,
             final List<InvoiceItem> items
@@ -191,17 +182,6 @@ public class InvoiceBuilder implements Builder<Invoice> {
                         .setTitle(title)
                         .setItems(items)
                         .setCurrency(currency)
-                        .build()
-        );
-
-        return this;
-    }
-
-    public InvoiceBuilder removePart(final UUID id) {
-        parts.remove(
-                partBuilder
-                        .setId(id)
-                        .setTitle("doesn't matter at all")
                         .build()
         );
 

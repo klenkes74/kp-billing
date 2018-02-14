@@ -20,6 +20,8 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
+
 import de.kaiserpfalzedv.billing.base.BaseTimedBillingRecord;
 
 /**
@@ -63,4 +65,11 @@ public abstract class BaseTimedBillingRecordImpl extends BaseBillingRecordImpl i
     public Duration getMeteredDuration() {
         return meteredDuration;
     }
+
+
+    @Override
+    public int compareTo(@NotNull BaseTimedBillingRecord o) {
+        return getMeteredStartDate().compareTo(o.getMeteredStartDate());
+    }
+
 }

@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
+
 import de.kaiserpfalzedv.billing.base.BaseMeteredBillingRecord;
 
 /**
@@ -51,5 +53,10 @@ public abstract class BaseMeteredBillingRecordImpl extends BaseBillingRecordImpl
 
     public BigDecimal getMeteredValue() {
         return meteredValue;
+    }
+
+    @Override
+    public int compareTo(@NotNull BaseMeteredBillingRecord o) {
+        return getValueDate().compareTo(o.getValueDate());
     }
 }
