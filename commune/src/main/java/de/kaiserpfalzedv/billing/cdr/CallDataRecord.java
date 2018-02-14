@@ -14,15 +14,15 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.quod.openshift;
+package de.kaiserpfalzedv.billing.cdr;
 
-import de.kaiserpfalzedv.billing.billed.Attachment;
+import de.kaiserpfalzedv.billing.rated.TarifedBaseRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-13
  */
-public interface OpenShiftCDRAttachment extends Attachment {
+public interface CallDataRecord extends TarifedBaseRecord {
 
 }

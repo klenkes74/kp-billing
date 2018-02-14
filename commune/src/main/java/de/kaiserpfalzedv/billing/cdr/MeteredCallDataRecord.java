@@ -14,15 +14,14 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.quod;
+package de.kaiserpfalzedv.billing.cdr;
 
-import de.kaiserpfalzedv.billing.rated.TarifedBaseRecord;
+import de.kaiserpfalzedv.billing.base.BaseMeteredBillingRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-13
  */
-public interface CallDataRecord extends TarifedBaseRecord {
-
+public interface MeteredCallDataRecord extends CallDataRecord, BaseMeteredBillingRecord {
 }

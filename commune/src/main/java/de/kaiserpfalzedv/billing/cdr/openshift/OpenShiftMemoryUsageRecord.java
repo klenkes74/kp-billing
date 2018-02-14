@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.quod.openshift;
+package de.kaiserpfalzedv.billing.cdr.openshift;
 
 import de.kaiserpfalzedv.billing.guided.GuidedMeteredRecord;
 

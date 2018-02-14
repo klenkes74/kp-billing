@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.quod;
+package de.kaiserpfalzedv.billing.cdr;
 
 import de.kaiserpfalzedv.billing.base.BaseTimedBillingRecord;
 
