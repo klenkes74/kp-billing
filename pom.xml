@@ -35,6 +35,7 @@
         <module>princeps</module>
         <module>ratio</module>
         <module>libellum</module>
+        <module>quod</module>
     </modules>
 
     <properties>

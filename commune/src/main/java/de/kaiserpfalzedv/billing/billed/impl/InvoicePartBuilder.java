@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.billed.InvoiceItem;
 import de.kaiserpfalzedv.billing.billed.InvoicePart;
@@ -106,27 +107,24 @@ public class InvoicePartBuilder implements Builder<InvoicePart> {
     }
 
 
-    public InvoicePartBuilder setId(UUID id) {
+    public InvoicePartBuilder setId(final UUID id) {
         this.id = id;
         return this;
     }
 
-    public InvoicePartBuilder setTitle(String title) {
+    public InvoicePartBuilder setTitle(final String title) {
         this.title = title;
         return this;
     }
 
-    public InvoicePartBuilder setAmount(MonetaryAmount amount) {
+    public InvoicePartBuilder setAmount(final MonetaryAmount amount) {
         this.amount = amount;
         return this;
     }
 
-    public InvoicePartBuilder setItems(List<InvoiceItem> items) {
+    public InvoicePartBuilder setItems(@NotNull final List<InvoiceItem> items) {
         this.items.clear();
-
-        if (items != null) {
-            this.items.addAll(items);
-        }
+        this.items.addAll(items);
         return this;
     }
 
