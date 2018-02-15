@@ -334,12 +334,73 @@
                 </file>
             </activation>
 
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>api-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <archive>
+                                        <manifestEntries>
+                                            <Billing-Version>${project.version}</Billing-Version>
+                                        </manifestEntries>
+                                        <manifest>
+                                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                        </manifest>
+                                    </archive>
+                                    <skipIfEmpty>true</skipIfEmpty>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>api-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <archive>
+                                        <manifestEntries>
+                                            <Billing-Version>${project.version}</Billing-Version>
+                                        </manifestEntries>
+                                        <manifest>
+                                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                        </manifest>
+                                    </archive>
+                                    <includes>
+                                        <include>**/api/**</include>
+                                    </includes>
+                                    <skipIfEmpty>true</skipIfEmpty>
+                                    <classifier>api</classifier>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+
             <dependencyManagement>
                 <dependencies>
                     <dependency>
                         <groupId>de.kaiserpfalz-edv.billing</groupId>
                         <artifactId>commune</artifactId>
                         <version>${project.version}</version>
+                        <classifier>api</classifier>
                     </dependency>
                 </dependencies>
             </dependencyManagement>
@@ -390,15 +451,12 @@
                         <version>3.0.2</version>
                     </plugin>
 
+                    <!--
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <version>0.7.5.201505241946</version>
                         <executions>
-                            <!--
-                                Prepares the property pointing to the JaCoCo runtime agent which
-                                is passed as VM argument when Maven the Surefire plugin is executed.
-                            -->
                             <execution>
                                 <id>pre-unit-test</id>
                                 <goals>
@@ -423,6 +481,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    -->
 
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
@@ -669,7 +728,8 @@
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <configuration>
                             <!-- Fork every test because it will launch a separate AS instance -->
-                            <forkMode>always</forkMode>
+                            <forkCount>5</forkCount>
+                            <reuseForks>true</reuseForks>
                             <systemPropertyVariables>
                                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                             </systemPropertyVariables>

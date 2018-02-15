@@ -13,6 +13,9 @@ The guiding engine. This engine decides on the customer and the product of the r
 ### ratio
 The rating engine. This module rates the record on basis of the customer and product of the record.
 
+### quod
+The generator for the itemised bill. I come from telco, so I call it CDR (Call Data Record) most of the times.
+
 ### libellum
 The invoice and report engine. This module generates the invoices and reports for cucstomers based on the rated
 records.

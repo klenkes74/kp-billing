@@ -36,6 +36,7 @@
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>commune</artifactId>
+            <classifier>api</classifier>
         </dependency>
     </dependencies>
 </project>
