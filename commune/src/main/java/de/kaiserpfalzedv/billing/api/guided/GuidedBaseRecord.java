@@ -17,27 +17,18 @@
 package de.kaiserpfalzedv.billing.api.guided;
 
 import de.kaiserpfalzedv.billing.api.base.BaseBillingRecord;
-import de.kaiserpfalzedv.billing.api.common.EmailAddress;
+import de.kaiserpfalzedv.billing.api.rated.RatedBaseRecord;
+import de.kaiserpfalzedv.billing.api.rated.RatingBusinessExeption;
+import de.kaiserpfalzedv.billing.api.rated.RatingExecutor;
+import de.kaiserpfalzedv.billing.api.rated.TarifingGuide;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface GuidedBaseRecord extends BaseBillingRecord {
-    Customer getCustomer();
+public interface GuidedBaseRecord extends BaseBillingRecord, CustomerHolding, ProductHolding {
 
-    String getCustomerName();
-
-    EmailAddress getBillingAddress();
-
-    EmailAddress getContactAddress();
-
-    ProductRecordInfo getProductInfo();
-
-    String getProductName();
-
-    String[] getTagTitles();
-
-    String[] getTags();
+    <T extends RatedBaseRecord> T rate(final RatingExecutor executor, final TarifingGuide tarifingGuide)
+            throws RatingBusinessExeption;
 }

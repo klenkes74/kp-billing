@@ -14,14 +14,25 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.rated;
+package de.kaiserpfalzedv.billing.libellum;
 
-import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
+import java.util.Arrays;
+import java.util.Comparator;
+
+import de.kaiserpfalzedv.billing.api.rated.RatedBaseRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-10
+ * @since 2018-02-11
  */
-public interface RatedMeteredRecord extends RatedBaseRecord, BaseMeteredBillingRecord {
+public class SorterImpl implements Sorter {
+    private static final Logger LOG = LoggerFactory.getLogger(SorterImpl.class);
+
+    @Override
+    public RatedBaseRecord[] sort(RatedBaseRecord[] unsortedData, Comparator<RatedBaseRecord> comparator) {
+        return (RatedBaseRecord[]) Arrays.stream(unsortedData).sorted(comparator).toArray();
+    }
 }

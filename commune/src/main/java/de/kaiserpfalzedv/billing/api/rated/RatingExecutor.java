@@ -25,7 +25,9 @@ import de.kaiserpfalzedv.billing.api.guided.GuidedTimedRecord;
  * @since 2018-02-15
  */
 public interface RatingExecutor {
-    RatedMeteredRecord execute(GuidedMeteredRecord record) throws RatingBusinessExeption;
+    RatedMeteredRecord executeMeteredRecord(final GuidedMeteredRecord record, final TarifingGuide tarifingGuide)
+            throws RatingBusinessExeption;
 
-    RatedTimedRecord execute(GuidedTimedRecord record) throws RatingBusinessExeption;
+    RatedTimedRecord executeTimedRecord(final GuidedTimedRecord record, final TarifingGuide tarifingGuide)
+            throws RatingBusinessExeption;
 }

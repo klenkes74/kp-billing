@@ -38,5 +38,12 @@
             <artifactId>commune</artifactId>
             <classifier>api</classifier>
         </dependency>
+
+        <dependency>
+            <groupId>de.kaiserpfalz-edv.billing</groupId>
+            <artifactId>princeps</artifactId>
+            <version>0.0.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

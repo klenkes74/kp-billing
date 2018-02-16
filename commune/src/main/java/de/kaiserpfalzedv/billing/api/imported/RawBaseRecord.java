@@ -17,6 +17,11 @@
 package de.kaiserpfalzedv.billing.api.imported;
 
 import de.kaiserpfalzedv.billing.api.base.BaseBillingRecord;
+import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
+import de.kaiserpfalzedv.billing.api.guided.GuidedBaseRecord;
+import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessExeption;
+import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
+import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -31,4 +36,10 @@ public interface RawBaseRecord extends BaseBillingRecord {
     String getMeteringProduct();
 
     void setMeteringProduct(final String product);
+
+    <T extends GuidedBaseRecord> T execute(
+            final GuidingExecutor executor,
+            final ProductGuide productGuide,
+            final CustomerGuide customerGuide
+    ) throws GuidingBusinessExeption;
 }

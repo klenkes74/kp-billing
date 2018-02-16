@@ -14,14 +14,18 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.rated;
+package de.kaiserpfalzedv.billing.api.guided;
 
-import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
+import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-10
+ * @since 2018-02-16
  */
-public interface RatedMeteredRecord extends RatedBaseRecord, BaseMeteredBillingRecord {
+public interface CustomerHolding {
+    public Customer getCustomer();
+    public String getCustomerName();
+    public EmailAddress getBillingAddress();
+    public EmailAddress getContactAddress();
 }

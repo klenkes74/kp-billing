@@ -36,7 +36,7 @@ import de.kaiserpfalzedv.billing.api.imported.ImportingException;
 import de.kaiserpfalzedv.billing.api.imported.IncompatibleImportDataException;
 import de.kaiserpfalzedv.billing.api.imported.IncompleteImportDataException;
 import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
-import de.kaiserpfalzedv.billing.api.imported.impl.RawRecordBuilder;
+import de.kaiserpfalzedv.billing.invectio.RawRecordBuilder;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;

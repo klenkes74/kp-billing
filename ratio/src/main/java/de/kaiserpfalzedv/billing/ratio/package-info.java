@@ -14,14 +14,9 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.rated;
-
-import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
-
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-10
+ * @since 2018-02-16
  */
-public interface RatedMeteredRecord extends RatedBaseRecord, BaseMeteredBillingRecord {
-}
+package de.kaiserpfalzedv.billing.ratio;

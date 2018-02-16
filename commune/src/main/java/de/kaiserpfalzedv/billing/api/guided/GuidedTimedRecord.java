@@ -17,9 +17,6 @@
 package de.kaiserpfalzedv.billing.api.guided;
 
 import de.kaiserpfalzedv.billing.api.base.BaseTimedBillingRecord;
-import de.kaiserpfalzedv.billing.api.rated.RatedTimedRecord;
-import de.kaiserpfalzedv.billing.api.rated.RatingBusinessExeption;
-import de.kaiserpfalzedv.billing.api.rated.RatingExecutor;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -27,5 +24,4 @@ import de.kaiserpfalzedv.billing.api.rated.RatingExecutor;
  * @since 2018-02-10
  */
 public interface GuidedTimedRecord extends GuidedBaseRecord, BaseTimedBillingRecord {
-    RatedTimedRecord execute(final RatingExecutor executor) throws RatingBusinessExeption;
 }

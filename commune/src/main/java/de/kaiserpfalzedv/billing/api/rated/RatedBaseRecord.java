@@ -16,12 +16,14 @@
 
 package de.kaiserpfalzedv.billing.api.rated;
 
-import de.kaiserpfalzedv.billing.api.guided.GuidedBaseRecord;
+import de.kaiserpfalzedv.billing.api.base.BaseBillingRecord;
+import de.kaiserpfalzedv.billing.api.guided.CustomerHolding;
+import de.kaiserpfalzedv.billing.api.guided.ProductHolding;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface RatedBaseRecord extends GuidedBaseRecord, TarifedInformation {
+public interface RatedBaseRecord extends BaseBillingRecord, TarifedInformation, CustomerHolding, ProductHolding {
 }
