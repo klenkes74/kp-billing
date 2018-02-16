@@ -40,12 +40,12 @@ public class RawTimedRecordImpl extends BaseTimedBillingRecordImpl implements Ra
     /**
      * The metering product from the metering system
      */
-    private final String meteringProduct;
+    private String meteringProduct;
 
     /**
      * The customer for this record.
      */
-    private final String meteredCustomer;
+    private String meteredCustomer;
 
     protected RawTimedRecordImpl(
             final UUID id,
@@ -53,15 +53,10 @@ public class RawTimedRecordImpl extends BaseTimedBillingRecordImpl implements Ra
             final OffsetDateTime recordedDate,
             final OffsetDateTime importedDate,
             final OffsetDateTime valueDate,
-            final String meteringProduct,
-            final String meteredCustomer,
             final OffsetDateTime meteredStartDate,
             final Duration meteredDuration
     ) {
         super(id, meteringId, recordedDate, importedDate, valueDate, meteredStartDate, meteredDuration);
-
-        this.meteredCustomer = meteredCustomer;
-        this.meteringProduct = meteringProduct;
     }
 
     @Override
@@ -69,9 +64,17 @@ public class RawTimedRecordImpl extends BaseTimedBillingRecordImpl implements Ra
         return meteredCustomer;
     }
 
+    public void setMeteredCustomer(final String meteredCustomer) {
+        this.meteredCustomer = meteredCustomer;
+    }
+
     @Override
     public String getMeteringProduct() {
         return meteringProduct;
+    }
+
+    public void setMeteringProduct(final String meteringProduct) {
+        this.meteringProduct = meteringProduct;
     }
 
 

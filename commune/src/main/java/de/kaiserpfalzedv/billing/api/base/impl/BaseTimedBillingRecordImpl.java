@@ -20,8 +20,6 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
-
 import de.kaiserpfalzedv.billing.api.base.BaseTimedBillingRecord;
 
 /**
@@ -30,7 +28,7 @@ import de.kaiserpfalzedv.billing.api.base.BaseTimedBillingRecord;
  * @since 2018-02-09
  */
 public abstract class BaseTimedBillingRecordImpl extends BaseBillingRecordImpl implements BaseTimedBillingRecord {
-    private static final long serialVersionUID = 4056331340881073744L;
+    private static final long serialVersionUID = 7514993938848713866L;
 
 
     /**
@@ -65,11 +63,4 @@ public abstract class BaseTimedBillingRecordImpl extends BaseBillingRecordImpl i
     public Duration getMeteredDuration() {
         return meteredDuration;
     }
-
-
-    @Override
-    public int compareTo(@NotNull BaseTimedBillingRecord o) {
-        return getMeteredStartDate().compareTo(o.getMeteredStartDate());
-    }
-
 }

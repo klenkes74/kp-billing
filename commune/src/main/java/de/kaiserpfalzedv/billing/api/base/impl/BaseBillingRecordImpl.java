@@ -54,6 +54,9 @@ public abstract class BaseBillingRecordImpl extends IdentifiableImpl implements 
      */
     private final String meteringId;
 
+    private String[] tagTitles;
+    private String[] tags;
+
 
     protected BaseBillingRecordImpl(
             final UUID id,
@@ -89,6 +92,24 @@ public abstract class BaseBillingRecordImpl extends IdentifiableImpl implements 
     @Override
     public OffsetDateTime getImportedDate() {
         return importedDate;
+    }
+
+    @Override
+    public String[] getTagTitles() {
+        return tagTitles;
+    }
+
+    public void setTagTitles(final String[] tagTitles) {
+        this.tagTitles = tagTitles;
+    }
+
+    @Override
+    public String[] getTags() {
+        return tags;
+    }
+
+    public void setTags(final String[] tags) {
+        this.tags = tags;
     }
 
     @Override

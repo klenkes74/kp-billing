@@ -16,7 +16,7 @@
 
 package de.kaiserpfalzedv.billing.api.imported;
 
-import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -36,6 +36,6 @@ public interface ImporterService {
      * @throws IncompleteImportDataException   If the stream is not complete. A stream is complete if it contains exactly
      *                                         the defined number of records.
      */
-    List<? extends RawBaseRecord> execute(InputStreamReader reader)
-            throws IncompatibleImportDataException, IncompleteImportDataException;
+    List<? extends RawBaseRecord> execute(Reader reader)
+            throws ImportingException;
 }

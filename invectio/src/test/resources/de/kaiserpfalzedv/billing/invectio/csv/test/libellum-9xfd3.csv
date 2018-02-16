@@ -1,7 +1,0 @@
-2017-02-14T07:01:37.000000Z;5;8b920084-e403-44b9-8fe9-b5b8ac2d9fb7
-value;start;end;cluster;project;pod;product
-;2017-02-14T01:00:00.000000Z;2017-02-14T01:59:59.999999Z;abbot1;billing;libellum-9xfd3;POD
-2.4235435235;2017-02-14T01:59:59.999999Z;;abbot1;billing;libellum-9xfd3;CPU
-4096;2017-02-14T01:59:59.999999Z;;abbot1;billing;libellum-9xfd3;Memory
-50.341;2017-02-14T01:59:59.999999Z;;abbot1;billing;libellum-9xfd3;Network
-5;2017-02-14T01:59:59.999999Z;;abbot1;billing;libellum-9xfd3;Storage

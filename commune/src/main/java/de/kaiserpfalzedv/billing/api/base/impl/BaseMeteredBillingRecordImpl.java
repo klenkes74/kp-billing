@@ -17,10 +17,9 @@
 package de.kaiserpfalzedv.billing.api.base.impl;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.UUID;
-
-import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
 
@@ -29,8 +28,8 @@ import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
  * @version 1.0.0
  * @since 2018-02-09
  */
-public abstract class BaseMeteredBillingRecordImpl extends BaseBillingRecordImpl implements BaseMeteredBillingRecord {
-    private static final long serialVersionUID = -6656305165085168621L;
+public abstract class BaseMeteredBillingRecordImpl extends BaseTimedBillingRecordImpl implements BaseMeteredBillingRecord {
+    private static final long serialVersionUID = 4881122469071663653L;
 
 
     /**
@@ -44,19 +43,16 @@ public abstract class BaseMeteredBillingRecordImpl extends BaseBillingRecordImpl
             final OffsetDateTime recordedDate,
             final OffsetDateTime importedDate,
             final OffsetDateTime valueDate,
+            final OffsetDateTime meteredDate,
+            final Duration duration,
             final BigDecimal meteredValue
     ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate);
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredDate, duration);
 
         this.meteredValue = meteredValue;
     }
 
     public BigDecimal getMeteredValue() {
         return meteredValue;
-    }
-
-    @Override
-    public int compareTo(@NotNull BaseMeteredBillingRecord o) {
-        return getValueDate().compareTo(o.getValueDate());
     }
 }

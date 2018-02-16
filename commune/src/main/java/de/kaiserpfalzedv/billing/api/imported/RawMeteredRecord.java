@@ -17,9 +17,11 @@
 package de.kaiserpfalzedv.billing.api.imported;
 
 import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
+import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
 import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
 import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessExeption;
 import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
+import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -27,5 +29,6 @@ import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
  * @since 2018-02-09
  */
 public interface RawMeteredRecord extends BaseMeteredBillingRecord, RawBaseRecord {
-    GuidedMeteredRecord execute(final GuidingExecutor executor) throws GuidingBusinessExeption;
+    GuidedMeteredRecord execute(GuidingExecutor executor, ProductGuide productGuide, CustomerGuide customerGuide)
+            throws GuidingBusinessExeption;
 }

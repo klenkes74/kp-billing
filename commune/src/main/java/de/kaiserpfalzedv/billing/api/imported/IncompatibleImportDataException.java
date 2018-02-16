@@ -29,19 +29,33 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @since 2018-02-14
  */
 public class IncompatibleImportDataException extends ImportingException {
-    private static final long serialVersionUID = 5528557870787949489L;
+    private static final long serialVersionUID = 7020335847233597771L;
 
     private final UUID transaction;
+    private final int recordNumber;
 
     public IncompatibleImportDataException(final UUID transaction) {
         super("Incompatible import for transaction " + transaction.toString() + ".");
 
         this.transaction = transaction;
+        this.recordNumber = -1;
+    }
+
+    public IncompatibleImportDataException(final UUID transaction, final int recordNumber) {
+        super("Incompatible import for transaction " + transaction.toString() + ". Record no. " + recordNumber +
+        " is not valid.");
+
+        this.transaction = transaction;
+        this.recordNumber = recordNumber;
     }
 
 
     public UUID getTransaction() {
         return transaction;
+    }
+
+    public int getRecordNumber() {
+        return recordNumber;
     }
 
     @Override

@@ -24,7 +24,7 @@ import java.time.OffsetDateTime;
  * @version 1.0.0
  * @since 2018-02-09
  */
-public interface BaseTimedBillingRecord extends BaseBillingRecord, Comparable<BaseTimedBillingRecord> {
+public interface BaseTimedBillingRecord extends BaseBillingRecord {
     OffsetDateTime getMeteredStartDate();
 
     Duration getMeteredDuration();

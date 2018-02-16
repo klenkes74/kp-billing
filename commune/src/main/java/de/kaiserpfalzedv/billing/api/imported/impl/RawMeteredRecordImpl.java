@@ -17,13 +17,16 @@
 package de.kaiserpfalzedv.billing.api.imported.impl;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.base.impl.BaseMeteredBillingRecordImpl;
+import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
 import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
 import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessExeption;
 import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
+import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
 import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -34,18 +37,18 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @since 2018-02-09
  */
 public class RawMeteredRecordImpl extends BaseMeteredBillingRecordImpl implements RawMeteredRecord {
-    private static final long serialVersionUID = 8040151738538059916L;
+    private static final long serialVersionUID = -2179990139070872425L;
 
 
     /**
      * The metering product from the metering system
      */
-    private final String meteringProduct;
+    private String meteringProduct;
 
     /**
      * The customer information from the metering system
      */
-    private final String meteredCustomer;
+    private String meteredCustomer;
 
     protected RawMeteredRecordImpl(
             final UUID id,
@@ -53,14 +56,11 @@ public class RawMeteredRecordImpl extends BaseMeteredBillingRecordImpl implement
             final OffsetDateTime recordedDate,
             final OffsetDateTime importedDate,
             final OffsetDateTime valueDate,
-            final String meteringProduct,
-            final String meteredCustomer,
+            final OffsetDateTime meteredDate,
+            final Duration meteredDuration,
             final BigDecimal meteredValue
     ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate, meteredValue);
-
-        this.meteringProduct = meteringProduct;
-        this.meteredCustomer = meteredCustomer;
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredDate, meteredDuration, meteredValue);
     }
 
     @Override
@@ -68,15 +68,24 @@ public class RawMeteredRecordImpl extends BaseMeteredBillingRecordImpl implement
         return meteredCustomer;
     }
 
+    public void setMeteredCustomer(final String meteredCustomer) {
+        this.meteredCustomer = meteredCustomer;
+    }
+
     @Override
     public String getMeteringProduct() {
         return meteringProduct;
     }
 
+    public void setMeteringProduct(final String meteringProduct) {
+        this.meteringProduct = meteringProduct;
+    }
+
 
     @Override
-    public GuidedMeteredRecord execute(GuidingExecutor executor) throws GuidingBusinessExeption {
-        return executor.execute(this);
+    public GuidedMeteredRecord execute(GuidingExecutor executor, ProductGuide productGuide, CustomerGuide customerGuide)
+            throws GuidingBusinessExeption {
+        return executor.execute(this, productGuide, customerGuide);
     }
 
 

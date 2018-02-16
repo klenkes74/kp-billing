@@ -26,7 +26,7 @@
             <level>DEBUG</level>
         </filter>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%X{test}][%X{id}] %logger{36} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -41,7 +41,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%X{test}][%X{id}] %logger{36} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -59,7 +59,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="OPERATIONS-DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -76,7 +76,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="OPERATIONS-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -93,7 +93,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="OPERATIONS-WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -110,7 +110,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="OPERATIONS-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -127,7 +127,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="OPERATIONS-FATAL" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -144,7 +144,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -162,7 +162,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="BUSINESS-DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -179,7 +179,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="BUSINESS-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -196,7 +196,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="BUSINESS-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -213,7 +213,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %-5level [%X{test}][%X{id}] %msg%n</pattern>
+            <pattern>%d %-5level [%X{test}][%X{id}][%X{metering-id}|%X{record-id}] %msg%n</pattern>
         </encoder>
     </appender>
 

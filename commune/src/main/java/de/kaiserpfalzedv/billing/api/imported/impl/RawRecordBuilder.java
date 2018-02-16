@@ -20,14 +20,18 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
 import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
 import de.kaiserpfalzedv.billing.api.imported.RawTimedRecord;
 import org.apache.commons.lang3.builder.Builder;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -89,41 +93,53 @@ public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
      */
     private String meteredCustomer;
 
+    private final ArrayList<String> tags = new ArrayList<>();
+    private final ArrayList<String> tagTitles = new ArrayList<>();
 
-    @SuppressWarnings("unchecked")
+
+    @SuppressWarnings({"unchecked", "deprecation"})
     @Override
     public T build() {
         defaults();
         validate();
 
-        try {
-            if (meteredValue != null) {
-                return (T) new RawMeteredRecordImpl(
-                        id,
-                        meteringId,
-                        recordedDate,
-                        importedDate,
-                        valueDate,
-                        meteringProduct,
-                        meteredCustomer,
-                        meteredValue
-                );
-            } else {
-                return (T) new RawTimedRecordImpl(
-                        id,
-                        meteringId,
-                        recordedDate,
-                        importedDate,
-                        valueDate,
-                        meteringProduct,
-                        meteredCustomer,
-                        meteredStartDate,
-                        meteredDuration
-                );
-            }
-        } finally {
-            reset();
+        T result;
+        if (meteredValue != null) {
+            result = (T) new RawMeteredRecordImpl(
+                    id,
+                    meteringId,
+                    recordedDate,
+                    importedDate,
+                    valueDate,
+                    meteredValue
+            );
+        } else {
+            result = (T) new RawTimedRecordImpl(
+                    id,
+                    meteringId,
+                    recordedDate,
+                    importedDate,
+                    valueDate,
+                    meteredStartDate,
+                    meteredDuration
+            );
         }
+
+        if (isNotBlank(meteredCustomer)) {
+            result.setMeteredCustomer(meteredCustomer);
+        }
+
+        if (isNotBlank(meteringProduct)) {
+            result.setMeteringProduct(meteringProduct);
+        }
+
+        if (! tagTitles.isEmpty()) {
+            result.setTagTitles(tagTitles.toArray(new String[0]));
+            result.setTags(tags.toArray(new String[0]));
+        }
+
+        reset();
+        return result;
     }
 
     private void defaults() {
@@ -153,21 +169,6 @@ public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
     }
 
     private void validate() {
-        if (isBlank(meteringProduct)) {
-            throw new IllegalStateException("Can't create a raw record without a product hint");
-        }
-
-        if (isBlank(meteredCustomer)) {
-            throw new IllegalStateException("Can't create a raw record without a customer");
-        }
-
-        if (meteredValue != null && meteredDuration != null) {
-            throw new IllegalStateException("Can't decide if its a raw metered record or a raw timed record. Please only use value or duration!");
-        }
-
-        if (meteredValue == null && meteredDuration == null) {
-            throw new IllegalStateException("You have to give either a duration or a metered value for a valid raw record!");
-        }
     }
 
     private void reset() {
@@ -232,6 +233,18 @@ public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
 
     public RawRecordBuilder<T> setMeteredCustomer(String meteredCustomer) {
         this.meteredCustomer = meteredCustomer;
+        return this;
+    }
+
+    public RawRecordBuilder<T> setTagTitles(@NotNull  final String[] tagTitles) {
+        this.tagTitles.clear();
+        Collections.addAll(this.tagTitles, tagTitles);
+        return this;
+    }
+
+    public RawRecordBuilder<T> setTags(@NotNull final String[] tags) {
+        this.tags.clear();
+        Collections.addAll(this.tags, tags);
         return this;
     }
 

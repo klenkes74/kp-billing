@@ -14,37 +14,15 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.base;
+package de.kaiserpfalzedv.billing.api.guided;
 
-import java.io.Serializable;
-import java.time.OffsetDateTime;
-
-import de.kaiserpfalzedv.billing.api.common.Identifiable;
+import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
 
 /**
- * The base billing record. This is the base data the billing engine will rely on. There may be additional records
- * defined on this base record.
- *
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-09
+ * @since 2018-02-16
  */
-public interface BaseBillingRecord extends Identifiable, Serializable {
-    String getMeteringId();
-
-    OffsetDateTime getValueDate();
-
-    OffsetDateTime getRecordedDate();
-
-    OffsetDateTime getImportedDate();
-
-    String[] getTagTitles();
-
-    @Deprecated
-    void setTagTitles(final String[] tagTitles);
-
-    String[] getTags();
-
-    @Deprecated
-    void setTags(final String[] tags);
+public interface CustomerGuide {
+    Customer guide(RawBaseRecord record) throws GuidingBusinessExeption;
 }
