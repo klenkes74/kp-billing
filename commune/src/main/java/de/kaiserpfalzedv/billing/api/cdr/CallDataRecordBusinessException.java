@@ -16,12 +16,27 @@
 
 package de.kaiserpfalzedv.billing.api.cdr;
 
-import de.kaiserpfalzedv.billing.api.base.BaseTimedRecord;
+import de.kaiserpfalzedv.billing.api.BillingBusinessException;
 
 /**
+ * An exception while generating CDR(s).
+ * 
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-13
+ * @since 2018-02-17
  */
-public interface TimedCallDataRecord extends CallDataRecord, BaseTimedRecord {
+public class CallDataRecordBusinessException extends BillingBusinessException {
+    private static final long serialVersionUID = -5246235217684240116L;
+
+    public CallDataRecordBusinessException(String message) {
+        super(message);
+    }
+
+    public CallDataRecordBusinessException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public CallDataRecordBusinessException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

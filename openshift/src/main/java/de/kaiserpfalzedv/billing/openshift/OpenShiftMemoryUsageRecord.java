@@ -14,15 +14,14 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.cdr.openshift;
+package de.kaiserpfalzedv.billing.openshift;
 
-import de.kaiserpfalzedv.billing.api.billed.Attachment;
+import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-13
  */
-public interface OpenShiftCDRAttachment extends Attachment {
-
+public interface OpenShiftMemoryUsageRecord extends GuidedMeteredRecord {
 }

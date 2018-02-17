@@ -14,21 +14,20 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.imported;
+package de.kaiserpfalzedv.billing.api.cdr;
 
-import de.kaiserpfalzedv.billing.api.base.BaseTimedRecord;
-import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
-import de.kaiserpfalzedv.billing.api.guided.GuidedTimedRecord;
-import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessException;
-import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
-import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
+import java.util.List;
+
+import de.kaiserpfalzedv.billing.api.billed.Attachment;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-09
+ * @since 2018-02-17
  */
-public interface RawTimedRecord extends BaseTimedRecord, RawBaseRecord {
-    GuidedTimedRecord execute(final GuidingExecutor executor, ProductGuide productGuide, CustomerGuide customerGuide)
-            throws GuidingBusinessException;
+public interface CallDataRecordAttachment extends Attachment {
+    /**
+     * @return the CDRs of this attachment.
+     */
+    List<CallDataRecord> getRecords();
 }

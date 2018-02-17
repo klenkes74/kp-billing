@@ -14,12 +14,12 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.base.impl;
+package de.kaiserpfalzedv.billing.api.common.impl;
 
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;
 
-import de.kaiserpfalzedv.billing.api.base.CurrencyProvider;
+import de.kaiserpfalzedv.billing.api.common.CurrencyProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

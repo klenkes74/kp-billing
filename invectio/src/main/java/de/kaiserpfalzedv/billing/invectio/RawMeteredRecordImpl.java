@@ -24,7 +24,7 @@ import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
 import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
-import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessExeption;
+import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessException;
 import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
 import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
 import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
@@ -71,7 +71,7 @@ public class RawMeteredRecordImpl extends AbstractRawRecordImpl implements RawMe
             final GuidingExecutor executor,
             final ProductGuide productGuide,
             final CustomerGuide customerGuide
-    ) throws GuidingBusinessExeption {
+    ) throws GuidingBusinessException {
         return executor.executeMeteredRecord(this, productGuide, customerGuide);
     }
 

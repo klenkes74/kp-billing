@@ -24,5 +24,5 @@ import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
  * @since 2018-02-16
  */
 public interface CustomerGuide {
-    Customer guide(RawBaseRecord record) throws GuidingBusinessExeption;
+    Customer guide(RawBaseRecord record) throws GuidingBusinessException;
 }

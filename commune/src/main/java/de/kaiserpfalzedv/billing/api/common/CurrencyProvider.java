@@ -14,18 +14,15 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.cdr;
+package de.kaiserpfalzedv.billing.api.common;
 
-import de.kaiserpfalzedv.billing.api.rated.RatedMeteredRecord;
-import de.kaiserpfalzedv.billing.api.rated.RatedTimedRecord;
+import javax.money.CurrencyUnit;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-15
+ * @since 2018-02-12
  */
-public interface CallDataRecordExecutor {
-    MeteredCallDataRecord execute(RatedMeteredRecord record);
-
-    TimedCallDataRecord execute(RatedTimedRecord record);
+public interface CurrencyProvider {
+    CurrencyUnit getCurrency();
 }

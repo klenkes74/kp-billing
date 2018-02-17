@@ -28,7 +28,7 @@ import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
 import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
 import de.kaiserpfalzedv.billing.api.guided.GuidedTimedRecord;
-import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessExeption;
+import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessException;
 import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
 import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
@@ -78,7 +78,7 @@ public class GuidingExecutorTest {
     private CustomerGuide customerGuide = new TestCustomerGuide();
 
     @Test
-    public void shouldGenerateGuidedRecordsFromRawMeteredRecord() throws GuidingBusinessExeption {
+    public void shouldGenerateGuidedRecordsFromRawMeteredRecord() throws GuidingBusinessException {
         logMethod("simple-metered", "Create a guided record from a raw metered record");
 
         RawMeteredRecord record = new RawBillingRecordBuilder<RawMeteredRecord>()
@@ -99,7 +99,7 @@ public class GuidingExecutorTest {
     }
 
     @Test
-    public void shouldGenerateGuidedRecordsFromRawTimedRecord() throws GuidingBusinessExeption {
+    public void shouldGenerateGuidedRecordsFromRawTimedRecord() throws GuidingBusinessException {
         logMethod("simple-timped", "Create a guided record from a raw timed record");
 
         RawTimedRecord record = new RawBillingRecordBuilder<RawTimedRecord>()
@@ -166,7 +166,7 @@ public class GuidingExecutorTest {
                 .build();
 
         @Override
-        public ProductRecordInfo guide(RawBaseRecord record) throws GuidingBusinessExeption {
+        public ProductRecordInfo guide(RawBaseRecord record) throws GuidingBusinessException {
             return new ProductRecordInfoBuilder()
                     .setProductInfo(product)
                     .setTags(record.getTags())
@@ -182,7 +182,7 @@ public class GuidingExecutorTest {
 
 
         @Override
-        public Customer guide(RawBaseRecord record) throws GuidingBusinessExeption {
+        public Customer guide(RawBaseRecord record) throws GuidingBusinessException {
             return customer;
         }
     }

@@ -14,14 +14,27 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.cdr.openshift;
+package de.kaiserpfalzedv.billing.api.base;
 
-import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-13
+ * @since 2018-02-17
  */
-public interface OpenShiftMemoryUsageRecord extends GuidedMeteredRecord {
+public interface TimeHolding {
+    /**
+     * The timestamp this record will be billed for. For a timed record it should be the start or end time (depending
+     * if the tarif of a timely defined tarif is determined by the start or the end of the duration).
+     *
+     * @return The timestamp of the record
+     */
+    OffsetDateTime getMeteredTimestamp();
+
+    /**
+     * @return The duration of the billed event
+     */
+    Duration getMeteredDuration();
 }

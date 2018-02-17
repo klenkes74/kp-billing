@@ -16,13 +16,55 @@
 
 package de.kaiserpfalzedv.billing.api.cdr;
 
-import de.kaiserpfalzedv.billing.api.rated.RatedBaseRecord;
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import javax.money.MonetaryAmount;
+
+import de.kaiserpfalzedv.billing.api.base.TimeHolding;
+import de.kaiserpfalzedv.billing.api.base.ValueHolding;
+import de.kaiserpfalzedv.billing.api.common.Identifiable;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-13
  */
-public interface CallDataRecord extends RatedBaseRecord {
+public interface CallDataRecord extends Identifiable, TimeHolding, ValueHolding, Serializable {
+    /**
+     * The description contains information for the customer to identify the reason. It could contain the telephone
+     * number or the server name of the billed item.
+     *
+     * @return the textual description
+     */
+    String getDescription();
 
+
+    /**
+     * @return The printable name of the tarif
+     */
+    String getTarifName();
+
+    /**
+     * @return The rate of the tarif
+     */
+    MonetaryAmount getTarifRate();
+
+    /**
+     * @return The printable unit name of the tarif
+     */
+    String getTarifUnit();
+
+    /**
+     * The unit divisor will be calculated inside the price. If the divisor is "10", the rate is for a tenth of the
+     * unit.
+     * 
+     * @return The divisor for a rate
+     */
+    BigDecimal getTarifUnitDivisor();
+
+    /**
+     * @return The price tag of this CDR
+     */
+    MonetaryAmount getAmount();
 }

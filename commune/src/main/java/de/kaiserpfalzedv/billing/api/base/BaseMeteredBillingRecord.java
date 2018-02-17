@@ -16,13 +16,10 @@
 
 package de.kaiserpfalzedv.billing.api.base;
 
-import java.math.BigDecimal;
-
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-09
  */
-public interface BaseMeteredBillingRecord extends BaseTimedRecord {
-    BigDecimal getMeteredValue();
+public interface BaseMeteredBillingRecord extends BaseTimedRecord, ValueHolding {
 }

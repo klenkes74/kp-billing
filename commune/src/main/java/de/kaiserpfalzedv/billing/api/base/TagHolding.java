@@ -14,21 +14,21 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.api.imported;
+package de.kaiserpfalzedv.billing.api.base;
 
-import de.kaiserpfalzedv.billing.api.base.BaseTimedRecord;
-import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
-import de.kaiserpfalzedv.billing.api.guided.GuidedTimedRecord;
-import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessException;
-import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
-import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
+import java.util.Map;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-09
+ * @since 2018-02-17
  */
-public interface RawTimedRecord extends BaseTimedRecord, RawBaseRecord {
-    GuidedTimedRecord execute(final GuidingExecutor executor, ProductGuide productGuide, CustomerGuide customerGuide)
-            throws GuidingBusinessException;
+public interface TagHolding {
+
+    /**
+     * Tags help by guiding to customer or product and tarif. Every single record is tagged.
+     * 
+     * @return The tags of the record
+     */
+    Map<String, String> getTags();
 }

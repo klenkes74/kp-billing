@@ -25,7 +25,7 @@ import java.util.UUID;
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 
-import de.kaiserpfalzedv.billing.api.base.impl.DefaultCurrencyProvider;
+import de.kaiserpfalzedv.billing.api.common.impl.DefaultCurrencyProvider;
 import de.kaiserpfalzedv.billing.api.billed.Attachment;
 import de.kaiserpfalzedv.billing.api.billed.Invoice;
 import de.kaiserpfalzedv.billing.api.billed.InvoiceItem;

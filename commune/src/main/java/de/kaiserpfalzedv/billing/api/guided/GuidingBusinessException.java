@@ -24,18 +24,18 @@ import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
  * @version 1.0.0
  * @since 2018-02-15
  */
-public class GuidingBusinessExeption extends BillingRecordholdingBusinessException {
+public class GuidingBusinessException extends BillingRecordholdingBusinessException {
     private static final long serialVersionUID = -8737903039233392683L;
 
-    public GuidingBusinessExeption(final RawBaseRecord billingRecord, final String message) {
+    public GuidingBusinessException(final RawBaseRecord billingRecord, final String message) {
         super(billingRecord, message);
     }
 
-    public GuidingBusinessExeption(final RawBaseRecord billingRecord, final String message, final Throwable cause) {
+    public GuidingBusinessException(final RawBaseRecord billingRecord, final String message, final Throwable cause) {
         super(billingRecord, message, cause);
     }
 
-    public GuidingBusinessExeption(
+    public GuidingBusinessException(
             final RawBaseRecord billingRecord, final String message,
             final Throwable cause,
             final boolean enableSuppression, final boolean writableStackTrace

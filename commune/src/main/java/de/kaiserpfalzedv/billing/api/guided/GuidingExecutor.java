@@ -26,8 +26,8 @@ import de.kaiserpfalzedv.billing.api.imported.RawTimedRecord;
  */
 public interface GuidingExecutor {
     GuidedMeteredRecord executeMeteredRecord(RawMeteredRecord record, ProductGuide productGuide, CustomerGuide customerGuide)
-            throws GuidingBusinessExeption;
+            throws GuidingBusinessException;
 
     GuidedTimedRecord executeTimedRecord(RawTimedRecord record, ProductGuide productGuide, CustomerGuide customerGuide)
-            throws GuidingBusinessExeption;
+            throws GuidingBusinessException;
 }

@@ -19,7 +19,7 @@ package de.kaiserpfalzedv.billing.princeps;
 import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
 import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
 import de.kaiserpfalzedv.billing.api.guided.GuidedTimedRecord;
-import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessExeption;
+import de.kaiserpfalzedv.billing.api.guided.GuidingBusinessException;
 import de.kaiserpfalzedv.billing.api.guided.GuidingExecutor;
 import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
 import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
@@ -41,7 +41,7 @@ public class GuidingExecutorImpl implements GuidingExecutor {
             final RawMeteredRecord record,
             final ProductGuide productGuide,
             final CustomerGuide customerGuide
-    ) throws GuidingBusinessExeption {
+    ) throws GuidingBusinessException {
         MDC.put("record-id", record.getId().toString());
         MDC.put("metering-id", record.getMeteringId());
 
@@ -72,7 +72,7 @@ public class GuidingExecutorImpl implements GuidingExecutor {
             final RawTimedRecord record,
             final ProductGuide productGuide,
             final CustomerGuide customerGuide
-    ) throws GuidingBusinessExeption {
+    ) throws GuidingBusinessException {
         MDC.put("record-id", record.getId().toString());
         MDC.put("metering-id", record.getMeteringId());
 

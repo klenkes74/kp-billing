@@ -16,13 +16,16 @@
 
 package de.kaiserpfalzedv.billing.api.base;
 
-import javax.money.CurrencyUnit;
+import java.math.BigDecimal;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-12
+ * @since 2018-02-17
  */
-public interface CurrencyProvider {
-    CurrencyUnit getCurrency();
+public interface ValueHolding {
+    /**
+     * @return A metered value
+     */
+    BigDecimal getMeteredValue();
 }

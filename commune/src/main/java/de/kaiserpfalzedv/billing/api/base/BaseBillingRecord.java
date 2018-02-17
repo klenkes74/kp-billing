@@ -17,9 +17,7 @@
 package de.kaiserpfalzedv.billing.api.base;
 
 import java.io.Serializable;
-import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.Map;
 
 import de.kaiserpfalzedv.billing.api.common.Identifiable;
 
@@ -31,7 +29,7 @@ import de.kaiserpfalzedv.billing.api.common.Identifiable;
  * @version 1.0.0
  * @since 2018-02-09
  */
-public interface BaseBillingRecord extends Identifiable, Serializable {
+public interface BaseBillingRecord extends Identifiable, TimeHolding, TagHolding, Serializable {
     String getMeteringId();
 
     OffsetDateTime getValueDate();
@@ -39,10 +37,4 @@ public interface BaseBillingRecord extends Identifiable, Serializable {
     OffsetDateTime getRecordedDate();
 
     OffsetDateTime getImportedDate();
-
-    OffsetDateTime getMeteredTimestamp();
-
-    Duration getMeteredDuration();
-
-    Map<String, String> getTags();
 }
