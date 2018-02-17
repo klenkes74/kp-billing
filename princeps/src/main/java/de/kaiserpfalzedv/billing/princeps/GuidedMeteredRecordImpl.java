@@ -19,6 +19,7 @@ package de.kaiserpfalzedv.billing.princeps;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
@@ -36,8 +37,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-11
  */
-public class GuidedMeteredRecordImpl extends GuidedRecordImpl implements GuidedMeteredRecord {
-    private static final long serialVersionUID = 8776969200511700550L;
+public class GuidedMeteredRecordImpl extends AbstractGuidedRecordImpl implements GuidedMeteredRecord {
+    private static final long serialVersionUID = -3105770813127004998L;
 
     private final BigDecimal meteredValue;
 
@@ -51,9 +52,11 @@ public class GuidedMeteredRecordImpl extends GuidedRecordImpl implements GuidedM
             final ProductRecordInfo productInfo,
             final OffsetDateTime meteredStartDate,
             final Duration meteredDuration,
-            final BigDecimal meteredValue
-    ) {
-        super(id, meteringId, customer, recordedDate, importedDate, valueDate, productInfo, meteredStartDate, meteredDuration);
+            final BigDecimal meteredValue,
+            final Map<String, String> tags
+            ) {
+        super(id, meteringId, customer, recordedDate, importedDate, valueDate, productInfo, meteredStartDate,
+              meteredDuration, tags);
 
         this.meteredValue = meteredValue;
     }

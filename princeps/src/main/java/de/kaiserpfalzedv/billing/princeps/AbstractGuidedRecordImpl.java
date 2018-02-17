@@ -18,9 +18,10 @@ package de.kaiserpfalzedv.billing.princeps;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
-import de.kaiserpfalzedv.billing.api.base.impl.BaseTimedBillingRecordImpl;
+import de.kaiserpfalzedv.billing.api.base.impl.AbstractBaseBillingRecordImpl;
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.GuidedBaseRecord;
@@ -32,13 +33,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @version 1.0.0
  * @since 2018-02-11
  */
-public abstract class GuidedRecordImpl extends BaseTimedBillingRecordImpl implements GuidedBaseRecord {
-    private static final long serialVersionUID = -6410041774009790093L;
+public abstract class AbstractGuidedRecordImpl extends AbstractBaseBillingRecordImpl implements GuidedBaseRecord {
+    private static final long serialVersionUID = 3872548787835281330L;
 
     private final Customer customer;
     private final ProductRecordInfo productInfo;
 
-    GuidedRecordImpl(
+    AbstractGuidedRecordImpl(
             final UUID id,
             final String meteringId,
             final Customer customer,
@@ -47,9 +48,10 @@ public abstract class GuidedRecordImpl extends BaseTimedBillingRecordImpl implem
             final OffsetDateTime valueDate,
             final ProductRecordInfo productInfo,
             final OffsetDateTime meteredStartTime,
-            final Duration meteredDuration
+            final Duration meteredDuration,
+            final Map<String, String> tags
     ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate, meteredStartTime, meteredDuration);
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredStartTime, meteredDuration, tags);
 
         this.customer = customer;
         this.productInfo = productInfo;
@@ -85,16 +87,6 @@ public abstract class GuidedRecordImpl extends BaseTimedBillingRecordImpl implem
     @Override
     public String getProductName() {
         return productInfo.getProductName();
-    }
-
-    @Override
-    public String[] getTagTitles() {
-        return productInfo.getTagTitles();
-    }
-
-    @Override
-    public String[] getTags() {
-        return productInfo.getTags();
     }
 
 

@@ -16,16 +16,10 @@
 
 package de.kaiserpfalzedv.billing.api.base;
 
-import java.time.Duration;
-import java.time.OffsetDateTime;
-
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-09
  */
-public interface BaseTimedBillingRecord extends BaseBillingRecord {
-    OffsetDateTime getMeteredStartDate();
-
-    Duration getMeteredDuration();
+public interface BaseTimedRecord extends BaseBillingRecord {
 }

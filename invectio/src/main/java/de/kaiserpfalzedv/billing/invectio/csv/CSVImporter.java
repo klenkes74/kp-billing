@@ -24,9 +24,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -36,13 +36,14 @@ import de.kaiserpfalzedv.billing.api.imported.ImportingException;
 import de.kaiserpfalzedv.billing.api.imported.IncompatibleImportDataException;
 import de.kaiserpfalzedv.billing.api.imported.IncompleteImportDataException;
 import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
-import de.kaiserpfalzedv.billing.invectio.RawRecordBuilder;
+import de.kaiserpfalzedv.billing.invectio.RawBillingRecordBuilder;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.time.ZoneOffset.UTC;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
@@ -52,8 +53,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  */
 public class CSVImporter implements ImporterService {
     private static final Logger LOG = LoggerFactory.getLogger(CSVImporter.class);
-
-    private static final ZoneId UTC = ZoneId.of("UTC");
 
 
     @Override
@@ -65,7 +64,7 @@ public class CSVImporter implements ImporterService {
 
         try (CSVParser csvParser = new CSVParser(br, CSVFormat.DEFAULT)) {
             CSVHeader header = readHeader(csvParser);
-            result = readData(csvParser, header);
+            result = readData(header);
 
             checkCompleteDataSet(header, result);
         } catch (IOException e) {
@@ -160,7 +159,7 @@ public class CSVImporter implements ImporterService {
 
     
     
-    private List<RawBaseRecord> readData(CSVParser parser, final CSVHeader header) throws ImportingException  {
+    private List<RawBaseRecord> readData(final CSVHeader header) throws ImportingException  {
         final ArrayList<RawBaseRecord> result = new ArrayList<>();
 
         while (header.records.hasNext()) {
@@ -172,7 +171,7 @@ public class CSVImporter implements ImporterService {
     
     private void readRecord(List<RawBaseRecord> result, final CSVRecord record, final CSVHeader header)
             throws IncompatibleImportDataException {
-        RawRecordBuilder<RawBaseRecord> data = new RawRecordBuilder<>();
+        RawBillingRecordBuilder<RawBaseRecord> data = new RawBillingRecordBuilder<>();
 
         readBaseData(header, data);
         readMeteringData(record, header, data);
@@ -181,15 +180,13 @@ public class CSVImporter implements ImporterService {
         result.add(data.build());
     }
 
-    private void readBaseData(final CSVHeader header, RawRecordBuilder<RawBaseRecord> data) {
+    private void readBaseData(final CSVHeader header, RawBillingRecordBuilder<RawBaseRecord> data) {
         data
                 .setMeteringId(header.transactionId.toString())
-                .setImportedDate(header.importedDate)
-                .setMeteringProduct("")
-                .setMeteredCustomer("");
+                .setImportedDate(header.importedDate);
     }
 
-    private void readMeteringData(final CSVRecord record, final CSVHeader header, RawRecordBuilder<RawBaseRecord> data)
+    private void readMeteringData(final CSVRecord record, final CSVHeader header, RawBillingRecordBuilder<RawBaseRecord> data)
             throws IncompatibleImportDataException {
         String meteredValue = record.get(0);
 
@@ -200,7 +197,7 @@ public class CSVImporter implements ImporterService {
             
             OffsetDateTime meteredStart = OffsetDateTime.parse(record.get(1));
             OffsetDateTime meteredEnd   = OffsetDateTime.parse(record.get(2));
-            data.setMeteredStartDate(meteredStart);
+            data.setMeteredTimestamp(meteredStart);
             data.setMeteredDuration(Duration.between(meteredStart, meteredEnd));
             data.setValueDate(meteredStart);
         } catch (NumberFormatException | DateTimeParseException e) {
@@ -208,12 +205,13 @@ public class CSVImporter implements ImporterService {
         }
     }
 
-    private void readTags(final CSVRecord record, final CSVHeader header, RawRecordBuilder<RawBaseRecord> data) {
-        String[] tags = new String[header.tags.length];
+    private void readTags(final CSVRecord record, final CSVHeader header, RawBillingRecordBuilder<RawBaseRecord> data) {
+        HashMap<String, String> tags = new HashMap<>(header.tags.length);
+
         for (int i = 0; i < header.tags.length ; i++) {
-            tags[i] = record.get(i + 3);
+            tags.put(header.tags[i], record.get(i + 3));
         }
-        data.setTagTitles(header.tags);
+        
         data.setTags(tags);
     }
 
@@ -271,7 +269,7 @@ public class CSVImporter implements ImporterService {
 
         @Override
         public int isNullable(int column) throws SQLException {
-            return 0;
+            return ResultSetMetaData.columnNoNulls;
         }
 
         @Override

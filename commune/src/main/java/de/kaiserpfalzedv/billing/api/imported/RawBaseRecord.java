@@ -29,14 +29,6 @@ import de.kaiserpfalzedv.billing.api.guided.ProductGuide;
  * @since 2018-02-10
  */
 public interface RawBaseRecord extends BaseBillingRecord {
-    String getMeteredCustomer();
-
-    void setMeteredCustomer(final String customer);
-
-    String getMeteringProduct();
-
-    void setMeteringProduct(final String product);
-
     <T extends GuidedBaseRecord> T execute(
             final GuidingExecutor executor,
             final ProductGuide productGuide,

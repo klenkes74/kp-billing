@@ -19,28 +19,24 @@ package de.kaiserpfalzedv.billing.invectio;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
 import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
-import de.kaiserpfalzedv.billing.api.imported.RawTimedRecord;
 import org.apache.commons.lang3.builder.Builder;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static java.time.ZoneOffset.UTC;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
-    private static final ZoneId UTC = ZoneId.of("UTC");
-
+public class RawBillingRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
 
     /**
      * ID of this billing record.
@@ -76,25 +72,14 @@ public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
     /**
      * The start date of the billing event. May be the start of a call or the start of the hour of billed CPU usage.
      */
-    private OffsetDateTime meteredStartDate;
+    private OffsetDateTime meteredTimestamp;
 
     /**
      * The duration of the billed event. May be the call duration or the period metered.
      */
     private Duration meteredDuration;
 
-    /**
-     * The metering product from the metering system
-     */
-    private String meteringProduct;
-
-    /**
-     * The customer for this record.
-     */
-    private String meteredCustomer;
-
-    private final ArrayList<String> tags = new ArrayList<>();
-    private final ArrayList<String> tagTitles = new ArrayList<>();
+    private final HashMap<String, String> tags = new HashMap<>();
 
 
     @SuppressWarnings({"unchecked", "deprecation"})
@@ -111,9 +96,10 @@ public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
                     recordedDate,
                     importedDate,
                     valueDate,
-                    meteredStartDate,
+                    meteredTimestamp,
                     meteredDuration,
-                    meteredValue
+                    meteredValue,
+                    tags
             );
         } else {
             result = (T) new RawTimedRecordImpl(
@@ -122,22 +108,10 @@ public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
                     recordedDate,
                     importedDate,
                     valueDate,
-                    meteredStartDate,
-                    meteredDuration
+                    meteredTimestamp,
+                    meteredDuration,
+                    tags
             );
-        }
-
-        if (isNotBlank(meteredCustomer)) {
-            result.setMeteredCustomer(meteredCustomer);
-        }
-
-        if (isNotBlank(meteringProduct)) {
-            result.setMeteringProduct(meteringProduct);
-        }
-
-        if (! tagTitles.isEmpty()) {
-            result.setTagTitles(tagTitles.toArray(new String[0]));
-            result.setTags(tags.toArray(new String[0]));
         }
 
         reset();
@@ -161,8 +135,8 @@ public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
             valueDate = recordedDate;
         }
 
-        if (meteredStartDate == null && meteredDuration != null) {
-            meteredStartDate = valueDate.minus(meteredDuration);
+        if (meteredTimestamp == null && meteredDuration != null) {
+            meteredTimestamp = valueDate.minus(meteredDuration);
         }
 
         if (meteringId == null) {
@@ -179,91 +153,80 @@ public class RawRecordBuilder<T extends RawBaseRecord> implements Builder<T> {
         this.recordedDate = null;
         this.importedDate = null;
         this.valueDate = null;
-        this.meteringProduct = null;
-        this.meteredCustomer = null;
 
         this.meteredValue = null;
-        this.meteredStartDate = null;
+        this.meteredTimestamp = null;
         this.meteredDuration = null;
+
+        this.tags.clear();
     }
 
 
-    public RawRecordBuilder<T> setId(UUID id) {
+    public RawBillingRecordBuilder<T> setId(UUID id) {
         this.id = id;
         return this;
     }
 
-    public RawRecordBuilder<T> setValueDate(OffsetDateTime valueDate) {
+    public RawBillingRecordBuilder<T> setValueDate(OffsetDateTime valueDate) {
         this.valueDate = valueDate;
         return this;
     }
 
-    public RawRecordBuilder<T> setRecordedDate(OffsetDateTime recordedDate) {
+    public RawBillingRecordBuilder<T> setRecordedDate(OffsetDateTime recordedDate) {
         this.recordedDate = recordedDate;
         return this;
     }
 
-    public RawRecordBuilder<T> setImportedDate(OffsetDateTime importedDate) {
+    public RawBillingRecordBuilder<T> setImportedDate(OffsetDateTime importedDate) {
         this.importedDate = importedDate;
         return this;
     }
 
-    public RawRecordBuilder<T> setMeteringId(String meteringId) {
+    public RawBillingRecordBuilder<T> setMeteringId(String meteringId) {
         this.meteringId = meteringId;
         return this;
     }
 
-    public RawRecordBuilder<T> setMeteredValue(BigDecimal meteredValue) {
-        this.meteredValue = meteredValue;
+    public RawBillingRecordBuilder<T> setMeteredTimestamp(OffsetDateTime meteredTimestamp) {
+        this.meteredTimestamp = meteredTimestamp;
         return this;
     }
 
-    public RawRecordBuilder<T> setMeteredStartDate(OffsetDateTime meteredStartDate) {
-        this.meteredStartDate = meteredStartDate;
-        return this;
-    }
-
-    public RawRecordBuilder<T> setMeteredDuration(Duration meteredDuration) {
+    public RawBillingRecordBuilder<T> setMeteredDuration(Duration meteredDuration) {
         this.meteredDuration = meteredDuration;
         return this;
     }
 
-    public RawRecordBuilder<T> setMeteringProduct(String meteringProduct) {
-        this.meteringProduct = meteringProduct;
+    public RawBillingRecordBuilder<T> setMeteredValue(BigDecimal meteredValue) {
+        this.meteredValue = meteredValue;
         return this;
     }
 
-    public RawRecordBuilder<T> setMeteredCustomer(String meteredCustomer) {
-        this.meteredCustomer = meteredCustomer;
-        return this;
-    }
-
-    public RawRecordBuilder<T> setTagTitles(@NotNull  final String[] tagTitles) {
-        this.tagTitles.clear();
-        Collections.addAll(this.tagTitles, tagTitles);
-        return this;
-    }
-
-    public RawRecordBuilder<T> setTags(@NotNull final String[] tags) {
+    public RawBillingRecordBuilder<T> setTags(@NotNull final Map<String, String> tags) {
         this.tags.clear();
-        Collections.addAll(this.tags, tags);
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
+
         return this;
     }
 
-    public RawRecordBuilder<T> copy(final T orig) {
+    public RawBillingRecordBuilder<T> copy(final T orig) {
         this.id = orig.getId();
         this.meteringId = orig.getMeteringId();
         this.recordedDate = orig.getRecordedDate();
         this.importedDate = orig.getImportedDate();
         this.valueDate = orig.getValueDate();
-        this.meteringProduct = orig.getMeteringProduct();
-        this.meteredCustomer = orig.getMeteredCustomer();
+        
+        this.meteredTimestamp = orig.getMeteredTimestamp();
+        this.meteredDuration = orig.getMeteredDuration();
+
+        this.tags.clear();
+        this.tags.putAll(orig.getTags());
 
         if (RawMeteredRecord.class.isAssignableFrom(orig.getClass())) {
             this.meteredValue = ((RawMeteredRecord) orig).getMeteredValue();
-        } else {
-            this.meteredStartDate = ((RawTimedRecord) orig).getMeteredStartDate();
-            this.meteredDuration = ((RawTimedRecord) orig).getMeteredDuration();
         }
 
         return this;

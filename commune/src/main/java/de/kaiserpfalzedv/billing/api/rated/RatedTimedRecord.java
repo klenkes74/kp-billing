@@ -16,12 +16,12 @@
 
 package de.kaiserpfalzedv.billing.api.rated;
 
-import de.kaiserpfalzedv.billing.api.base.BaseTimedBillingRecord;
+import de.kaiserpfalzedv.billing.api.base.BaseTimedRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface RatedTimedRecord extends RatedBaseRecord, BaseTimedBillingRecord {
+public interface RatedTimedRecord extends RatedBaseRecord, BaseTimedRecord {
 }

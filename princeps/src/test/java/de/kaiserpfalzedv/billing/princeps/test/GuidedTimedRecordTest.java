@@ -19,6 +19,8 @@ package de.kaiserpfalzedv.billing.princeps.test;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
@@ -68,14 +70,31 @@ public class GuidedTimedRecordTest {
             .setCostReference("customer-costcenter")
             .build();
 
+    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    static {
+        TAG_NAMES.add("cluster");
+        TAG_NAMES.add("project");
+        TAG_NAMES.add("pod");
+        TAG_NAMES.add("customer");
+    }
+
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setName("Cluster CPU Usage")
-            .setTags(new String[]{"cluster", "project"})
+            .setTags(TAG_NAMES)
             .build();
+
+
+    private static final HashMap<String, String> TAGS = new HashMap<>(4);
+    static {
+        TAGS.put("cluster", "abbot1");
+        TAGS.put("project", "billing");
+        TAGS.put("pod", "princeps-8fdg2");
+        TAGS.put("customer", "982341");
+    }
 
     private static final ProductRecordInfo PRODUCT_RECORD_INFO = new ProductRecordInfoBuilder()
             .setProductInfo(PRODUCT_INFO)
-            .setTags(new String[]{"abbot1", "billing"})
+            .setTags(TAGS)
             .build();
 
     private static final GuidedTimedRecord GUIDED_METERED_RECORD = new GuidedRecordBuilder<GuidedTimedRecord>()
@@ -85,7 +104,7 @@ public class GuidedTimedRecordTest {
             .setRecordedDate(RECORDED_DATE)
             .setImportedDate(IMPORT_DATE)
             .setValueDate(VALUE_DATE)
-            .setMeteredStartDate(METERED_START_DATE)
+            .setMeteredTimestamp(METERED_START_DATE)
             .setMeteredDuration(METERED_DURATION)
             .setProductInfo(PRODUCT_RECORD_INFO)
             .build();
@@ -114,7 +133,7 @@ public class GuidedTimedRecordTest {
         GuidedTimedRecord result = service
                 .setProductInfo(PRODUCT_RECORD_INFO)
                 .setCustomer(CUSTOMER)
-                .setMeteredStartDate(METERED_START_DATE)
+                .setMeteredTimestamp(METERED_START_DATE)
                 .setMeteredDuration(METERED_DURATION)
                 .build();
         LOG.debug("result: {}", result);
@@ -123,7 +142,7 @@ public class GuidedTimedRecordTest {
         assertEquals("The metering-id does not match the id", result.getId().toString(), result.getMeteringId());
         assertEquals("The metered customer does not match", CUSTOMER, result.getCustomer());
         assertEquals("The product info does not match", PRODUCT_RECORD_INFO, result.getProductInfo());
-        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredStartDate());
+        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredTimestamp());
         assertEquals("The metered duration does not match", METERED_DURATION, result.getMeteredDuration());
 
         assertNotNull("The value date does not exist", result.getValueDate());
@@ -148,7 +167,7 @@ public class GuidedTimedRecordTest {
         assertEquals("The metering-id does not match", METERING_ID, result.getMeteringId());
         assertEquals("The metered customer does not match", CUSTOMER, result.getCustomer());
         assertEquals("The product info does not match", PRODUCT_RECORD_INFO, result.getProductInfo());
-        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredStartDate());
+        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredTimestamp());
         assertEquals("The metered duration does not match", METERED_DURATION, result.getMeteredDuration());
 
         assertEquals("The value date does not match", VALUE_DATE, result.getValueDate());
@@ -164,7 +183,7 @@ public class GuidedTimedRecordTest {
             service
                     .setProductInfo(PRODUCT_RECORD_INFO)
                     .setCustomer(CUSTOMER)
-                    .setMeteredStartDate(METERED_START_DATE)
+                    .setMeteredTimestamp(METERED_START_DATE)
                     .setMeteredDuration(METERED_DURATION)
                     .build();
         }

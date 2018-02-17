@@ -16,7 +16,11 @@
 
 package de.kaiserpfalzedv.billing.api.base.impl;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.base.BaseBillingRecord;
@@ -29,8 +33,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-09
  */
-public abstract class BaseBillingRecordImpl extends IdentifiableImpl implements BaseBillingRecord {
-    private static final long serialVersionUID = 92480043612851920L;
+public abstract class AbstractBaseBillingRecordImpl extends IdentifiableImpl implements BaseBillingRecord {
+    private static final long serialVersionUID = -4994060006523668209L;
 
 
     /**
@@ -54,16 +58,31 @@ public abstract class BaseBillingRecordImpl extends IdentifiableImpl implements 
      */
     private final String meteringId;
 
-    private String[] tagTitles;
-    private String[] tags;
+    /**
+     * The start date of the billing event. May be the start of a call or the start of the hour of billed CPU usage.
+     */
+    private final OffsetDateTime meteredTimestamp;
+
+    /**
+     * The duration of the billed event. May be the call duration or the period metered.
+     */
+    private final Duration meteredDuration;
+
+    /**
+     * Tags on this record.
+     */
+    private final HashMap<String, String> tags = new HashMap<>();
 
 
-    protected BaseBillingRecordImpl(
+    protected AbstractBaseBillingRecordImpl(
             final UUID id,
             final String meteringId,
             final OffsetDateTime recordedDate,
             final OffsetDateTime importedDate,
-            final OffsetDateTime valueDate
+            final OffsetDateTime valueDate,
+            final OffsetDateTime meteredTimestamp,
+            final Duration meteredDuration,
+            final Map<String, String> tags
     ) {
         super(id);
 
@@ -72,6 +91,13 @@ public abstract class BaseBillingRecordImpl extends IdentifiableImpl implements 
         this.valueDate = valueDate;
         this.recordedDate = recordedDate;
         this.importedDate = importedDate;
+
+        this.meteredTimestamp = meteredTimestamp;
+        this.meteredDuration = meteredDuration;
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
     }
 
     @Override
@@ -94,23 +120,21 @@ public abstract class BaseBillingRecordImpl extends IdentifiableImpl implements 
         return importedDate;
     }
 
+
+    public OffsetDateTime getMeteredTimestamp() {
+        return meteredTimestamp;
+    }
+
+    public Duration getMeteredDuration() {
+        return meteredDuration;
+    }
+
+
     @Override
-    public String[] getTagTitles() {
-        return tagTitles;
+    public Map<String, String> getTags() {
+        return Collections.unmodifiableMap(tags);
     }
 
-    public void setTagTitles(final String[] tagTitles) {
-        this.tagTitles = tagTitles;
-    }
-
-    @Override
-    public String[] getTags() {
-        return tags;
-    }
-
-    public void setTags(final String[] tags) {
-        this.tags = tags;
-    }
 
     @Override
     public String toString() {
@@ -120,6 +144,7 @@ public abstract class BaseBillingRecordImpl extends IdentifiableImpl implements 
                 .append("recordedDate", recordedDate)
                 .append("importedDate", importedDate)
                 .append("meteringId", meteringId)
+                .append("tags", tags.size())
                 .toString();
     }
 }

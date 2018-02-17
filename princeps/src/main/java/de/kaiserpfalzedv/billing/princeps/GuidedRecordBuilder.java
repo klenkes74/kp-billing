@@ -19,15 +19,19 @@ package de.kaiserpfalzedv.billing.princeps;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.GuidedBaseRecord;
 import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
-import de.kaiserpfalzedv.billing.api.guided.GuidedTimedRecord;
 import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
 import org.apache.commons.lang3.builder.Builder;
+
+import static java.time.ZoneOffset.UTC;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -35,9 +39,7 @@ import org.apache.commons.lang3.builder.Builder;
  * @since 2018-02-10
  */
 public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<T> {
-    private static final ZoneId UTC = ZoneId.of("UTC");
-
-
+    
     /**
      * ID of this billing record.
      */
@@ -72,7 +74,7 @@ public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<
     /**
      * The start date of the billing event. May be the start of a call or the start of the hour of billed CPU usage.
      */
-    private OffsetDateTime meteredStartDate;
+    private OffsetDateTime meteredTimestamp;
 
     /**
      * The duration of the billed event. May be the call duration or the period metered.
@@ -88,6 +90,8 @@ public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<
      * The customer for this record.
      */
     private Customer customer;
+
+    private final HashMap<String, String> tags = new HashMap<>();
 
 
     @SuppressWarnings("unchecked")
@@ -106,9 +110,10 @@ public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<
                         importedDate,
                         valueDate,
                         productInfo,
-                        meteredStartDate,
+                        meteredTimestamp,
                         meteredDuration,
-                        meteredValue
+                        meteredValue,
+                        tags
                 );
             } else {
                 return (T) new GuidedTimedRecordImpl(
@@ -119,8 +124,9 @@ public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<
                         importedDate,
                         valueDate,
                         productInfo,
-                        meteredStartDate,
-                        meteredDuration
+                        meteredTimestamp,
+                        meteredDuration,
+                        tags
                 );
             }
         } finally {
@@ -145,8 +151,8 @@ public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<
             valueDate = recordedDate;
         }
 
-        if (meteredStartDate == null && meteredDuration != null) {
-            meteredStartDate = valueDate.minus(meteredDuration);
+        if (meteredTimestamp == null && meteredDuration != null) {
+            meteredTimestamp = valueDate.minus(meteredDuration);
         }
 
         if (meteringId == null) {
@@ -174,58 +180,68 @@ public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<
         this.customer = null;
 
         this.meteredValue = null;
-        this.meteredStartDate = null;
+        this.meteredTimestamp = null;
         this.meteredDuration = null;
     }
 
 
-    public GuidedRecordBuilder<T> setId(UUID id) {
+    public GuidedRecordBuilder<T> setId(final UUID id) {
         this.id = id;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setValueDate(OffsetDateTime valueDate) {
+    public GuidedRecordBuilder<T> setValueDate(final OffsetDateTime valueDate) {
         this.valueDate = valueDate;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setRecordedDate(OffsetDateTime recordedDate) {
+    public GuidedRecordBuilder<T> setRecordedDate(final OffsetDateTime recordedDate) {
         this.recordedDate = recordedDate;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setImportedDate(OffsetDateTime importedDate) {
+    public GuidedRecordBuilder<T> setImportedDate(final OffsetDateTime importedDate) {
         this.importedDate = importedDate;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setMeteringId(String meteringId) {
+    public GuidedRecordBuilder<T> setMeteringId(final String meteringId) {
         this.meteringId = meteringId;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setMeteredValue(BigDecimal meteredValue) {
+    public GuidedRecordBuilder<T> setMeteredValue(final BigDecimal meteredValue) {
         this.meteredValue = meteredValue;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setMeteredStartDate(OffsetDateTime meteredStartDate) {
-        this.meteredStartDate = meteredStartDate;
+    public GuidedRecordBuilder<T> setMeteredTimestamp(final OffsetDateTime meteredTimestamp) {
+        this.meteredTimestamp = meteredTimestamp;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setMeteredDuration(Duration meteredDuration) {
+    public GuidedRecordBuilder<T> setMeteredDuration(final Duration meteredDuration) {
         this.meteredDuration = meteredDuration;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setProductInfo(ProductRecordInfo productInfo) {
+    public GuidedRecordBuilder<T> setProductInfo(final ProductRecordInfo productInfo) {
         this.productInfo = productInfo;
         return this;
     }
 
-    public GuidedRecordBuilder<T> setCustomer(Customer customer) {
+    public GuidedRecordBuilder<T> setCustomer(final Customer customer) {
         this.customer = customer;
+        return this;
+    }
+
+    public GuidedRecordBuilder<T> setTags(@NotNull final Map<String, String> tags) {
+        this.tags.clear();
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
+
         return this;
     }
 
@@ -238,11 +254,14 @@ public class GuidedRecordBuilder<T extends GuidedBaseRecord> implements Builder<
         this.productInfo = orig.getProductInfo();
         this.customer = orig.getCustomer();
 
+        this.tags.clear();
+        this.tags.putAll(orig.getTags());
+
+        this.meteredTimestamp = orig.getMeteredTimestamp();
+        this.meteredDuration = orig.getMeteredDuration();
+
         if (GuidedMeteredRecord.class.isAssignableFrom(orig.getClass())) {
             this.meteredValue = ((GuidedMeteredRecord) orig).getMeteredValue();
-        } else {
-            this.meteredStartDate = ((GuidedTimedRecord) orig).getMeteredStartDate();
-            this.meteredDuration = ((GuidedTimedRecord) orig).getMeteredDuration();
         }
 
         return this;

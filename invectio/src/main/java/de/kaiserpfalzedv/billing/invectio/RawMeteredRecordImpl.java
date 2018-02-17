@@ -19,6 +19,7 @@ package de.kaiserpfalzedv.billing.invectio;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
@@ -35,8 +36,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-09
  */
-public class RawMeteredRecordImpl extends RawRecordImpl implements RawMeteredRecord {
-    private static final long serialVersionUID = -4860787679954351812L;
+public class RawMeteredRecordImpl extends AbstractRawRecordImpl implements RawMeteredRecord {
+    private static final long serialVersionUID = 8144772054887350133L;
 
     /**
      * The metered value.
@@ -51,9 +52,10 @@ public class RawMeteredRecordImpl extends RawRecordImpl implements RawMeteredRec
             final OffsetDateTime valueDate,
             final OffsetDateTime meteredDate,
             final Duration meteredDuration,
-            final BigDecimal meteredValue
-    ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate, meteredDate, meteredDuration);
+            final BigDecimal meteredValue,
+            final Map<String, String> tags
+            ) {
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredDate, meteredDuration, tags);
 
         this.meteredValue = meteredValue;
     }

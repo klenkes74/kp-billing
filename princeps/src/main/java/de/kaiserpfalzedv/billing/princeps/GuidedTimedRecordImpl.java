@@ -18,6 +18,7 @@ package de.kaiserpfalzedv.billing.princeps;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
@@ -35,8 +36,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-11
  */
-public class GuidedTimedRecordImpl extends GuidedRecordImpl implements GuidedTimedRecord {
-    private static final long serialVersionUID = 5634985591181920245L;
+public class GuidedTimedRecordImpl extends AbstractGuidedRecordImpl implements GuidedTimedRecord {
+    private static final long serialVersionUID = 2998633798141054475L;
 
     GuidedTimedRecordImpl(
             final UUID id,
@@ -47,9 +48,11 @@ public class GuidedTimedRecordImpl extends GuidedRecordImpl implements GuidedTim
             final OffsetDateTime valueDate,
             final ProductRecordInfo productInfo,
             final OffsetDateTime meteredStartTime,
-            final Duration meteredDuration
-    ) {
-        super(id, meteringId, customer, recordedDate, importedDate, valueDate, productInfo, meteredStartTime, meteredDuration);
+            final Duration meteredDuration,
+            final Map<String, String> tags
+        ) {
+        super(id, meteringId, customer, recordedDate, importedDate, valueDate, productInfo, meteredStartTime,
+              meteredDuration, tags);
     }
 
 

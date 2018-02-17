@@ -19,7 +19,7 @@ package de.kaiserpfalzedv.billing.ratio;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.money.MonetaryAmount;
@@ -28,13 +28,13 @@ import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
 import de.kaiserpfalzedv.billing.api.rated.RatedBaseRecord;
 import de.kaiserpfalzedv.billing.api.rated.RatedMeteredRecord;
-import de.kaiserpfalzedv.billing.api.rated.RatedTimedRecord;
 import de.kaiserpfalzedv.billing.api.rated.Tarif;
 import org.apache.commons.lang3.builder.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static java.math.RoundingMode.HALF_UP;
+import static java.time.ZoneOffset.UTC;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -43,8 +43,6 @@ import static java.math.RoundingMode.HALF_UP;
  */
 public class RatedRecordBuilder<T extends RatedBaseRecord> implements Builder<T> {
     private static final Logger LOG = LoggerFactory.getLogger(RatedRecordBuilder.class);
-
-    private static final ZoneId UTC = ZoneId.of("UTC");
 
     /**
      * precision of the rate calculations. We default to 5 decimals
@@ -105,6 +103,8 @@ public class RatedRecordBuilder<T extends RatedBaseRecord> implements Builder<T>
      */
     private Customer customer;
 
+    private final HashMap<String, String> tags = new HashMap<>();
+
 
     @SuppressWarnings("unchecked")
     @Override
@@ -134,7 +134,8 @@ public class RatedRecordBuilder<T extends RatedBaseRecord> implements Builder<T>
                         meteredDuration,
                         meteredValue,
                         tarif,
-                        amount
+                        amount,
+                        tags
                 );
             } else {
                 MonetaryAmount amount = tarif.getRate()
@@ -158,7 +159,8 @@ public class RatedRecordBuilder<T extends RatedBaseRecord> implements Builder<T>
                         meteredStartDate,
                         meteredDuration,
                         tarif,
-                        amount
+                        amount,
+                        tags
 
                 );
             }
@@ -290,12 +292,14 @@ public class RatedRecordBuilder<T extends RatedBaseRecord> implements Builder<T>
         this.productInfo = orig.getProductInfo();
         this.customer = orig.getCustomer();
         this.tarif = orig.getTarif();
+        this.meteredStartDate = orig.getMeteredTimestamp();
+        this.meteredDuration = orig.getMeteredDuration();
+
+        this.tags.clear();
+        this.tags.putAll(orig.getTags());
 
         if (RatedMeteredRecord.class.isAssignableFrom(orig.getClass())) {
             this.meteredValue = ((RatedMeteredRecord) orig).getMeteredValue();
-        } else {
-            this.meteredStartDate = ((RatedTimedRecord) orig).getMeteredStartDate();
-            this.meteredDuration = ((RatedTimedRecord) orig).getMeteredDuration();
         }
 
         return this;

@@ -16,8 +16,8 @@
 
 package de.kaiserpfalzedv.billing.princeps;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
@@ -32,7 +32,7 @@ import org.apache.commons.lang3.builder.Builder;
  */
 public class ProductRecordInfoBuilder implements Builder<ProductRecordInfo> {
 
-    private final ArrayList<String> tags = new ArrayList<>();
+    private final HashMap<String,String> tags = new HashMap<>();
     private ProductInfo productInfo;
 
     @Override
@@ -40,7 +40,7 @@ public class ProductRecordInfoBuilder implements Builder<ProductRecordInfo> {
         validate();
 
         try {
-            return new ProductRecordInfoImpl(productInfo, tags.toArray(new String[0]));
+            return new ProductRecordInfoImpl(productInfo, tags);
         } finally {
             reset();
         }
@@ -68,9 +68,8 @@ public class ProductRecordInfoBuilder implements Builder<ProductRecordInfo> {
         return this;
     }
 
-    public ProductRecordInfoBuilder addTag(final String tag) {
-        this.tags.add(tag);
-
+    public ProductRecordInfoBuilder addTag(@NotNull final String key, @NotNull final String value) {
+        this.tags.put(key, value);
         return this;
     }
 
@@ -82,16 +81,17 @@ public class ProductRecordInfoBuilder implements Builder<ProductRecordInfo> {
 
     public ProductRecordInfoBuilder copy(final ProductRecordInfo orig) {
         this.productInfo = orig.getProductInfo();
-        setTags(orig.getTags());
+        this.tags.putAll(orig.getTags());
 
         return this;
     }
 
-    public ProductRecordInfoBuilder setTags(@NotNull String[] tags) {
+    public ProductRecordInfoBuilder setTags(@NotNull final Map<String, String> tags) {
         this.tags.clear();
 
-
-        Collections.addAll(this.tags, tags);
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
 
         return this;
     }

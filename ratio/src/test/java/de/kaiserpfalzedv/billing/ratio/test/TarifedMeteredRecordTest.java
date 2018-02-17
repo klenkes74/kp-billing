@@ -19,6 +19,8 @@ package de.kaiserpfalzedv.billing.ratio.test;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.money.CurrencyUnit;
@@ -71,6 +73,22 @@ public class TarifedMeteredRecordTest {
     private static final OffsetDateTime IMPORT_DATE = OffsetDateTime.now(UTC);
     private static final OffsetDateTime VALUE_DATE = OffsetDateTime.now(UTC);
 
+    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    static {
+        TAG_NAMES.add("cluster");
+        TAG_NAMES.add("project");
+        TAG_NAMES.add("pod");
+        TAG_NAMES.add("customer");
+    }
+
+    private static final HashMap<String, String> TAGS = new HashMap<>(4);
+    static {
+        TAGS.put("cluster", "abbot1");
+        TAGS.put("project", "billing");
+        TAGS.put("pod", "princeps-8fdg2");
+        TAGS.put("customer", "982341");
+    }
+
     private static final Customer CUSTOMER = new CustomerBuilder()
             .setName("customer")
             .setCostReference("customer-costcenter")
@@ -78,12 +96,12 @@ public class TarifedMeteredRecordTest {
 
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setName("Cluster CPU Usage")
-            .setTags(new String[]{"cluster", "project"})
+            .setTags(TAG_NAMES)
             .build();
 
     private static final ProductRecordInfo PRODUCT_RECORD_INFO = new ProductRecordInfoBuilder()
             .setProductInfo(PRODUCT_INFO)
-            .setTags(new String[]{"abbot1", "billing"})
+            .setTags(TAGS)
             .build();
 
     private static final Tarif TARIF = new TarifBuilder()

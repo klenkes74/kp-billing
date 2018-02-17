@@ -14,43 +14,34 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.ratio;
+package de.kaiserpfalzedv.billing.invectio;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.money.MonetaryAmount;
-
-import de.kaiserpfalzedv.billing.api.guided.Customer;
-import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
-import de.kaiserpfalzedv.billing.api.rated.RatedTimedRecord;
-import de.kaiserpfalzedv.billing.api.rated.Tarif;
+import de.kaiserpfalzedv.billing.api.base.impl.AbstractBaseBillingRecordImpl;
+import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-10
+ * @since 2018-02-09
  */
-public class RatedTimedRecordImpl extends RatedRecordImpl implements RatedTimedRecord {
-    private static final long serialVersionUID = 3879771106110401247L;
+public abstract class AbstractRawRecordImpl extends AbstractBaseBillingRecordImpl implements RawBaseRecord {
+    private static final long serialVersionUID = 9084979105229965327L;
 
-    RatedTimedRecordImpl(
+    AbstractRawRecordImpl(
             final UUID id,
             final String meteringId,
-            final Customer customer,
             final OffsetDateTime recordedDate,
             final OffsetDateTime importedDate,
             final OffsetDateTime valueDate,
-            final ProductRecordInfo productInfo,
-            final OffsetDateTime meteredStartDate,
+            final OffsetDateTime meteredTimestamp,
             final Duration meteredDuration,
-            final Tarif tarif,
-            final MonetaryAmount amount,
             final Map<String, String> tags
             ) {
-        super(id, meteringId, customer, recordedDate, importedDate, valueDate, productInfo,
-              meteredStartDate, meteredDuration, tarif, amount, tags);
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredTimestamp, meteredDuration, tags);
     }
 }

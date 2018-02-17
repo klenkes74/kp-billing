@@ -19,11 +19,12 @@ package de.kaiserpfalzedv.billing.ratio;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.money.MonetaryAmount;
 
-import de.kaiserpfalzedv.billing.api.base.impl.BaseTimedBillingRecordImpl;
+import de.kaiserpfalzedv.billing.api.base.impl.AbstractBaseBillingRecordImpl;
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
@@ -37,8 +38,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-10
  */
-public class RatedRecordImpl extends BaseTimedBillingRecordImpl implements RatedBaseRecord {
-    private static final long serialVersionUID = 322304506584994511L;
+public abstract class RatedRecordImpl extends AbstractBaseBillingRecordImpl implements RatedBaseRecord {
+    private static final long serialVersionUID = -3475832511033446876L;
 
     private Tarif tarif;
     private MonetaryAmount amount;
@@ -58,9 +59,10 @@ public class RatedRecordImpl extends BaseTimedBillingRecordImpl implements Rated
             final OffsetDateTime meteredStartDate,
             final Duration meteredDuration,
             final Tarif tarif,
-            final MonetaryAmount amount
-    ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate, meteredStartDate, meteredDuration);
+            final MonetaryAmount amount,
+            final Map<String, String> tags
+            ) {
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredStartDate, meteredDuration, tags);
 
         this.tarif = tarif;
         this.amount = amount;

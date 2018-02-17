@@ -23,6 +23,6 @@ import java.math.BigDecimal;
  * @version 1.0.0
  * @since 2018-02-09
  */
-public interface BaseMeteredBillingRecord extends BaseTimedBillingRecord {
+public interface BaseMeteredBillingRecord extends BaseTimedRecord {
     BigDecimal getMeteredValue();
 }

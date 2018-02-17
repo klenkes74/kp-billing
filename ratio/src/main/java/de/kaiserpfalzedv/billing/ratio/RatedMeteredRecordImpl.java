@@ -19,6 +19,7 @@ package de.kaiserpfalzedv.billing.ratio;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.money.MonetaryAmount;
@@ -36,7 +37,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @since 2018-02-10
  */
 public class RatedMeteredRecordImpl extends RatedRecordImpl implements RatedMeteredRecord {
-    private static final long serialVersionUID = -300111180537285364L;
+    private static final long serialVersionUID = -3138468654631186581L;
 
     private final BigDecimal meteredValue;
 
@@ -53,10 +54,11 @@ public class RatedMeteredRecordImpl extends RatedRecordImpl implements RatedMete
             final Duration meteredDuration,
             final BigDecimal meteredValue,
             final Tarif tarif,
-            final MonetaryAmount amount
-    ) {
+            final MonetaryAmount amount,
+            final Map<String, String> tags
+            ) {
             super(id, meteringId, customer, recordedDate, importedDate, valueDate, productInfo,
-                  meteredStartDate, meteredDuration, tarif, amount);
+                  meteredStartDate, meteredDuration, tarif, amount, tags);
 
         this.meteredValue = meteredValue;
     }

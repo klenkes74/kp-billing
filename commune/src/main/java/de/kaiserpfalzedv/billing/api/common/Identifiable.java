@@ -16,6 +16,7 @@
 
 package de.kaiserpfalzedv.billing.api.common;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ import java.util.UUID;
  * @version 1.0.0
  * @since 2018-02-10
  */
-public interface Identifiable {
+public interface Identifiable extends Serializable {
     default boolean equalsImpl(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Identifiable)) return false;

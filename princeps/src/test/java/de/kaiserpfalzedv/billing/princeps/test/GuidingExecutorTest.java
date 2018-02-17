@@ -20,6 +20,8 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
@@ -35,7 +37,7 @@ import de.kaiserpfalzedv.billing.api.imported.ImportingException;
 import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
 import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
 import de.kaiserpfalzedv.billing.api.imported.RawTimedRecord;
-import de.kaiserpfalzedv.billing.invectio.RawRecordBuilder;
+import de.kaiserpfalzedv.billing.invectio.RawBillingRecordBuilder;
 import de.kaiserpfalzedv.billing.invectio.csv.CSVImporter;
 import de.kaiserpfalzedv.billing.princeps.CustomerBuilder;
 import de.kaiserpfalzedv.billing.princeps.GuidingExecutorImpl;
@@ -61,6 +63,14 @@ import static org.junit.Assert.assertNotNull;
  */
 public class GuidingExecutorTest {
     private static final Logger LOG = LoggerFactory.getLogger(GuidingExecutorTest.class);
+
+    private static final HashMap<String, String> TAGS = new HashMap<>(4);
+    static {
+        TAGS.put("cluster", "abbot1");
+        TAGS.put("project", "billing");
+        TAGS.put("pod", "princeps-8fdg2");
+        TAGS.put("customer", "982341");
+    }
     
     private GuidingExecutor service;
 
@@ -71,13 +81,12 @@ public class GuidingExecutorTest {
     public void shouldGenerateGuidedRecordsFromRawMeteredRecord() throws GuidingBusinessExeption {
         logMethod("simple-metered", "Create a guided record from a raw metered record");
 
-        RawMeteredRecord record = new RawRecordBuilder<RawMeteredRecord>()
+        RawMeteredRecord record = new RawBillingRecordBuilder<RawMeteredRecord>()
                 .setId(UUID.randomUUID())
                 .setImportedDate(OffsetDateTime.now(UTC))
                 .setMeteredDuration(Duration.ofMinutes(15L))
                 .setMeteredValue(BigDecimal.TEN)
-                .setTagTitles(new String[] { "cluster", "project", "pod", "customer" })
-                .setTags(new String[] { "abbot1", "billing", "libellum-9sd3d", "KaiserpFalz EDV-Service"})
+                .setTags(TAGS)
                 .build();
 
         GuidedMeteredRecord result = record.execute(service, productGuide, customerGuide);
@@ -93,19 +102,18 @@ public class GuidingExecutorTest {
     public void shouldGenerateGuidedRecordsFromRawTimedRecord() throws GuidingBusinessExeption {
         logMethod("simple-timped", "Create a guided record from a raw timed record");
 
-        RawTimedRecord record = new RawRecordBuilder<RawTimedRecord>()
+        RawTimedRecord record = new RawBillingRecordBuilder<RawTimedRecord>()
                 .setId(UUID.randomUUID())
                 .setImportedDate(OffsetDateTime.now(UTC))
                 .setMeteredDuration(Duration.ofMinutes(15L))
-                .setTagTitles(new String[] { "cluster", "project", "pod", "customer" })
-                .setTags(new String[] { "abbot1", "billing", "libellum-9sd3d", "KaiserpFalz EDV-Service"})
+                .setTags(TAGS)
                 .build();
 
         GuidedTimedRecord result = record.execute(service, productGuide, customerGuide);
         LOG.trace("Result: {}", result);
 
         assertEquals("ID does not match!", record.getId(), result.getId());
-        assertEquals("Metered start time does not match!", record.getMeteredStartDate(), result.getMeteredStartDate());
+        assertEquals("Metered start time does not match!", record.getMeteredTimestamp(), result.getMeteredTimestamp());
         assertEquals("Duration does not match!", record.getMeteredDuration(), result.getMeteredDuration());
         assertNotNull("No valid product added!", result.getProductInfo());
         assertNotNull("No valid customer added!", result.getCustomer());
@@ -143,10 +151,18 @@ public class GuidingExecutorTest {
         }
     }
 
+    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    static {
+        TAG_NAMES.add("cluster");
+        TAG_NAMES.add("project");
+        TAG_NAMES.add("pod");
+        TAG_NAMES.add("customer");
+    }
+
     private class TestProductGuide implements ProductGuide {
         private ProductInfo product = new ProductInfoBuilder()
                 .setName("default")
-                .setTags(new String[] { "cluster", "project", "pod", "customer" })
+                .setTags(TAG_NAMES)
                 .build();
 
         @Override

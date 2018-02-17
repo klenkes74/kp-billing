@@ -16,6 +16,7 @@
 
 package de.kaiserpfalzedv.billing.ratio.test;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
@@ -44,11 +45,18 @@ public class ProductInfoTest {
 
     private static final UUID ID = UUID.randomUUID();
     private static final String NAME = "unit test";
-    private static final String[] TAGS = {"cluster", "project"};
+    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    static {
+        TAG_NAMES.add("cluster");
+        TAG_NAMES.add("project");
+        TAG_NAMES.add("pod");
+        TAG_NAMES.add("customer");
+    }
+
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setId(ID)
             .setName(NAME)
-            .setTags(TAGS)
+            .setTags(TAG_NAMES)
             .build();
 
 
@@ -80,7 +88,7 @@ public class ProductInfoTest {
 
         assertNotNull("The id should default to a random UUID", result.getId());
         assertEquals("Name does not match", NAME, result.getName());
-        assertArrayEquals("Tags don't match", new String[]{}, result.getTags());
+        assertArrayEquals("Tags don't match", new ArrayList<String>().toArray(), result.getTags().toArray());
     }
 
     private void logMethod(final String method, final String message, final Object... paramater) {
@@ -98,7 +106,7 @@ public class ProductInfoTest {
 
         assertEquals("ID does not match", ID, result.getId());
         assertEquals("Name does not match", NAME, result.getName());
-        assertArrayEquals("Tags do not match", TAGS, result.getTags());
+        assertArrayEquals("Tags do not match", TAG_NAMES.toArray(), result.getTags().toArray());
     }
 
     @Test(timeout = 80L)

@@ -15,11 +15,14 @@
  */
 
 /**
- * The importer module for all raw data. <p>This module will transfer the raw data to the
+ * The importer module for all raw data.
+ *
+ * <p>This module will transfer the raw data to the
  * {@link de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord} or
  * {@link de.kaiserpfalzedv.billing.api.imported.RawTimedRecord} needed as input for the next step.</p>
- * <p>
- * <p>We provide at least a CSV importer for a semantically enrichted CSV format.</p>
+ * 
+ * <p>We provide at least a {@link de.kaiserpfalzedv.billing.invectio.csv.CSVImporter} for a semantically enrichted CSV
+ * format.</p>
  *
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0

@@ -56,7 +56,7 @@ public class GuidingExecutorImpl implements GuidingExecutor {
                 .setRecordedDate(record.getRecordedDate())
                 .setValueDate(record.getValueDate())
                 .setMeteringId(record.getMeteringId())
-                .setMeteredStartDate(record.getMeteredStartDate())
+                .setMeteredTimestamp(record.getMeteredTimestamp())
                 .setMeteredDuration(record.getMeteredDuration())
                 .setMeteredValue(record.getMeteredValue())
                 .build();
@@ -87,7 +87,7 @@ public class GuidingExecutorImpl implements GuidingExecutor {
                 .setRecordedDate(record.getRecordedDate())
                 .setValueDate(record.getValueDate())
                 .setMeteringId(record.getMeteringId())
-                .setMeteredStartDate(record.getMeteredStartDate())
+                .setMeteredTimestamp(record.getMeteredTimestamp())
                 .setMeteredDuration(record.getMeteredDuration())
                 .build();
 

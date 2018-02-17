@@ -16,51 +16,46 @@
 
 package de.kaiserpfalzedv.billing.api.base.impl;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
-import de.kaiserpfalzedv.billing.api.base.BaseTimedBillingRecord;
+import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-09
  */
-public abstract class BaseTimedBillingRecordImpl extends BaseBillingRecordImpl implements BaseTimedBillingRecord {
-    private static final long serialVersionUID = 7514993938848713866L;
+public abstract class AbstractMeteredBillingRecordImpl extends AbstractBaseBillingRecordImpl
+        implements BaseMeteredBillingRecord {
+    private static final long serialVersionUID = 5488569375503464666L;
 
 
     /**
-     * The start date of the billing event. May be the start of a call or the start of the hour of billed CPU usage.
+     * The value metered (for some product lines this may be zero, since the duration is the metered value).
      */
-    private final OffsetDateTime meteredStartDate;
+    private final BigDecimal meteredValue;
 
-    /**
-     * The duration of the billed event. May be the call duration or the period metered.
-     */
-    private final Duration meteredDuration;
-
-    public BaseTimedBillingRecordImpl(
+    public AbstractMeteredBillingRecordImpl(
             final UUID id,
             final String meteringId,
             final OffsetDateTime recordedDate,
             final OffsetDateTime importedDate,
             final OffsetDateTime valueDate,
-            final OffsetDateTime meteredStartDate,
-            final Duration meteredDuration
-    ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate);
+            final OffsetDateTime meteredDate,
+            final Duration duration,
+            final BigDecimal meteredValue,
+            final Map<String, String> tags
+            ) {
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredDate, duration, tags);
 
-        this.meteredStartDate = meteredStartDate;
-        this.meteredDuration = meteredDuration;
+        this.meteredValue = meteredValue;
     }
 
-    public OffsetDateTime getMeteredStartDate() {
-        return meteredStartDate;
-    }
-
-    public Duration getMeteredDuration() {
-        return meteredDuration;
+    public BigDecimal getMeteredValue() {
+        return meteredValue;
     }
 }

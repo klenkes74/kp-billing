@@ -16,6 +16,11 @@
 
 package de.kaiserpfalzedv.billing.princeps;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.constraints.NotNull;
+
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
 import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
 
@@ -25,15 +30,18 @@ import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
  * @since 2018-02-10
  */
 public class ProductRecordInfoImpl implements ProductRecordInfo {
-    private static final long serialVersionUID = -3474606968988268416L;
+    private static final long serialVersionUID = -3240511233860563648L;
 
     private final ProductInfo productInfo;
-    private final String[] tags;
+    private final HashMap<String, String> tags = new HashMap<>();
 
 
-    ProductRecordInfoImpl(ProductInfo productInfo, String[] tags) {
+    ProductRecordInfoImpl(@NotNull final ProductInfo productInfo, @NotNull Map<String, String> tags) {
         this.productInfo = productInfo;
-        this.tags = tags;
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
     }
 
     @Override
@@ -46,27 +54,17 @@ public class ProductRecordInfoImpl implements ProductRecordInfo {
         return productInfo.getName();
     }
 
-    @Override
-    public String[] getTagTitles() {
-        return productInfo.getTags();
-    }
-
 
     @Override
-    public String[] getTags() {
+    public Map<String, String> getTags() {
         return tags;
     }
 
     @Override
-    public boolean matchTags(String[] info) {
-        if (productInfo.getTags().length != info.length || productInfo.getTags().length != tags.length) {
-            return false;
-        }
-
-        for (int i = 0; i < tags.length; i++) {
-            if (!tags[i].equals(info[i])) {
-                return false;
-            }
+    public boolean matchTags(@NotNull final Map<String, String> query) {
+        for (Map.Entry<String, String> entry : query.entrySet()) {
+            if (! tags.containsKey(entry.getKey())) return false;
+            if (! tags.get(entry.getKey()).equals(entry.getValue())) return false;
         }
 
         return true;

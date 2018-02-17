@@ -16,6 +16,8 @@
 
 package de.kaiserpfalzedv.billing.api.guided;
 
+import java.util.List;
+
 import de.kaiserpfalzedv.billing.api.common.Identifiable;
 
 /**
@@ -26,5 +28,5 @@ import de.kaiserpfalzedv.billing.api.common.Identifiable;
 public interface ProductInfo extends Identifiable {
     String getName();
 
-    String[] getTags();
+    List<String> getTags();
 }

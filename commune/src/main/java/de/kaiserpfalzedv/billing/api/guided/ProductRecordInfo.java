@@ -17,6 +17,7 @@
 package de.kaiserpfalzedv.billing.api.guided;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -28,8 +29,6 @@ public interface ProductRecordInfo extends Serializable {
 
     String getProductName();
 
-    String[] getTagTitles();
-
-    String[] getTags();
-    boolean matchTags(String[] info);
+    Map<String, String> getTags();
+    boolean matchTags(final Map<String, String> tags);
 }

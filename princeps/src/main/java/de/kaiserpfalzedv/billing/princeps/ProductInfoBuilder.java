@@ -17,8 +17,10 @@
 package de.kaiserpfalzedv.billing.princeps;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
 import org.apache.commons.lang3.builder.Builder;
@@ -31,16 +33,18 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  * @since 2018-02-10
  */
 public class ProductInfoBuilder implements Builder<ProductInfo> {
-    private final ArrayList<String> tags = new ArrayList<>();
+
     private UUID id = UUID.randomUUID();
     private String name;
+
+    private final ArrayList<String> tags = new ArrayList<>();
 
     @Override
     public ProductInfo build() {
         validate();
 
         try {
-            return new ProductInfoImpl(id, name, tags.toArray(new String[0]));
+            return new ProductInfoImpl(id, name, tags);
         } finally {
             reset();
         }
@@ -69,9 +73,12 @@ public class ProductInfoBuilder implements Builder<ProductInfo> {
         return this;
     }
 
-    public ProductInfoBuilder setTags(String[] tags) {
+    public ProductInfoBuilder setTags(@NotNull final List<String> tags) {
         this.tags.clear();
-        Collections.addAll(this.tags, tags);
+
+        if (tags != null) {
+            this.tags.addAll(tags);
+        }
 
         return this;
     }
@@ -82,22 +89,24 @@ public class ProductInfoBuilder implements Builder<ProductInfo> {
         return this;
     }
 
-    public ProductInfoBuilder addTag(final String tag) {
+    public ProductInfoBuilder addTag(@NotNull final String tag) {
         this.tags.add(tag);
 
         return this;
     }
 
-    public ProductInfoBuilder removeTag(final String tag) {
+    public ProductInfoBuilder removeTag(@NotNull final String tag) {
         this.tags.remove(tag);
 
         return this;
     }
 
-    public ProductInfoBuilder copy(final ProductInfo orig) {
+    public ProductInfoBuilder copy(@NotNull final ProductInfo orig) {
         this.id = orig.getId();
         this.name = orig.getName();
-        Collections.addAll(this.tags, orig.getTags());
+
+        this.tags.clear();
+        this.tags.addAll(orig.getTags());
 
         return this;
     }

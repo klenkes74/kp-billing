@@ -16,6 +16,8 @@
 
 package de.kaiserpfalzedv.billing.princeps;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
@@ -28,23 +30,22 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @since 2018-02-10
  */
 public class ProductInfoImpl implements ProductInfo {
-    private static final long serialVersionUID = -5648933497591121916L;
+    private static final long serialVersionUID = -4517938249820695164L;
 
 
     private final UUID id;
     private final String name;
-    private final String[] tags;
+    private final ArrayList<String> tags = new ArrayList<>();
 
     ProductInfoImpl(
             final UUID id,
             final String name,
-            final String[] tags
+            final List<String> tags
     ) {
         this.id = id;
         this.name = name;
-        this.tags = new String[tags.length];
 
-        System.arraycopy(tags, 0, this.tags, 0, tags.length);
+        this.tags.addAll(tags);
     }
 
     @Override
@@ -57,20 +58,12 @@ public class ProductInfoImpl implements ProductInfo {
         return name;
     }
 
+    
     @Override
-    public String[] getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    @Override
-    public int hashCode() {
-        return hashCodeImpl();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return equalsImpl(o);
-    }
 
     @Override
     public String toString() {

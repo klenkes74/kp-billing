@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.money.MonetaryAmount;
@@ -70,6 +72,22 @@ public class TarifedTimedRecordTest {
     private static final Duration METERED_DURATION = Duration.ofHours(24L);
     private static final OffsetDateTime METERED_START_DATE = VALUE_DATE.minus(METERED_DURATION);
 
+    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    static {
+        TAG_NAMES.add("cluster");
+        TAG_NAMES.add("project");
+        TAG_NAMES.add("pod");
+        TAG_NAMES.add("customer");
+    }
+
+    private static final HashMap<String, String> TAGS = new HashMap<>(4);
+    static {
+        TAGS.put("cluster", "abbot1");
+        TAGS.put("project", "billing");
+        TAGS.put("pod", "princeps-8fdg2");
+        TAGS.put("customer", "982341");
+    }
+
     private static final Customer CUSTOMER = new CustomerBuilder()
             .setName("customer")
             .setCostReference("customer-costcenter")
@@ -77,12 +95,12 @@ public class TarifedTimedRecordTest {
 
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setName("Cluster CPU Usage")
-            .setTags(new String[]{"cluster", "project"})
+            .setTags(TAG_NAMES)
             .build();
 
     private static final ProductRecordInfo PRODUCT_RECORD_INFO = new ProductRecordInfoBuilder()
             .setProductInfo(PRODUCT_INFO)
-            .setTags(new String[]{"abbot1", "billing"})
+            .setTags(TAGS)
             .build();
 
     private static final Tarif TARIF = new TarifBuilder()
@@ -151,7 +169,7 @@ public class TarifedTimedRecordTest {
         assertEquals("The metering-id does not match the id", result.getId().toString(), result.getMeteringId());
         assertEquals("The metered customer does not match", CUSTOMER, result.getCustomer());
         assertEquals("The product record info does not match", PRODUCT_RECORD_INFO, result.getProductInfo());
-        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredStartDate());
+        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredTimestamp());
         assertEquals("The metered duration does not match", METERED_DURATION, result.getMeteredDuration());
         assertEquals("The tarif does not match", TARIF, result.getTarif());
         assertEquals("The amount does not match", AMOUNT, result.getAmount());
@@ -180,7 +198,7 @@ public class TarifedTimedRecordTest {
         assertEquals("The metering-id does not match", METERING_ID, result.getMeteringId());
         assertEquals("The metered customer does not match", CUSTOMER, result.getCustomer());
         assertEquals("The product record info does not match", PRODUCT_RECORD_INFO, result.getProductInfo());
-        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredStartDate());
+        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredTimestamp());
         assertEquals("The metered duration does not match", METERED_DURATION, result.getMeteredDuration());
         assertEquals("The tarif does not match", TARIF, result.getTarif());
         assertEquals("The amount does not match", AMOUNT, result.getAmount());

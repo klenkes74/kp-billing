@@ -17,7 +17,6 @@
 package de.kaiserpfalzedv.billing.libellum;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -38,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
+import static java.time.ZoneOffset.UTC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -49,7 +49,6 @@ import static org.junit.Assert.assertNotNull;
 public class InvoiceTest {
     private static final Logger LOG = LoggerFactory.getLogger(InvoiceTest.class);
 
-    private static final ZoneId UTC = ZoneId.of("UTC");
     private static final CurrencyUnit CURRENCY = Monetary.getCurrency("EUR");
     private static final MonetaryAmount ZERO_AMOUNT = Money.of(0L, CURRENCY);
 
@@ -138,11 +137,11 @@ public class InvoiceTest {
         assertEquals("The amount does not match!", AMOUNT, result.getAmount());
     }
 
-    @Test(timeout = 1000L)
-    public void shouldNotExceedTimeLimitOf1000msWhenCalled1000Times() {
+    @Test(timeout = 1500L)
+    public void shouldNotExceedTimeLimitWhenCalled1000Times() {
         logMethod("runtime-validation",
                   "Should not exceed the timelimit of {} ms for {} iterations",
-                  1000L, 1000L
+                  1500L, 1000L
         );
 
         for (int i = 0; i < 1000; i++) {

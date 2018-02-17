@@ -16,43 +16,35 @@
 
 package de.kaiserpfalzedv.billing.api.base.impl;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
-import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
+import de.kaiserpfalzedv.billing.api.base.BaseTimedRecord;
 
 /**
+ * The base object for a billing record only defined by time.
+ * 
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-09
  */
-public abstract class BaseMeteredBillingRecordImpl extends BaseTimedBillingRecordImpl implements BaseMeteredBillingRecord {
-    private static final long serialVersionUID = 4881122469071663653L;
+public abstract class AbstractTimedBillingRecordImpl extends AbstractBaseBillingRecordImpl
+        implements BaseTimedRecord {
+    private static final long serialVersionUID = 9007422427344034503L;
 
 
-    /**
-     * The value metered (for some product lines this may be zero, since the duration is the metered value).
-     */
-    private final BigDecimal meteredValue;
-
-    public BaseMeteredBillingRecordImpl(
+    public AbstractTimedBillingRecordImpl(
             final UUID id,
             final String meteringId,
             final OffsetDateTime recordedDate,
             final OffsetDateTime importedDate,
             final OffsetDateTime valueDate,
-            final OffsetDateTime meteredDate,
-            final Duration duration,
-            final BigDecimal meteredValue
+            final OffsetDateTime meteredStartDate,
+            final Duration meteredDuration,
+            final Map<String, String> tags
     ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate, meteredDate, duration);
-
-        this.meteredValue = meteredValue;
-    }
-
-    public BigDecimal getMeteredValue() {
-        return meteredValue;
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredStartDate, meteredDuration, tags);
     }
 }

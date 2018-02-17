@@ -18,12 +18,11 @@ package de.kaiserpfalzedv.billing.invectio.csv.test;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
 import de.kaiserpfalzedv.billing.api.imported.RawTimedRecord;
-import de.kaiserpfalzedv.billing.invectio.RawRecordBuilder;
+import de.kaiserpfalzedv.billing.invectio.RawBillingRecordBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
+import static java.time.ZoneOffset.UTC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -45,8 +45,6 @@ import static org.junit.Assert.assertNotNull;
 public class RawTimedRecordTest {
     private static final Logger LOG = LoggerFactory.getLogger(RawTimedRecordTest.class);
 
-    private static final ZoneId UTC = ZoneId.of("UTC");
-
     private static final UUID ID = UUID.randomUUID();
     private static final String METERING_ID = "metered-id";
 
@@ -56,22 +54,18 @@ public class RawTimedRecordTest {
     private static final OffsetDateTime RECORDED_DATE = OffsetDateTime.now(UTC);
     private static final OffsetDateTime IMPORT_DATE = OffsetDateTime.now(UTC);
     private static final OffsetDateTime VALUE_DATE = OffsetDateTime.now(UTC);
-    private static final String METERING_PRODUCT = "metered-product";
-    private static final String METERED_CUSTOMER = "customer-info";
 
-    private static final RawTimedRecord RAW_TIMED_RECORD = new RawRecordBuilder<RawTimedRecord>()
+    private static final RawTimedRecord RAW_TIMED_RECORD = new RawBillingRecordBuilder<RawTimedRecord>()
             .setId(ID)
             .setMeteringId(METERING_ID)
             .setRecordedDate(RECORDED_DATE)
             .setImportedDate(IMPORT_DATE)
             .setValueDate(VALUE_DATE)
-            .setMeteringProduct(METERING_PRODUCT)
-            .setMeteredCustomer(METERED_CUSTOMER)
-            .setMeteredStartDate(METERED_START_DATE)
+            .setMeteredTimestamp(METERED_START_DATE)
             .setMeteredDuration(METERED_DURATION)
             .build();
 
-    private RawRecordBuilder<RawTimedRecord> service;
+    private RawBillingRecordBuilder<RawTimedRecord> service;
 
     @BeforeClass
     public static void setUpClass() {
@@ -93,15 +87,12 @@ public class RawTimedRecordTest {
         logMethod("metered-record", "Testing a simple metered record");
 
         RawTimedRecord result = service
-                .setMeteringProduct(METERING_PRODUCT)
-                .setMeteredCustomer(METERED_CUSTOMER)
                 .setMeteredDuration(METERED_DURATION)
                 .build();
         LOG.debug("result: {}", result);
 
         assertNotNull("The id should default to a random UUID", result.getId());
         assertEquals("The metering-id does not match the id", result.getId().toString(), result.getMeteringId());
-        assertEquals("The metered customer does not match", METERED_CUSTOMER, result.getMeteredCustomer());
         assertEquals("The metered duration does not match", METERED_DURATION, result.getMeteredDuration());
 
         assertNotNull("The value date does not exist", result.getValueDate());
@@ -124,8 +115,7 @@ public class RawTimedRecordTest {
 
         assertEquals("ID does not match", ID, result.getId());
         assertEquals("The metering-id does not match", METERING_ID, result.getMeteringId());
-        assertEquals("The metered customer does not match", METERED_CUSTOMER, result.getMeteredCustomer());
-        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredStartDate());
+        assertEquals("The metered start date does not match", METERED_START_DATE, result.getMeteredTimestamp());
         assertEquals("The metered duration does not match", METERED_DURATION, result.getMeteredDuration());
 
         assertEquals("The value date does not match", VALUE_DATE, result.getValueDate());
@@ -139,8 +129,6 @@ public class RawTimedRecordTest {
 
         for (int i = 0; i < 1000; i++) {
             service
-                    .setMeteringProduct(METERING_PRODUCT)
-                    .setMeteredCustomer(METERED_CUSTOMER)
                     .setMeteredDuration(METERED_DURATION)
                     .build();
         }
@@ -148,7 +136,7 @@ public class RawTimedRecordTest {
 
     @Before
     public void setUp() throws Exception {
-        service = new RawRecordBuilder<>();
+        service = new RawBillingRecordBuilder<>();
     }
 
     @After

@@ -18,6 +18,7 @@ package de.kaiserpfalzedv.billing.invectio;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.CustomerGuide;
@@ -35,7 +36,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-09
  */
-public class RawTimedRecordImpl extends RawRecordImpl implements RawTimedRecord, RawBaseRecord {
+public class RawTimedRecordImpl extends AbstractRawRecordImpl implements RawTimedRecord, RawBaseRecord {
     private static final long serialVersionUID = -1463494667310162626L;
 
     RawTimedRecordImpl(
@@ -45,9 +46,10 @@ public class RawTimedRecordImpl extends RawRecordImpl implements RawTimedRecord,
             final OffsetDateTime importedDate,
             final OffsetDateTime valueDate,
             final OffsetDateTime meteredStartDate,
-            final Duration meteredDuration
+            final Duration meteredDuration,
+            final Map<String, String> tags
     ) {
-        super(id, meteringId, recordedDate, importedDate, valueDate, meteredStartDate, meteredDuration);
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredStartDate, meteredDuration, tags);
     }
 
 
