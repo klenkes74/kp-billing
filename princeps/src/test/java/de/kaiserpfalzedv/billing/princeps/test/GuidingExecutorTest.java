@@ -39,10 +39,10 @@ import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
 import de.kaiserpfalzedv.billing.api.imported.RawTimedRecord;
 import de.kaiserpfalzedv.billing.invectio.RawBillingRecordBuilder;
 import de.kaiserpfalzedv.billing.invectio.csv.CSVImporter;
-import de.kaiserpfalzedv.billing.princeps.CustomerBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import de.kaiserpfalzedv.billing.princeps.GuidingExecutorImpl;
-import de.kaiserpfalzedv.billing.princeps.ProductInfoBuilder;
-import de.kaiserpfalzedv.billing.princeps.ProductRecordInfoBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.ProductInfoBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.ProductRecordInfoBuilder;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -166,7 +166,7 @@ public class GuidingExecutorTest {
                 .build();
 
         @Override
-        public ProductRecordInfo guide(RawBaseRecord record) throws GuidingBusinessException {
+        public ProductRecordInfo getProduct(RawBaseRecord record) throws GuidingBusinessException {
             return new ProductRecordInfoBuilder()
                     .setProductInfo(product)
                     .setTags(record.getTags())
@@ -182,7 +182,7 @@ public class GuidingExecutorTest {
 
 
         @Override
-        public Customer guide(RawBaseRecord record) throws GuidingBusinessException {
+        public Customer getCustomer(RawBaseRecord record) throws GuidingBusinessException {
             return customer;
         }
     }

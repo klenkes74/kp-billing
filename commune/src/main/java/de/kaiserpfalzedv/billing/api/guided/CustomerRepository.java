@@ -14,15 +14,15 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.openshift;
+package de.kaiserpfalzedv.billing.api.guided;
 
-import de.kaiserpfalzedv.billing.api.billed.Attachment;
+import java.util.Map;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-13
+ * @since 2018-02-17
  */
-public interface OpenShiftCDRAttachment extends Attachment {
-
+public interface CustomerRepository {
+    Customer retrieve(Map<String, String> tags) throws NoCustomerFoundException;
 }

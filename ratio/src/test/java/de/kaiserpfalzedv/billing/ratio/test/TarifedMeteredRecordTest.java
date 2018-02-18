@@ -32,11 +32,11 @@ import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
 import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
 import de.kaiserpfalzedv.billing.api.rated.RatedMeteredRecord;
 import de.kaiserpfalzedv.billing.api.rated.Tarif;
-import de.kaiserpfalzedv.billing.princeps.CustomerBuilder;
-import de.kaiserpfalzedv.billing.princeps.ProductInfoBuilder;
-import de.kaiserpfalzedv.billing.princeps.ProductRecordInfoBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.ProductInfoBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.ProductRecordInfoBuilder;
 import de.kaiserpfalzedv.billing.ratio.RatedRecordBuilder;
-import de.kaiserpfalzedv.billing.ratio.TarifBuilder;
+import de.kaiserpfalzedv.billing.ratio.api.TarifBuilder;
 import org.javamoney.moneta.internal.MoneyAmountBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -105,7 +105,7 @@ public class TarifedMeteredRecordTest {
             .build();
 
     private static final Tarif TARIF = new TarifBuilder()
-            .setTarifName("CPU usage")
+            .setName("CPU usage")
             .setUnit("EUR/mCores h")
             .setRate(
                     new MoneyAmountBuilder()

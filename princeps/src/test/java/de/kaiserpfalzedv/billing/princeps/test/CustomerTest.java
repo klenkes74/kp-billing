@@ -24,7 +24,7 @@ import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 import de.kaiserpfalzedv.billing.api.common.impl.EmailAddressBuilder;
 import de.kaiserpfalzedv.billing.api.common.impl.NullEmailAddress;
 import de.kaiserpfalzedv.billing.api.guided.Customer;
-import de.kaiserpfalzedv.billing.princeps.CustomerBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

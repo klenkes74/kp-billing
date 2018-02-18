@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
-import de.kaiserpfalzedv.billing.princeps.ProductInfoBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.ProductInfoBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

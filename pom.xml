@@ -36,6 +36,7 @@
         <module>ratio</module>
         <module>libellum</module>
         <module>quod</module>
+        <module>notitia</module>
         <module>openshift</module>
     </modules>
 

@@ -22,8 +22,8 @@ import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
 import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
-import de.kaiserpfalzedv.billing.princeps.ProductInfoBuilder;
-import de.kaiserpfalzedv.billing.princeps.ProductRecordInfoBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.ProductInfoBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.ProductRecordInfoBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

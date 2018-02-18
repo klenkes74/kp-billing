@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.ratio;
+package de.kaiserpfalzedv.billing.ratio.api;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -86,7 +86,7 @@ public class TarifBuilder implements Builder<Tarif> {
         return this;
     }
 
-    public TarifBuilder setTarifName(String tarifName) {
+    public TarifBuilder setName(String tarifName) {
         this.tarifName = tarifName;
         return this;
     }

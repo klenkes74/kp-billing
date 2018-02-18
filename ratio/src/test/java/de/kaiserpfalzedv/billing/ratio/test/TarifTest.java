@@ -24,7 +24,7 @@ import javax.money.MonetaryAmount;
 import javax.xml.registry.JAXRException;
 
 import de.kaiserpfalzedv.billing.api.rated.Tarif;
-import de.kaiserpfalzedv.billing.ratio.TarifBuilder;
+import de.kaiserpfalzedv.billing.ratio.api.TarifBuilder;
 import org.javamoney.moneta.internal.MoneyAmountBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -58,7 +58,7 @@ public class TarifTest {
             .create();
     private static final Tarif TARIF = new TarifBuilder()
             .setId(ID)
-            .setTarifName(TARIF_NAME)
+            .setName(TARIF_NAME)
             .setUnit(UNIT)
             .setUnitDivisor(UNIT_DIVISOR)
             .setRate(RATE)
@@ -87,7 +87,7 @@ public class TarifTest {
         logMethod("tarif", "Testing a simple tarif");
 
         Tarif result = service
-                .setTarifName(TARIF_NAME)
+                .setName(TARIF_NAME)
                 .setUnit(UNIT)
                 .setRate(RATE)
                 .build();
@@ -126,12 +126,12 @@ public class TarifTest {
 
         for (int i = 0; i < 1000; i++) {
             service
-                    .setTarifName(TARIF_NAME)
+                    .setName(TARIF_NAME)
                     .setUnit(UNIT)
                     .setRate(RATE)
                     .build();
             service
-                    .setTarifName(TARIF_NAME)
+                    .setName(TARIF_NAME)
                     .setUnit(UNIT)
                     .setRate(RATE)
                     .build();

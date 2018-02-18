@@ -14,14 +14,16 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.openshift;
+package de.kaiserpfalzedv.billing.api.rated;
 
-import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
+import de.kaiserpfalzedv.billing.api.guided.Customer;
+import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-13
+ * @since 2018-02-17
  */
-public interface OpenShiftMemoryUsageRecord extends GuidedMeteredRecord {
+public interface TarifingRepository {
+    Tarif retrieveTarif(final Customer customer, final ProductRecordInfo product) throws NoTarifFoundException;
 }

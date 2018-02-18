@@ -19,7 +19,7 @@
          xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          version="3.2"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd">
-    <module-name>accounting</module-name>
+    <module-name>${project.artifactId}</module-name>
     <description>${project.description}</description>
     <display-name>${project.name}</display-name>
 </ejb-jar>

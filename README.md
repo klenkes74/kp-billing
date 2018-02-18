@@ -20,5 +20,8 @@ The generator for the itemised bill. I come from telco, so I call it CDR (Call D
 The invoice and report engine. This module generates the invoices and reports for cucstomers based on the rated
 records.
 
+### notitia
+The master data module (like customer data).
+
 ### commune
 Common classes like the record sets to work on (data interchange format)

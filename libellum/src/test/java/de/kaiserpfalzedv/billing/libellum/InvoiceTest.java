@@ -26,7 +26,7 @@ import javax.money.MonetaryAmount;
 
 import de.kaiserpfalzedv.billing.api.billed.Invoice;
 import de.kaiserpfalzedv.billing.api.guided.Customer;
-import de.kaiserpfalzedv.billing.princeps.CustomerBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import org.javamoney.moneta.Money;
 import org.junit.AfterClass;
 import org.junit.Before;

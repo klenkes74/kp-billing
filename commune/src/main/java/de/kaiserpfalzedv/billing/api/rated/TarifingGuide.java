@@ -24,5 +24,5 @@ import de.kaiserpfalzedv.billing.api.guided.GuidedBaseRecord;
  * @since 2018-02-16
  */
 public interface TarifingGuide {
-    Tarif guide(final GuidedBaseRecord record);
+    Tarif getTarif(final GuidedBaseRecord record) throws TarifingException;
 }

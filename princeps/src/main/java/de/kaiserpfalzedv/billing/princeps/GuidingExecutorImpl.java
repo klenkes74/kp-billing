@@ -49,8 +49,8 @@ public class GuidingExecutorImpl implements GuidingExecutor {
         LOG.trace("productGuide={}, customerGuide={}", productGuide, customerGuide);
 
         GuidedMeteredRecord result = new GuidedRecordBuilder<GuidedMeteredRecord>()
-                .setCustomer(customerGuide.guide(record))
-                .setProductInfo(productGuide.guide(record))
+                .setCustomer(customerGuide.getCustomer(record))
+                .setProductInfo(productGuide.getProduct(record))
                 .setId(record.getId())
                 .setImportedDate(record.getImportedDate())
                 .setRecordedDate(record.getRecordedDate())
@@ -80,8 +80,8 @@ public class GuidingExecutorImpl implements GuidingExecutor {
         LOG.trace("productGuide={}, customerGuide={}", productGuide, customerGuide);
 
         GuidedTimedRecord result = new GuidedRecordBuilder<GuidedTimedRecord>()
-                .setCustomer(customerGuide.guide(record))
-                .setProductInfo(productGuide.guide(record))
+                .setCustomer(customerGuide.getCustomer(record))
+                .setProductInfo(productGuide.getProduct(record))
                 .setId(record.getId())
                 .setImportedDate(record.getImportedDate())
                 .setRecordedDate(record.getRecordedDate())

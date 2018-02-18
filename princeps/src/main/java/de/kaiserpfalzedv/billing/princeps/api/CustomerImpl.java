@@ -14,16 +14,13 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.ratio;
+package de.kaiserpfalzedv.billing.princeps.api;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.money.CurrencyUnit;
-import javax.money.MonetaryAmount;
-
-import de.kaiserpfalzedv.billing.api.rated.Tarif;
+import de.kaiserpfalzedv.billing.api.common.EmailAddress;
+import de.kaiserpfalzedv.billing.api.guided.Customer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -32,30 +29,29 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-10
  */
-public class TarifImpl implements Tarif {
-    private static final long serialVersionUID = -6618835601099917468L;
+public class CustomerImpl implements Customer {
+    private static final long serialVersionUID = -2161820164580456028L;
 
 
     private final UUID id;
-    private final String tarifName;
+    private final String name;
+    private final String costReference;
+    private final EmailAddress contactAddress;
+    private final EmailAddress billingAddress;
 
-    private final String unit;
-    private final BigDecimal unitDivisor;
-    private final MonetaryAmount rate;
 
-
-    TarifImpl(
+    CustomerImpl(
             final UUID id,
-            final String tarifName,
-            final String unit,
-            final BigDecimal unitDivisor,
-            final MonetaryAmount rate
+            final String name,
+            final String costReference,
+            final EmailAddress contactAddress,
+            final EmailAddress billingAddress
     ) {
         this.id = id;
-        this.tarifName = tarifName;
-        this.unit = unit;
-        this.unitDivisor = unitDivisor;
-        this.rate = rate;
+        this.name = name;
+        this.costReference = costReference;
+        this.contactAddress = contactAddress;
+        this.billingAddress = billingAddress;
     }
 
     @Override
@@ -66,21 +62,20 @@ public class TarifImpl implements Tarif {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Tarif)) return false;
-
-        Tarif tarif = (Tarif) o;
-
-        return Objects.equals(getId(), tarif.getId());
+        if (!(o instanceof CustomerImpl)) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(getId(), customer.getId());
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append(System.identityHashCode(this))
                 .append("id", id)
-                .append("tarifName", tarifName)
-                .append("unit", unit)
-                .append("unitDivisor", unitDivisor)
-                .append("rate", rate)
+                .append("name", name)
+                .append("costReference", costReference)
+                .append("contactAddress", contactAddress)
+                .append("billingAddress", billingAddress)
                 .toString();
     }
 
@@ -90,27 +85,22 @@ public class TarifImpl implements Tarif {
     }
 
     @Override
-    public String getTarifName() {
-        return tarifName;
+    public String getName() {
+        return name;
     }
 
     @Override
-    public String getUnit() {
-        return unit;
+    public String getCostReference() {
+        return costReference;
     }
 
     @Override
-    public BigDecimal getUnitDivisor() {
-        return unitDivisor;
+    public EmailAddress getContactAddress() {
+        return contactAddress;
     }
 
     @Override
-    public MonetaryAmount getRate() {
-        return rate;
-    }
-
-    @Override
-    public CurrencyUnit getCurrency() {
-        return rate.getCurrency();
+    public EmailAddress getBillingAddress() {
+        return billingAddress;
     }
 }

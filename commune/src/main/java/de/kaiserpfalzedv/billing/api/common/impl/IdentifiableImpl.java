@@ -50,7 +50,6 @@ public abstract class IdentifiableImpl implements Identifiable {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append(System.identityHashCode(this))
                 .append("id", id)
                 .toString();
     }

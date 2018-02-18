@@ -20,12 +20,13 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-    <persistence-unit name="ACOUNTING">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <persistence-unit name="${project.artifactId}">
+        <description>${project.description}</description>
 
-        <non-jta-data-source>java:comp/env/datasources/contacts</non-jta-data-source>
+        <non-jta-data-source>java:comp/env/${project.artifactId}</non-jta-data-source>
 
-        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <shared-cache-mode>ALL</shared-cache-mode>
         <validation-mode>AUTO</validation-mode>
 
         <properties>

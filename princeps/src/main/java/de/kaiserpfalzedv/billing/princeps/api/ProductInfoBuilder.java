@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.princeps;
+package de.kaiserpfalzedv.billing.princeps.api;
 
 import java.util.ArrayList;
 import java.util.List;
