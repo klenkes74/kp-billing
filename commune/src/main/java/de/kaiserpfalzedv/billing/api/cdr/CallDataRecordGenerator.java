@@ -16,13 +16,13 @@
 
 package de.kaiserpfalzedv.billing.api.cdr;
 
-import de.kaiserpfalzedv.billing.api.base.BaseBillingRecord;
+import de.kaiserpfalzedv.billing.api.rated.RatedBaseRecord;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-15
  */
-public interface CallDataRecordGenerator<T extends BaseBillingRecord> {
-    CallDataRecord generate(T record);
+public interface CallDataRecordGenerator<T extends RatedBaseRecord, V extends CallDataRecord> {
+    V generate(T record);
 }

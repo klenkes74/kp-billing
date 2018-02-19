@@ -44,7 +44,7 @@ public class CallDataRecordImpl extends IdentifiableImpl implements CallDataReco
     private final BigDecimal meteredValue;
     private final MonetaryAmount amount;
 
-    CallDataRecordImpl(
+    protected CallDataRecordImpl(
             @NotNull final UUID id,
             @NotNull final String description,
             @NotNull final String tarifName,

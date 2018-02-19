@@ -283,6 +283,16 @@ public class RatedRecordBuilder<T extends RatedBaseRecord> implements Builder<T>
         return this;
     }
 
+    public RatedRecordBuilder<T> setTags(final HashMap<String, String> tags) {
+        this.tags.clear();
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
+
+        return this;
+    }
+
     public RatedRecordBuilder<T> copy(final T orig) {
         this.id = orig.getId();
         this.meteringId = orig.getMeteringId();
