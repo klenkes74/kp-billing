@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.common.CurrencyProvider;
 import de.kaiserpfalzedv.billing.api.guided.Customer;
@@ -117,7 +118,11 @@ public class OpenShiftTarifingRepository implements TarifingRepository, Serializ
 
 
     @Override
-    public Tarif retrieveTarif(Customer customer, ProductRecordInfo product) throws NoTarifFoundException {
+    public Tarif retrieveTarif(@NotNull final Customer customer, @NotNull final ProductRecordInfo product) throws NoTarifFoundException {
+        if (! tarifs.containsKey(product.getProductName())) {
+            throw new NoTarifFoundException(customer, product);
+        }
+        
         return tarifs.get(product.getProductName());
     }
 }

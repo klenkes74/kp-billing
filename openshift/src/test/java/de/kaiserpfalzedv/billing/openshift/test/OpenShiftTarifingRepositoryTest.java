@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -53,11 +54,10 @@ public class OpenShiftTarifingRepositoryTest {
             .build();
 
     private OpenShiftTarifingRepository service;
-    private CurrencyProvider currencyProvider;
 
 
     @Test
-    public void shouldGetCorectTarifWhenCalledWithPODProduct() throws ImportingException, NoTarifFoundException {
+    public void shouldGetCorrectTarifWhenCalledWithPODProduct() throws ImportingException, NoTarifFoundException {
         logMethod("product-pod", "Calling with a product of type POD");
 
         ProductRecordInfo product = new ProductRecordInfoBuilder()
@@ -76,7 +76,7 @@ public class OpenShiftTarifingRepositoryTest {
 
 
     @Test
-    public void shouldGetCorectTarifWhenCalledWithCPUProduct() throws ImportingException, NoTarifFoundException {
+    public void shouldGetCorrectTarifWhenCalledWithCPUProduct() throws ImportingException, NoTarifFoundException {
         logMethod("product-cpu", "Calling with a product of type CPU");
 
         ProductRecordInfo product = new ProductRecordInfoBuilder()
@@ -95,7 +95,7 @@ public class OpenShiftTarifingRepositoryTest {
 
 
     @Test
-    public void shouldGetCorectTarifWhenCalledWithMemoryProduct() throws ImportingException, NoTarifFoundException {
+    public void shouldGetCorrectTarifWhenCalledWithMemoryProduct() throws ImportingException, NoTarifFoundException {
         logMethod("product-memory", "Calling with a product of type Memory");
 
         ProductRecordInfo product = new ProductRecordInfoBuilder()
@@ -114,7 +114,7 @@ public class OpenShiftTarifingRepositoryTest {
 
 
     @Test
-    public void shouldGetCorectTarifWhenCalledWithNetworkProduct() throws ImportingException, NoTarifFoundException {
+    public void shouldGetCorrectTarifWhenCalledWithNetworkProduct() throws ImportingException, NoTarifFoundException {
         logMethod("product-network", "Calling with a product of type Network");
 
         ProductRecordInfo product = new ProductRecordInfoBuilder()
@@ -133,7 +133,7 @@ public class OpenShiftTarifingRepositoryTest {
 
 
     @Test
-    public void shouldGetCorectTarifWhenCalledWithStorageProduct() throws ImportingException, NoTarifFoundException {
+    public void shouldGetCorrectTarifWhenCalledWithStorageProduct() throws ImportingException, NoTarifFoundException {
         logMethod("product-storage", "Calling with a product of type Storage");
 
         ProductRecordInfo product = new ProductRecordInfoBuilder()
@@ -150,6 +150,26 @@ public class OpenShiftTarifingRepositoryTest {
                      result.getId());
     }
 
+    @Test
+    public void shouldThrowANoTarifFoundExceptionWhenNoMatchingTarifIsFound() {
+        logMethod("no-tarif-found", "Calling with product information with no tarif");
+
+        ProductRecordInfo product = new ProductRecordInfoBuilder()
+                .setProductInfo(new ProductInfoBuilder()
+                                        .setName("No matching product")
+                                        .build())
+                .build();
+
+        try {
+            service.retrieveTarif(CUSTOMER, product);
+            fail("The NoTarifFoundException should have been thrown!");
+        } catch (NoTarifFoundException e) {
+            LOG.trace("Result: {}", e.getMessage());
+
+            // everything is fine.
+        }
+    }
+
 
     private void logMethod(final String method, final String message, final Object... paramater) {
         MDC.put("id", method);
@@ -159,7 +179,7 @@ public class OpenShiftTarifingRepositoryTest {
 
     @Before
     public void setUp() {
-        currencyProvider = new DefaultCurrencyProvider();
+        CurrencyProvider currencyProvider = new DefaultCurrencyProvider();
         service = new OpenShiftTarifingRepository(currencyProvider);
         service.init();
     }

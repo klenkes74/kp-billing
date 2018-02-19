@@ -16,21 +16,46 @@
 
 package de.kaiserpfalzedv.billing.api.rated;
 
-import de.kaiserpfalzedv.billing.api.guided.GuidedBaseRecord;
+import javax.validation.constraints.NotNull;
+
+import de.kaiserpfalzedv.billing.api.BillingBusinessException;
+import de.kaiserpfalzedv.billing.api.guided.Customer;
+import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-17
  */
-public class NoTarifFoundException extends RatingBusinessExeption {
-    private static final long serialVersionUID = 2895990948444630874L;
+public class NoTarifFoundException extends BillingBusinessException {
+    private static final long serialVersionUID = -2051803304270093215L;
 
-    public NoTarifFoundException(final GuidedBaseRecord record) {
-        super(record, "Can't find a tarif for the record.");
+    private final Customer customer;
+    private final ProductRecordInfo product;
+
+    public NoTarifFoundException(@NotNull final Customer customer, @NotNull final ProductRecordInfo product) {
+        super("Can't find a tarif for the product " + product.getProductName()
+                      + " and customer " + customer.getName() + ".");
+
+        this.customer = customer;
+        this.product = product;
     }
 
-    public NoTarifFoundException(final GuidedBaseRecord record, final Throwable cause) {
-        super(record, "Can't find a tarif for the record.", cause);
+    public NoTarifFoundException(@NotNull final Customer customer, @NotNull final ProductRecordInfo product,
+                                 Throwable cause) {
+            super("Can't find a tarif for the product " + product.getProductName()
+                          + " and customer " + customer.getName() + ".", cause);
+
+            this.customer = customer;
+            this.product = product;
+    }
+
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public ProductRecordInfo getProduct() {
+        return product;
     }
 }
