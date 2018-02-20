@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.customer;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -35,13 +35,13 @@ import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 public class JPAEmailAddress extends JPAIdentifiable implements EmailAddress {
     private static final long serialVersionUID = 4878836972321472151L;
 
-    @Column(name = "NAME", length = 100, nullable = false)
+    @Column(name = "NAME_", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "ADDRESS", length = 100, nullable = false)
+    @Column(name = "ADDRESS_", length = 100, nullable = false)
     private String address;
 
-    @Column(name = "TYPE", length = 20, nullable = false)
+    @Column(name = "TYPE_", length = 20, nullable = false)
     private String type;
 
 
@@ -54,20 +54,20 @@ public class JPAEmailAddress extends JPAIdentifiable implements EmailAddress {
     }
 
     
-    public String getAddress() throws JAXRException {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) throws JAXRException {
+    public void setAddress(String address) {
         this.address = address;
     }
 
 
-    public String getType() throws JAXRException {
+    public String getType() {
         return type;
     }
 
-    public void setType(String type) throws JAXRException {
+    public void setType(String type) {
         this.type = type;
     }
 }

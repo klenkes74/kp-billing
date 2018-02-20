@@ -234,8 +234,42 @@
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="org.jmock" level="DEBUG" additivity="false">
+    <logger name="org.jmock" level="TRACE" additivity="false">
         <appender-ref ref="DEVELOPMENT"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.osjava.sj.jndi" level="TRACE" additivity="false">
+        <appender-ref ref="DEVELOPMENT"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.hibernate" level="TRACE" additivity="false">
+        <appender-ref ref="DEVELOPMENT"/>
+        <appender-ref ref="OPERATIONS-TRACE"/>
+        <appender-ref ref="OPERATIONS-DEBUG"/>
+        <appender-ref ref="OPERATIONS-INFO"/>
+        <appender-ref ref="OPERATIONS-WARN"/>
+        <appender-ref ref="OPERATIONS-ERROR"/>
+        <appender-ref ref="OPERATIONS-FATAL"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="jdbc.sqltiming" level="INFO" additivity="false">
+        <appender-ref ref="DEVELOPMENT"/>
+        <appender-ref ref="OPERATIONS-TRACE"/>
+        <appender-ref ref="OPERATIONS-DEBUG"/>
+        <appender-ref ref="OPERATIONS-INFO"/>
+        <appender-ref ref="OPERATIONS-WARN"/>
+        <appender-ref ref="OPERATIONS-ERROR"/>
+        <appender-ref ref="OPERATIONS-FATAL"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="jdbc.resultsettable" level="TRACE" additivity="false">
+        <appender-ref ref="DEVELOPMENT"/>
+        <appender-ref ref="OPERATIONS-TRACE"/>
+        <appender-ref ref="OPERATIONS-DEBUG"/>
+        <appender-ref ref="OPERATIONS-INFO"/>
+        <appender-ref ref="OPERATIONS-WARN"/>
+        <appender-ref ref="OPERATIONS-ERROR"/>
+        <appender-ref ref="OPERATIONS-FATAL"/>
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="de.kaiserpfalzedv" level="TRACE" additivity="false">

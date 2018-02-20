@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.customer;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -46,24 +46,24 @@ import de.kaiserpfalzedv.billing.api.guided.Customer;
 public class JPACustomer extends JPAIdentifiable implements Customer, Serializable {
     private static final long serialVersionUID = 2464687007351883145L;
 
-    @Column(name = "NAME", length=100, nullable = false)
+    @Column(name = "NAME_", length=200, nullable = false)
     private String name;
 
-    @Column(name = "COST_REFERENCE", length=200, nullable = false)
+    @Column(name = "COST_REFERENCE_", length=100, nullable = false)
     private String costReference;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-    @Column(name = "CONTACT_ADDRESS")
+    @JoinColumn(name = "CONTACT_ADDRESS_")
     private JPAEmailAddress contactAddress;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-    @Column(name = "BILLING_ADDRESS")
+    @JoinColumn(name = "BILLING_ADDRESS_")
     private JPAEmailAddress billingAddress;
 
     @ElementCollection
-    @MapKeyColumn(name="KEY")
-    @Column(name="VALUE")
-    @CollectionTable(name="CUSTOMER_TAGS", joinColumns=@JoinColumn(name="CUSTOMER"))
+    @MapKeyColumn(name="KEY_")
+    @Column(name="VALUE_")
+    @CollectionTable(name="CUSTOMER_TAGS", joinColumns=@JoinColumn(name="CUSTOMER_"))
     Map<String, String> tags = new HashMap<>(); // maps from attribute name to value
 
 

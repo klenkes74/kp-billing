@@ -29,6 +29,10 @@
     <name>notitia - Master Data Management</name>
     <description>Default JPA master data management for the billing system.</description>
 
+    <properties>
+        <skip.jpa>false</skip.jpa>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>

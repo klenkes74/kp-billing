@@ -14,16 +14,17 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.customer;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.common.Identifiable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -35,23 +36,35 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 @MappedSuperclass
 public class JPAIdentifiable implements Identifiable, Serializable {
-    private static final long serialVersionUID = -9137947871468903066L;
+    private static final long serialVersionUID = 99413267068649993L;
     
     @Id
-    @GeneratedValue(generator = "UUID")
-    @Column(name = "ID")
-    private UUID id;
+    @Column(name = "ID_", columnDefinition = "BINARY(16)", nullable = false)
+    private UUID id = UUID.randomUUID();
+
+    @Version
+    @Column(name = "VERSION_", nullable = false)
+    private Long version = 0L;
 
     @Override
     public UUID getId() {
         return id;
     }
 
-    public void setId(final UUID id) {
+    public void setId(@NotNull final UUID id) {
         this.id = id;
     }
 
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(@NotNull final Long version) {
+        this.version = version;
+    }
+
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
