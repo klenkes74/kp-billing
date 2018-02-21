@@ -22,6 +22,7 @@
         <artifactId>billing-root</artifactId>
         <groupId>de.kaiserpfalz-edv.billing</groupId>
         <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

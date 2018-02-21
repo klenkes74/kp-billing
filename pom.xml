@@ -971,7 +971,9 @@
                                             </manifest>
                                         </archive>
                                         <includes>
-                                            <include>**/jpa/*</include>
+                                            <include>**/jpa/**</include>
+                                            <include>META-INF/persistence.xml</include>
+                                            <include>META-INF/beans.xml</include>
                                         </includes>
                                         <skipIfEmpty>true</skipIfEmpty>
                                         <classifier>jpa</classifier>
