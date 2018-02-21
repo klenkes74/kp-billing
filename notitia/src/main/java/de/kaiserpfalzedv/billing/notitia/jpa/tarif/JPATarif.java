@@ -74,7 +74,7 @@ public class JPATarif extends JPAIdentifiable implements Tarif {
     @MapKeyColumn(name="KEY_")
     @Column(name="VALUE_")
     @CollectionTable(name="TARIF_TAGS", joinColumns=@JoinColumn(name="TARIF_"))
-    private HashMap<String,String> tags = new HashMap<>(); // maps from attribute name to value
+    private Map<String,String> tags = new HashMap<>(); // maps from attribute name to value
 
 
     @Override

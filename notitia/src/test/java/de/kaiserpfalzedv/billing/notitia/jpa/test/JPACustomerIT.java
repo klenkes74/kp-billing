@@ -95,7 +95,7 @@ public class JPACustomerIT {
                 .getSingleResult();
         LOG.trace("Result: {}", result);
 
-        assertEquals("Wrong UUID", "4136ac16-6520-4234-ae86-db81912f0dbc", result.getId());
+        assertEquals("Wrong UUID", UUID.fromString("4136ac16-6520-4234-ae86-db81912f0dbc"), result.getId());
     }
 
 
@@ -122,15 +122,18 @@ public class JPACustomerIT {
     @BeforeClass
     public static void setUpMDC() {
         MDC.put("test", JPACustomer.class.getSimpleName());
+
+        LOG.info("===[{}]========[BEGIN]===", MDC.get("test"));
     }
 
     @BeforeClass
     public static void setUpEntityManagerFactory() {
-        emf = Persistence.createEntityManagerFactory("notitia");
+        emf = Persistence.createEntityManagerFactory("notitia-test");
     }
 
     @AfterClass
     public static void tearDownMDC() {
+        LOG.info("===[{}]==========[END]===", MDC.get("test"));
         MDC.remove("id");
         MDC.remove("test");
     }

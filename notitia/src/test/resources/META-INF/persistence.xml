@@ -20,10 +20,19 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-    <persistence-unit name="${project.artifactId}">
+    <persistence-unit name="${project.artifactId}-test">
         <description>${project.description}</description>
 
         <non-jta-data-source>java:comp/env/datasources/${project.artifactId}</non-jta-data-source>
+
+        <class>de.kaiserpfalzedv.billing.notitia.jpa.JPAIdentifiable</class>
+        <class>de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer</class>
+        <class>de.kaiserpfalzedv.billing.notitia.jpa.customer.JPAEmailAddress</class>
+        <class>de.kaiserpfalzedv.billing.notitia.jpa.product.JPAProduct</class>
+        <class>de.kaiserpfalzedv.billing.notitia.jpa.tarif.JPATarif</class>
+        <class>de.kaiserpfalzedv.billing.notitia.jpa.JPAOffsetDateTimeConverter</class>
+        <class>de.kaiserpfalzedv.billing.notitia.jpa.JPADurationConverter</class>
+        <class>de.kaiserpfalzedv.billing.notitia.jpa.JPAMonetaryAmountConverter</class>
 
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <shared-cache-mode>ALL</shared-cache-mode>

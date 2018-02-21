@@ -926,7 +926,7 @@
 
                 <jdbc.dbunit.dataTypeFactoryName>org.dbunit.ext.h2.H2DataTypeFactory</jdbc.dbunit.dataTypeFactoryName>
 
-                <jdbc.url>jdbc:log4jdbc:h2:tcp://localhost:${h2port}/testdb;AUTO_SERVER=TRUE;AUTO_RECONNECT=TRUE;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=TRUE
+                <jdbc.url>jdbc:log4jdbc:h2:tcp://localhost:${h2port}/testdb;AUTO_SERVER=TRUE;AUTO_RECONNECT=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
                 </jdbc.url>
                 <jdbc.driver>org.h2.Driver</jdbc.driver>
                 <jdbc.user>sa</jdbc.user>

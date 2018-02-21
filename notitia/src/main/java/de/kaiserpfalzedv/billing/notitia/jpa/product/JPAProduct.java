@@ -54,7 +54,7 @@ public class JPAProduct extends JPAIdentifiable implements ProductInfo {
     @MapKeyColumn(name="KEY_")
     @Column(name="VALUE_")
     @CollectionTable(name="PRODUCT_TAGS", joinColumns=@JoinColumn(name="PRODUCT_"))
-    private HashMap<String,String> tags = new HashMap<>(); // maps from attribute name to value
+    private Map<String,String> tags = new HashMap<>(); // maps from attribute name to value
 
 
     @Override

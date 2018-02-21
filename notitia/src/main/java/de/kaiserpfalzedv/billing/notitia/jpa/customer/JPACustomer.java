@@ -68,7 +68,7 @@ public class JPACustomer extends JPAIdentifiable implements Customer, Serializab
     @MapKeyColumn(name="KEY_")
     @Column(name="VALUE_")
     @CollectionTable(name="CUSTOMER_TAGS", joinColumns=@JoinColumn(name="CUSTOMER_"))
-    private HashMap<String, String> tags = new HashMap<>(); // maps from attribute name to value
+    private Map<String, String> tags = new HashMap<>(); // maps from attribute name to value
 
 
 

@@ -26,6 +26,7 @@
     
     <changeSet id="load-test-data" author="klenkes74">
         <comment>Load test data for integration tests</comment>
+        
         <loadData tableName="EMAIL_ADDRESSES" file="../data/EMAIL_ADDRESSES.csv" relativeToChangelogFile="true"
                   encoding="UTF-8" quotchar="&quot;" separator=";"/>
 
