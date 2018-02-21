@@ -1,0 +1,61 @@
+/*
+ *    Copyright 2018 Kaiserpfalz EDV-Service, Roland T. Lichti
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+package de.kaiserpfalzedv.billing.api.base.impl;
+
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.util.Map;
+import java.util.UUID;
+
+import de.kaiserpfalzedv.billing.api.base.BaseMeteredBillingRecord;
+
+/**
+ * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
+ * @version 1.0.0
+ * @since 2018-02-09
+ */
+public abstract class AbstractMeteredBillingRecordImpl extends AbstractBaseBillingRecordImpl
+        implements BaseMeteredBillingRecord {
+    private static final long serialVersionUID = 5488569375503464666L;
+
+
+    /**
+     * The value metered (for some product lines this may be zero, since the duration is the metered value).
+     */
+    private final BigDecimal meteredValue;
+
+    public AbstractMeteredBillingRecordImpl(
+            final UUID id,
+            final String meteringId,
+            final OffsetDateTime recordedDate,
+            final OffsetDateTime importedDate,
+            final OffsetDateTime valueDate,
+            final OffsetDateTime meteredDate,
+            final Duration duration,
+            final BigDecimal meteredValue,
+            final Map<String, String> tags
+            ) {
+        super(id, meteringId, recordedDate, importedDate, valueDate, meteredDate, duration, tags);
+
+        this.meteredValue = meteredValue;
+    }
+
+    public BigDecimal getMeteredValue() {
+        return meteredValue;
+    }
+}
