@@ -16,7 +16,8 @@
 
 package de.kaiserpfalzedv.billing.ratio.test;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
@@ -31,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -45,18 +45,16 @@ public class ProductInfoTest {
 
     private static final UUID ID = UUID.randomUUID();
     private static final String NAME = "unit test";
-    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+
+    private static final Map<String, String> PRODUCT_TAGS = new HashMap<>(4);
     static {
-        TAG_NAMES.add("cluster");
-        TAG_NAMES.add("project");
-        TAG_NAMES.add("pod");
-        TAG_NAMES.add("customer");
+        PRODUCT_TAGS.put("product", "cluster");
     }
 
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setId(ID)
             .setName(NAME)
-            .setTags(TAG_NAMES)
+            .setTags(PRODUCT_TAGS)
             .build();
 
 
@@ -88,7 +86,7 @@ public class ProductInfoTest {
 
         assertNotNull("The id should default to a random UUID", result.getId());
         assertEquals("Name does not match", NAME, result.getName());
-        assertArrayEquals("Tags don't match", new ArrayList<String>().toArray(), result.getTags().toArray());
+        assertEquals("Tags don't match", new HashMap(), result.getTags());
     }
 
     private void logMethod(final String method, final String message, final Object... paramater) {
@@ -106,7 +104,7 @@ public class ProductInfoTest {
 
         assertEquals("ID does not match", ID, result.getId());
         assertEquals("Name does not match", NAME, result.getName());
-        assertArrayEquals("Tags do not match", TAG_NAMES.toArray(), result.getTags().toArray());
+        assertEquals("Tags do not match", PRODUCT_TAGS, result.getTags());
     }
 
     @Test(timeout = 80L)

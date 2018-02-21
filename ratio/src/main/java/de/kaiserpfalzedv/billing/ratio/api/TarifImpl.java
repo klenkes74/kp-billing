@@ -17,6 +17,9 @@
 package de.kaiserpfalzedv.billing.ratio.api;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -43,19 +46,26 @@ public class TarifImpl implements Tarif {
     private final BigDecimal unitDivisor;
     private final MonetaryAmount rate;
 
+    private final HashMap<String, String> tags = new HashMap<>();
+
 
     TarifImpl(
             final UUID id,
             final String tarifName,
             final String unit,
             final BigDecimal unitDivisor,
-            final MonetaryAmount rate
+            final MonetaryAmount rate,
+            final Map<String, String> tags
     ) {
         this.id = id;
         this.tarifName = tarifName;
         this.unit = unit;
         this.unitDivisor = unitDivisor;
         this.rate = rate;
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
     }
 
     @Override
@@ -90,7 +100,7 @@ public class TarifImpl implements Tarif {
     }
 
     @Override
-    public String getTarifName() {
+    public String getName() {
         return tarifName;
     }
 
@@ -112,5 +122,10 @@ public class TarifImpl implements Tarif {
     @Override
     public CurrencyUnit getCurrency() {
         return rate.getCurrency();
+    }
+
+    @Override
+    public Map<String, String> getTags() {
+        return Collections.unmodifiableMap(tags);
     }
 }

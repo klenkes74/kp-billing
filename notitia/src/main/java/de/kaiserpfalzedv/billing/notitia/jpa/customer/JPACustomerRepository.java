@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +26,6 @@ import javax.persistence.PersistenceContext;
 import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.CustomerRepository;
 import de.kaiserpfalzedv.billing.api.guided.NoCustomerFoundException;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

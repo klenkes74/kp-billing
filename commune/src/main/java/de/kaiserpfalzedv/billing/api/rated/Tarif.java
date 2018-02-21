@@ -18,6 +18,7 @@ package de.kaiserpfalzedv.billing.api.rated;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.money.CurrencyUnit;
@@ -31,7 +32,7 @@ import javax.money.MonetaryAmount;
 public interface Tarif extends Serializable {
     UUID getId();
 
-    String getTarifName();
+    String getName();
 
     String getUnit();
 
@@ -40,4 +41,6 @@ public interface Tarif extends Serializable {
     MonetaryAmount getRate();
 
     CurrencyUnit getCurrency();
+
+    Map<String, String> getTags();
 }

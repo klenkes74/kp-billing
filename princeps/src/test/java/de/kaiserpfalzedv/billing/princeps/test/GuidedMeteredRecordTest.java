@@ -19,16 +19,16 @@ package de.kaiserpfalzedv.billing.princeps.test;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.GuidedMeteredRecord;
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
 import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
-import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import de.kaiserpfalzedv.billing.princeps.GuidedRecordBuilder;
+import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import de.kaiserpfalzedv.billing.princeps.api.ProductInfoBuilder;
 import de.kaiserpfalzedv.billing.princeps.api.ProductRecordInfoBuilder;
 import org.junit.After;
@@ -68,17 +68,14 @@ public class GuidedMeteredRecordTest {
             .setCostReference("customer-costcenter")
             .build();
 
-    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    private static final Map<String, String> PRODUCT_TAGS = new HashMap<>(4);
     static {
-        TAG_NAMES.add("cluster");
-        TAG_NAMES.add("project");
-        TAG_NAMES.add("pod");
-        TAG_NAMES.add("customer");
+        PRODUCT_TAGS.put("product", "cluster");
     }
 
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setName("Cluster CPU Usage")
-            .setTags(TAG_NAMES)
+            .setTags(PRODUCT_TAGS)
             .build();
 
     private static final HashMap<String, String> TAGS = new HashMap<>(4);

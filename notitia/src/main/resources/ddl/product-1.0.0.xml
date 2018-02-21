@@ -1,0 +1,84 @@
+<!--
+  ~    Copyright 2018 Kaiserpfalz EDV-Service, Roland T. Lichti
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd
+
+http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="customer-initial" author="klenkes74">
+        <comment>Product data for the billing subsystem.</comment>
+
+        <createTable tableName="PRODUCTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="PRODUCTS_PK" unique="true" nullable="false"/>
+            </column>
+
+            <column name="VERSION_" type="BIGINT" defaultValue="0">
+                <constraints nullable="false" unique="false"/>
+            </column>
+
+            <column name="NAME_" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="PRODUCT_TAGS">
+            <column name="PRODUCT_" type="BINARY(16)">
+                <constraints nullable="false"
+                             references="PRODUCTS(ID_)"
+                             foreignKeyName="FK_PRODUCT_TAGS_PRODUCT"
+                             primaryKey="true"
+                             primaryKeyName="PK_PRODUCT_TAGS"
+                />
+            </column>
+
+            <column name="KEY_" type="VARCHAR(255)">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="PK_PRODUCT_TAGS"
+                />
+            </column>
+
+            <column name="VALUE_" type="VARCHAR(255)"/>
+        </createTable>
+
+
+        <createIndex tableName="PRODUCT_TAGS" indexName="IDX_PRODUCT_TAGS_PRODUCT" unique="false">
+            <column name="PRODUCT_"/>
+        </createIndex>
+
+        <createIndex tableName="PRODUCTS" indexName="IDX_PRODUCT_NAME" unique="false">
+            <column name="NAME_"/>
+        </createIndex>
+
+        <rollback>
+            <dropIndex tableName="PRODUCT_TAGS" indexName="IDX_PRODUCT_TAGS_PRODUCT"/>
+        </rollback>
+        <rollback>
+            <dropIndex indexName="IDX_PRODUCT_NAME" tableName="PRODUCTS"/>
+        </rollback>
+
+        <rollback>
+            <dropTable tableName="PRODUCT_TAGS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="PRODUCTS"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

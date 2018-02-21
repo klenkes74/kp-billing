@@ -79,7 +79,7 @@ public abstract class RatedRecordImpl extends AbstractBaseBillingRecordImpl impl
 
     @Override
     public String getTarifName() {
-        return tarif.getTarifName();
+        return tarif.getName();
     }
 
     @Override

@@ -17,6 +17,8 @@
 package de.kaiserpfalzedv.billing.ratio.test;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.money.Monetary;
@@ -56,12 +58,17 @@ public class TarifTest {
             .setNumber(10.00d)
             .setCurrency(Monetary.getCurrency("EUR"))
             .create();
+    private static final Map<String, String> TAGS = new HashMap<>();
+    static {
+        TAGS.put("key", "value");
+    }
     private static final Tarif TARIF = new TarifBuilder()
-            .setId(ID)
-            .setName(TARIF_NAME)
-            .setUnit(UNIT)
-            .setUnitDivisor(UNIT_DIVISOR)
-            .setRate(RATE)
+            .withId(ID)
+            .withName(TARIF_NAME)
+            .withUnit(UNIT)
+            .withUnitDivisor(UNIT_DIVISOR)
+            .withRate(RATE)
+            .withTags(TAGS)
             .build();
 
 
@@ -87,14 +94,14 @@ public class TarifTest {
         logMethod("tarif", "Testing a simple tarif");
 
         Tarif result = service
-                .setName(TARIF_NAME)
-                .setUnit(UNIT)
-                .setRate(RATE)
+                .withName(TARIF_NAME)
+                .withUnit(UNIT)
+                .withRate(RATE)
                 .build();
         LOG.debug("result: {}", result);
 
         assertNotNull("The id should default to a random UUID", result.getId());
-        assertEquals("Name does not match", TARIF_NAME, result.getTarifName());
+        assertEquals("Name does not match", TARIF_NAME, result.getName());
         assertEquals("Unit does not match", UNIT, result.getUnit());
         assertEquals("Unit divisor does not match default divisor", DEFAULT_UNIT_DIVISOR, result.getUnitDivisor());
         assertEquals("Rate does not match", RATE, result.getRate());
@@ -114,10 +121,11 @@ public class TarifTest {
         LOG.debug("result: {}", result);
 
         assertEquals("ID does not match", ID, result.getId());
-        assertEquals("Name does not match", TARIF_NAME, result.getTarifName());
+        assertEquals("Name does not match", TARIF_NAME, result.getName());
         assertEquals("Unit does not match", UNIT, result.getUnit());
         assertEquals("Unit divisor does not match divisor", UNIT_DIVISOR, result.getUnitDivisor());
         assertEquals("Rate does not match", RATE, result.getRate());
+        assertEquals("Tags do not match!", TAGS, result.getTags());
     }
 
     @Test(timeout = 80L)
@@ -126,14 +134,14 @@ public class TarifTest {
 
         for (int i = 0; i < 1000; i++) {
             service
-                    .setName(TARIF_NAME)
-                    .setUnit(UNIT)
-                    .setRate(RATE)
+                    .withName(TARIF_NAME)
+                    .withUnit(UNIT)
+                    .withRate(RATE)
                     .build();
             service
-                    .setName(TARIF_NAME)
-                    .setUnit(UNIT)
-                    .setRate(RATE)
+                    .withName(TARIF_NAME)
+                    .withUnit(UNIT)
+                    .withRate(RATE)
                     .build();
         }
     }

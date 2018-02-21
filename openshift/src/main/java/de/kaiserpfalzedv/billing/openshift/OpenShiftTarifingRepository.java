@@ -67,51 +67,51 @@ public class OpenShiftTarifingRepository implements TarifingRepository, Serializ
     public void init() {
         tarifs.put("POD",
                    new TarifBuilder()
-                           .setId(UUID.fromString("451dd39a-a8bf-4063-acf5-e3c89ad98287"))
-                           .setName("Base Rate Single POD")
-                           .setUnit("Hourly Usage")
-                           .setUnitDivisor(BigDecimal.valueOf(60L))
-                           .setRate(Money.of(0.1, currencyProvider.getCurrency()))
+                           .withId(UUID.fromString("451dd39a-a8bf-4063-acf5-e3c89ad98287"))
+                           .withName("Base Rate Single POD")
+                           .withUnit("Hourly Usage")
+                           .withUnitDivisor(BigDecimal.valueOf(60L))
+                           .withRate(Money.of(0.1, currencyProvider.getCurrency()))
                            .build()
         );
 
         tarifs.put("CPU",
                    new TarifBuilder()
-                           .setId(UUID.fromString("e3fc0fc2-96f0-439e-9743-dc5cf750093b"))
-                           .setName("CPU Usage")
-                           .setUnit("mCore")
-                           .setUnitDivisor(BigDecimal.valueOf(1000L))
-                           .setRate(Money.of(0.5, currencyProvider.getCurrency()))
+                           .withId(UUID.fromString("e3fc0fc2-96f0-439e-9743-dc5cf750093b"))
+                           .withName("CPU Usage")
+                           .withUnit("mCore")
+                           .withUnitDivisor(BigDecimal.valueOf(1000L))
+                           .withRate(Money.of(0.5, currencyProvider.getCurrency()))
                            .build()
         );
 
         tarifs.put("Memory",
                    new TarifBuilder()
-                           .setId(UUID.fromString("eb3f8469-89b2-4094-8014-a471f527699d"))
-                           .setName("RAM Usage")
-                           .setUnit("MB")
-                           .setUnitDivisor(BigDecimal.ONE)
-                           .setRate(Money.of(0.01, currencyProvider.getCurrency()))
+                           .withId(UUID.fromString("eb3f8469-89b2-4094-8014-a471f527699d"))
+                           .withName("RAM Usage")
+                           .withUnit("MB")
+                           .withUnitDivisor(BigDecimal.ONE)
+                           .withRate(Money.of(0.01, currencyProvider.getCurrency()))
                            .build()
         );
 
         tarifs.put("Network",
                    new TarifBuilder()
-                           .setId(UUID.fromString("ddf90e50-e906-4260-99e6-9aab4f7c1fe7"))
-                           .setName("Network Usage")
-                           .setUnit("kbit I/O")
-                           .setUnitDivisor(BigDecimal.valueOf(1048576L)) // Price for GBit, reported kBit
-                           .setRate(Money.of(0.1, currencyProvider.getCurrency()))
+                           .withId(UUID.fromString("ddf90e50-e906-4260-99e6-9aab4f7c1fe7"))
+                           .withName("Network Usage")
+                           .withUnit("kbit I/O")
+                           .withUnitDivisor(BigDecimal.valueOf(1048576L)) // Price for GBit, reported kBit
+                           .withRate(Money.of(0.1, currencyProvider.getCurrency()))
                            .build()
         );
 
         tarifs.put("Storage",
                    new TarifBuilder()
-                           .setId(UUID.fromString("86cf3529-9ee5-4f0f-897e-2c31ff7cc545"))
-                           .setName("Storage Usage")
-                           .setUnit("GB")
-                           .setUnitDivisor(BigDecimal.valueOf(1440L)) // Price for days, reported minutes
-                           .setRate(Money.of(0.0027777777, currencyProvider.getCurrency()))
+                           .withId(UUID.fromString("86cf3529-9ee5-4f0f-897e-2c31ff7cc545"))
+                           .withName("Storage Usage")
+                           .withUnit("GB")
+                           .withUnitDivisor(BigDecimal.valueOf(1440L)) // Price for days, reported minutes
+                           .withRate(Money.of(0.0027777777, currencyProvider.getCurrency()))
                            .build()
         );
     }

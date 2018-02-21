@@ -1,0 +1,14 @@
+TARIF_;KEY_;VALUE_
+a15f202746114cfab947cb6dc3a859b4;product;POD
+2589d3b7185840338689d5190d4037f0;product;CPU
+8cb991eef15d4eef96728572daaf44a7;product;Memory
+7c7369de35454091ba19e462c1c421df;product;Network
+a092790f5abe4ed0bc0b8dd9bbb15730;product;Storage
+09adc1510c8a444ba021d93875874d69;product;call
+09adc1510c8a444ba021d93875874d69;prefix;[1-9]
+e5bf7fbf5d6b4c89aff18b6ec6eb6ff5;prodct;call
+e5bf7fbf5d6b4c89aff18b6ec6eb6ff5;prefix;+49
+f48a33c780c0495180e55692271f5210;prodct;call
+f48a33c780c0495180e55692271f5210;prefix;+{49|31|32|33|41|42}
+d11b7898d7ad47fa91551c175dcbb71e;prodct;call
+d11b7898d7ad47fa91551c175dcbb71e;prefix;+{1|44}

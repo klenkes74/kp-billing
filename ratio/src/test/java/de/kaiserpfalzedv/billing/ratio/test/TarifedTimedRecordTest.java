@@ -20,8 +20,8 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.money.MonetaryAmount;
@@ -72,12 +72,9 @@ public class TarifedTimedRecordTest {
     private static final Duration METERED_DURATION = Duration.ofHours(24L);
     private static final OffsetDateTime METERED_START_DATE = VALUE_DATE.minus(METERED_DURATION);
 
-    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    private static final Map<String, String> PRODUCT_TAGS = new HashMap<>(4);
     static {
-        TAG_NAMES.add("cluster");
-        TAG_NAMES.add("project");
-        TAG_NAMES.add("pod");
-        TAG_NAMES.add("customer");
+        PRODUCT_TAGS.put("product", "cluster");
     }
 
     private static final HashMap<String, String> TAGS = new HashMap<>(4);
@@ -95,7 +92,7 @@ public class TarifedTimedRecordTest {
 
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setName("Cluster CPU Usage")
-            .setTags(TAG_NAMES)
+            .setTags(PRODUCT_TAGS)
             .build();
 
     private static final ProductRecordInfo PRODUCT_RECORD_INFO = new ProductRecordInfoBuilder()
@@ -104,15 +101,15 @@ public class TarifedTimedRecordTest {
             .build();
 
     private static final Tarif TARIF = new TarifBuilder()
-            .setName("DISK usage")
-            .setUnit("EUR/GB d")
-            .setRate(
+            .withName("DISK usage")
+            .withUnit("EUR/GB d")
+            .withRate(
                     new MoneyAmountBuilder()
                             .setNumber(BigDecimal.valueOf(100, 2))
                             .setCurrency("EUR")
                             .create()
             )
-            .setUnitDivisor(BigDecimal.valueOf(86400L)) // 24h * 3600s
+            .withUnitDivisor(BigDecimal.valueOf(86400L)) // 24h * 3600s
             .build();
 
 

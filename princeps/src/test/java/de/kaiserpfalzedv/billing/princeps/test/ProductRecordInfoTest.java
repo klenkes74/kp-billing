@@ -16,8 +16,8 @@
 
 package de.kaiserpfalzedv.billing.princeps.test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
@@ -46,18 +46,15 @@ public class ProductRecordInfoTest {
 
     private static final UUID PRODUCT_ID = UUID.randomUUID();
 
-    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    private static final Map<String, String> PRODUCT_TAGS = new HashMap<>(4);
     static {
-        TAG_NAMES.add("cluster");
-        TAG_NAMES.add("project");
-        TAG_NAMES.add("pod");
-        TAG_NAMES.add("customer");
+        PRODUCT_TAGS.put("product", "cluster");
     }
 
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setId(PRODUCT_ID)
             .setName("Product")
-            .setTags(TAG_NAMES)
+            .setTags(PRODUCT_TAGS)
             .build();
 
     private static final HashMap<String, String> TAGS = new HashMap<>(4);

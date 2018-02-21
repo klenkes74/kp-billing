@@ -16,8 +16,8 @@
 
 package de.kaiserpfalzedv.billing.princeps.api;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
@@ -35,17 +35,17 @@ public class ProductInfoImpl implements ProductInfo {
 
     private final UUID id;
     private final String name;
-    private final ArrayList<String> tags = new ArrayList<>();
+    private final HashMap<String, String> tags = new HashMap<>();
 
     ProductInfoImpl(
             final UUID id,
             final String name,
-            final List<String> tags
+            final Map<String,String> tags
     ) {
         this.id = id;
         this.name = name;
 
-        this.tags.addAll(tags);
+        this.tags.putAll(tags);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ProductInfoImpl implements ProductInfo {
 
     
     @Override
-    public List<String> getTags() {
+    public Map<String,String> getTags() {
         return tags;
     }
 

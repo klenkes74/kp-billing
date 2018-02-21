@@ -23,15 +23,29 @@
 
     <!-- Import the real changelog -->
     <include file="${project.build.outputDirectory}/ddl/changelog-master.xml" relativeToChangelogFile="false"/>
+    
     <changeSet id="load-test-data" author="klenkes74">
         <comment>Load test data for integration tests</comment>
         <loadData tableName="EMAIL_ADDRESSES" file="../data/EMAIL_ADDRESSES.csv" relativeToChangelogFile="true"
                   encoding="UTF-8" quotchar="&quot;" separator=";"/>
-            <loadData tableName="CUSTOMERS" file="../data/CUSTOMERS.csv" relativeToChangelogFile="true"
-                      encoding="UTF-8" quotchar="&quot;" separator=";"/>
-            <loadData tableName="CUSTOMER_TAGS" file="../data/CUSTOMER_TAGS.csv" relativeToChangelogFile="true"
-                      encoding="UTF-8" quotchar="&quot;" separator=";"/>
-        </changeSet>
-    <!--
-            -->
+
+        <loadData tableName="CUSTOMERS" file="../data/CUSTOMERS.csv" relativeToChangelogFile="true"
+                  encoding="UTF-8" quotchar="&quot;" separator=";"/>
+        <loadData tableName="CUSTOMER_TAGS" file="../data/CUSTOMER_TAGS.csv" relativeToChangelogFile="true"
+                  encoding="UTF-8" quotchar="&quot;" separator=";"/>
+
+        <loadData tableName="PRODUCTS" file="../data/PRODUCTS.csv" relativeToChangelogFile="true"
+                  encoding="UTF-8" quotchar="&quot;" separator=";"/>
+        <loadData tableName="PRODUCT_TAGS" file="../data/PRODUCT_TAGS.csv" relativeToChangelogFile="true"
+                  encoding="UTF-8" quotchar="&quot;" separator=";"/>
+
+        <loadData tableName="TARIFS" file="../data/TARIFS.csv" relativeToChangelogFile="true"
+                  encoding="UTF-8" quotchar="&quot;" separator=";"/>
+        <loadData tableName="TARIF_TAGS" file="../data/TARIF_TAGS.csv" relativeToChangelogFile="true"
+                  encoding="UTF-8" quotchar="&quot;" separator=";"/>
+    </changeSet>
+
+    <changeSet id="tag-test-data" author="klenkes74">
+        <tagDatabase tag="test-data"/>
+    </changeSet>
 </databaseChangeLog>

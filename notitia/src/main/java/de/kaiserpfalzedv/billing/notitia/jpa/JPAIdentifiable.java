@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.customer;
+package de.kaiserpfalzedv.billing.notitia.jpa;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -36,7 +36,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 @MappedSuperclass
 public class JPAIdentifiable implements Identifiable, Serializable {
-    private static final long serialVersionUID = 99413267068649993L;
+    private static final long serialVersionUID = -4580114255991893374L;
     
     @Id
     @Column(name = "ID_", columnDefinition = "BINARY(16)", nullable = false)

@@ -17,9 +17,12 @@
 package de.kaiserpfalzedv.billing.ratio.api;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.money.MonetaryAmount;
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.rated.Tarif;
 import org.apache.commons.lang3.builder.Builder;
@@ -39,6 +42,8 @@ public class TarifBuilder implements Builder<Tarif> {
     private BigDecimal unitDivisor;
     private MonetaryAmount rate;
 
+    private final HashMap<String, String> tags = new HashMap<>();
+
 
     @Override
     public Tarif build() {
@@ -46,7 +51,7 @@ public class TarifBuilder implements Builder<Tarif> {
         validate();
 
         try {
-            return new TarifImpl(id, tarifName, unit, unitDivisor, rate);
+            return new TarifImpl(id, tarifName, unit, unitDivisor, rate, tags);
         } finally {
             reset();
         }
@@ -78,40 +83,52 @@ public class TarifBuilder implements Builder<Tarif> {
         unit = null;
         unitDivisor = null;
         rate = null;
+        tags.clear();
     }
 
 
-    public TarifBuilder setId(UUID id) {
+    public TarifBuilder withId(UUID id) {
         this.id = id;
         return this;
     }
 
-    public TarifBuilder setName(String tarifName) {
+    public TarifBuilder withName(String tarifName) {
         this.tarifName = tarifName;
         return this;
     }
 
-    public TarifBuilder setUnit(String unit) {
+    public TarifBuilder withUnit(String unit) {
         this.unit = unit;
         return this;
     }
 
-    public TarifBuilder setUnitDivisor(BigDecimal unitDivisor) {
+    public TarifBuilder withUnitDivisor(BigDecimal unitDivisor) {
         this.unitDivisor = unitDivisor;
         return this;
     }
 
-    public TarifBuilder setRate(MonetaryAmount rate) {
+    public TarifBuilder withRate(MonetaryAmount rate) {
         this.rate = rate;
+        return this;
+    }
+
+    public TarifBuilder withTags(@NotNull final Map<String, String> tags) {
+        this.tags.clear();
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
+
         return this;
     }
 
     public TarifBuilder copy(final Tarif orig) {
         this.id = orig.getId();
-        this.tarifName = orig.getTarifName();
+        this.tarifName = orig.getName();
         this.unit = orig.getUnit();
         this.unitDivisor = orig.getUnitDivisor();
         this.rate = orig.getRate();
+        this.tags.putAll(orig.getTags());
 
         return this;
     }

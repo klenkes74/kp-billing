@@ -17,6 +17,7 @@
 package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +32,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 import de.kaiserpfalzedv.billing.api.guided.Customer;
+import de.kaiserpfalzedv.billing.notitia.jpa.JPAIdentifiable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -44,7 +48,7 @@ import de.kaiserpfalzedv.billing.api.guided.Customer;
 @Table(name = "CUSTOMERS")
 @Cacheable
 public class JPACustomer extends JPAIdentifiable implements Customer, Serializable {
-    private static final long serialVersionUID = 2464687007351883145L;
+    private static final long serialVersionUID = -4162491450493912448L;
 
     @Column(name = "NAME_", length=200, nullable = false)
     private String name;
@@ -64,7 +68,7 @@ public class JPACustomer extends JPAIdentifiable implements Customer, Serializab
     @MapKeyColumn(name="KEY_")
     @Column(name="VALUE_")
     @CollectionTable(name="CUSTOMER_TAGS", joinColumns=@JoinColumn(name="CUSTOMER_"))
-    Map<String, String> tags = new HashMap<>(); // maps from attribute name to value
+    private HashMap<String, String> tags = new HashMap<>(); // maps from attribute name to value
 
 
 
@@ -104,10 +108,29 @@ public class JPACustomer extends JPAIdentifiable implements Customer, Serializab
 
 
     public Map<String, String> getTags() {
-        return tags;
+        return Collections.unmodifiableMap(tags);
     }
 
-    public void setTags(final Map<String, String> tags) {
-        this.tags = tags;
+    public void setTags(@NotNull final Map<String, String> tags) {
+        if (this.tags != null) {
+            this.tags.clear();
+        } else {
+            this.tags = new HashMap<>(tags.size());
+        }
+
+        this.tags.putAll(tags);
+    }
+
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .appendSuper(super.toString())
+                .append("name", name)
+                .append("costReference", costReference)
+                .append("contactAddress", contactAddress)
+                .append("billingAddress", billingAddress)
+                .append("tags", tags)
+                .toString();
     }
 }

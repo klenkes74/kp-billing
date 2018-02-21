@@ -20,8 +20,8 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
@@ -39,8 +39,8 @@ import de.kaiserpfalzedv.billing.api.imported.RawMeteredRecord;
 import de.kaiserpfalzedv.billing.api.imported.RawTimedRecord;
 import de.kaiserpfalzedv.billing.invectio.RawBillingRecordBuilder;
 import de.kaiserpfalzedv.billing.invectio.csv.CSVImporter;
-import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import de.kaiserpfalzedv.billing.princeps.GuidingExecutorImpl;
+import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import de.kaiserpfalzedv.billing.princeps.api.ProductInfoBuilder;
 import de.kaiserpfalzedv.billing.princeps.api.ProductRecordInfoBuilder;
 import org.junit.AfterClass;
@@ -151,18 +151,15 @@ public class GuidingExecutorTest {
         }
     }
 
-    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    private static final Map<String, String> PRODUCT_TAGS = new HashMap<>(4);
     static {
-        TAG_NAMES.add("cluster");
-        TAG_NAMES.add("project");
-        TAG_NAMES.add("pod");
-        TAG_NAMES.add("customer");
+        PRODUCT_TAGS.put("product", "cluster");
     }
 
     private class TestProductGuide implements ProductGuide {
         private ProductInfo product = new ProductInfoBuilder()
                 .setName("default")
-                .setTags(TAG_NAMES)
+                .setTags(PRODUCT_TAGS)
                 .build();
 
         @Override

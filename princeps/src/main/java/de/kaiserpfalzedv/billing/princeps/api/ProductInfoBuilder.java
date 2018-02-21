@@ -16,8 +16,8 @@
 
 package de.kaiserpfalzedv.billing.princeps.api;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
@@ -37,7 +37,7 @@ public class ProductInfoBuilder implements Builder<ProductInfo> {
     private UUID id = UUID.randomUUID();
     private String name;
 
-    private final ArrayList<String> tags = new ArrayList<>();
+    private final HashMap<String, String> tags = new HashMap<>();
 
     @Override
     public ProductInfo build() {
@@ -73,11 +73,11 @@ public class ProductInfoBuilder implements Builder<ProductInfo> {
         return this;
     }
 
-    public ProductInfoBuilder setTags(@NotNull final List<String> tags) {
+    public ProductInfoBuilder setTags(@NotNull final Map<String,String> tags) {
         this.tags.clear();
 
         if (tags != null) {
-            this.tags.addAll(tags);
+            this.tags.putAll(tags);
         }
 
         return this;
@@ -89,8 +89,8 @@ public class ProductInfoBuilder implements Builder<ProductInfo> {
         return this;
     }
 
-    public ProductInfoBuilder addTag(@NotNull final String tag) {
-        this.tags.add(tag);
+    public ProductInfoBuilder addTag(@NotNull final String key, @NotNull final String value) {
+        this.tags.put(key, value);
 
         return this;
     }
@@ -106,7 +106,7 @@ public class ProductInfoBuilder implements Builder<ProductInfo> {
         this.name = orig.getName();
 
         this.tags.clear();
-        this.tags.addAll(orig.getTags());
+        this.tags.putAll(orig.getTags());
 
         return this;
     }

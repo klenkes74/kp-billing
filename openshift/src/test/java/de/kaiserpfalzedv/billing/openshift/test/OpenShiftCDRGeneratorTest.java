@@ -70,9 +70,9 @@ public class OpenShiftCDRGeneratorTest {
     private static final MonetaryAmount AMOUNT = Money.of(10, Monetary.getCurrency("EUR"));
 
     private static final Tarif TARIF = new TarifBuilder()
-            .setName("POD")
-            .setRate(RATE)
-            .setUnit("pcs")
+            .withName("POD")
+            .withRate(RATE)
+            .withUnit("pcs")
             .build();
 
     @Test

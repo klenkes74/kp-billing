@@ -20,9 +20,10 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.xml.registry.JAXRException;
 
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
+import de.kaiserpfalzedv.billing.notitia.jpa.JPAIdentifiable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -33,7 +34,7 @@ import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 @Table(name = "EMAIL_ADDRESSES")
 @Cacheable
 public class JPAEmailAddress extends JPAIdentifiable implements EmailAddress {
-    private static final long serialVersionUID = 4878836972321472151L;
+    private static final long serialVersionUID = 6910202434762768145L;
 
     @Column(name = "NAME_", length = 100, nullable = false)
     private String name;
@@ -69,5 +70,16 @@ public class JPAEmailAddress extends JPAIdentifiable implements EmailAddress {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .appendSuper(super.toString())
+                .append("name", name)
+                .append("address", address)
+                .append("type", type)
+                .toString();
     }
 }

@@ -19,8 +19,8 @@ package de.kaiserpfalzedv.billing.ratio.test;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.money.CurrencyUnit;
@@ -73,12 +73,9 @@ public class TarifedMeteredRecordTest {
     private static final OffsetDateTime IMPORT_DATE = OffsetDateTime.now(UTC);
     private static final OffsetDateTime VALUE_DATE = OffsetDateTime.now(UTC);
 
-    private static final ArrayList<String> TAG_NAMES = new ArrayList<>(4);
+    private static final Map<String, String> PRODUCT_TAGS = new HashMap<>(4);
     static {
-        TAG_NAMES.add("cluster");
-        TAG_NAMES.add("project");
-        TAG_NAMES.add("pod");
-        TAG_NAMES.add("customer");
+        PRODUCT_TAGS.put("product", "cluster");
     }
 
     private static final HashMap<String, String> TAGS = new HashMap<>(4);
@@ -96,7 +93,7 @@ public class TarifedMeteredRecordTest {
 
     private static final ProductInfo PRODUCT_INFO = new ProductInfoBuilder()
             .setName("Cluster CPU Usage")
-            .setTags(TAG_NAMES)
+            .setTags(PRODUCT_TAGS)
             .build();
 
     private static final ProductRecordInfo PRODUCT_RECORD_INFO = new ProductRecordInfoBuilder()
@@ -105,15 +102,15 @@ public class TarifedMeteredRecordTest {
             .build();
 
     private static final Tarif TARIF = new TarifBuilder()
-            .setName("CPU usage")
-            .setUnit("EUR/mCores h")
-            .setRate(
+            .withName("CPU usage")
+            .withUnit("EUR/mCores h")
+            .withRate(
                     new MoneyAmountBuilder()
                             .setNumber(BigDecimal.TEN)
                             .setCurrency(EUR)
                             .create()
             )
-            .setUnitDivisor(BigDecimal.valueOf(1000L))
+            .withUnitDivisor(BigDecimal.valueOf(1000L))
             .build();
 
     private static final MonetaryAmount AMOUNT = new MoneyAmountBuilder()
