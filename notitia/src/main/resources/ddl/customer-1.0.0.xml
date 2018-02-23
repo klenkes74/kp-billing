@@ -59,7 +59,7 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
                 <constraints nullable="false"/>
             </column>
 
-            <column name="COST_REFERENCE_" type="VARCHAR(100)">
+            <column name="COST_CENTER_" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
 
@@ -141,5 +141,192 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
         <rollback>
             <dropTable tableName="EMAIL_ADDRESSES"/>
         </rollback>
+    </changeSet>
+
+    <changeSet id="customer-events-initial" author="klenkes74">
+        <comment>Customer change events.</comment>
+
+        <createTable tableName="CUSTOMER_EVENTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_EVENTS_PK" unique="true" nullable="false"/>
+            </column>
+
+            <column name="DTYPE_" type="VARCHAR(31)">
+                <constraints unique="false" nullable="false"/>
+            </column>
+
+            <column name="OBJECT_ID_" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CREATED_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="EXECUTED_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="CUSTOMER_CREATE_EVENTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+            </column>
+
+            <column name="NAME_" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="COST_CENTER_" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="BILLING_ID_" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="BILLING_ADDRESS_" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="BILLING_NAME_" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="BILLING_TYPE_" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CONTACT_ID_" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CONTACT_ADDRESS_" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CONTACT_NAME_" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CONTACT_TYPE_" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="CUSTOMER_CREATE_TAGS">
+            <column name="CUSTOMER_" type="BINARY(16)">
+                <constraints nullable="false"
+                             references="CUSTOMERS(ID_)"
+                             foreignKeyName="FK_CUSTOMER_TAGS_CUSTOMERS"
+                             primaryKey="true"
+                             primaryKeyName="PK_CUSTOMER_TAGS"
+                />
+            </column>
+
+            <column name="KEY_" type="VARCHAR(255)">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="PK_CUSTOMER_TAGS"
+                />
+            </column>
+
+            <column name="VALUE_" type="VARCHAR(255)"/>
+        </createTable>
+
+        <createTable tableName="CUSTOMER_DELETE_EVENTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="CUSTOMER_UPDATE_COST_CENTER_EVENTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+            </column>
+
+            <column name="COST_CENTER_" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="CUSTOMER_UPDATE_NAME_EVENTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+            </column>
+
+            <column name="NAME_" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="CUSTOMER_UPDATE_TAGS_EVENTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="CUSTOMER_UPDATE_TAGS">
+            <column name="CUSTOMER_" type="BINARY(16)">
+                <constraints nullable="false"
+                             references="CUSTOMERS_UPDATE_TAGS_EVENTS(ID_)"
+                             foreignKeyName="FK_CUSTOMER_UPDATE_TAGS_CUSTOMERS"
+                             primaryKey="true"
+                             primaryKeyName="PK_CUSTOMER_UPDATE_TAGS"
+                />
+            </column>
+
+            <column name="KEY_" type="VARCHAR(255)">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="PK_CUSTOMER_UPDATE_TAGS"
+                />
+            </column>
+
+            <column name="VALUE_" type="VARCHAR(255)"/>
+        </createTable>
+
+
+        <createIndex tableName="CUSTOMER_UPDATE_TAGS" indexName="IDX_CUSTOMER_UPDATE_TAGS_CUSTOMER" unique="false">
+            <column name="CUSTOMER_"/>
+        </createIndex>
+
+        <createIndex tableName="CUSTOMER_EVENTS" indexName="CUSTOMER_EVENTS_DTYPE_IDX">
+            <column name="DTYPE_" />
+        </createIndex>
+        <rollback>
+            <dropIndex tableName="CUSTOMER_EVENTS" indexName="CUSTOMER_EVENTS_DTYPE_IDX"/>
+        </rollback>
+        <rollback>
+            <dropIndex tableName="CUSTOMER_UPDATE_TAGS" indexName="IDX_CUSTOMER_UPDATE_TAGS_CUSTOMER"/>
+        </rollback>
+
+        <rollback>
+            <dropTable tableName="CUSTOMER_UPDATE_TAGS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_UPDATE_TAGS_EVENTS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_UPDATE_NAME_EVENTS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_UPDATE_COST_CENTER_EVENTS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_DELETE_EVENTS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_CREATE_TAGS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_CREATE_EVENTS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_EVENTS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_EVENTS"/>
+        </rollback>
+
     </changeSet>
 </databaseChangeLog>

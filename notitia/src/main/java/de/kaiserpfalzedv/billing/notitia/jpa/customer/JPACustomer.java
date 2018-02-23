@@ -71,6 +71,15 @@ public class JPACustomer extends JPAIdentifiable implements Customer, Serializab
     private Map<String, String> tags = new HashMap<>(); // maps from attribute name to value
 
 
+    public JPACustomer() {}
+
+    public JPACustomer(@NotNull final Customer orig) {
+        setId(orig.getId());
+        setName(orig.getName());
+        setCostReference(orig.getCostCenter());
+        setContactAddress(new JPAEmailAddress(orig.getContactAddress()));
+        setBillingAddress(new JPAEmailAddress(orig.getBillingAddress()));
+    }
 
     public String getName() {
         return name;
@@ -81,7 +90,7 @@ public class JPACustomer extends JPAIdentifiable implements Customer, Serializab
     }
 
 
-    public String getCostReference() {
+    public String getCostCenter() {
         return costReference;
     }
 

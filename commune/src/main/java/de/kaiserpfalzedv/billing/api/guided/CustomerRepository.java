@@ -17,6 +17,7 @@
 package de.kaiserpfalzedv.billing.api.guided;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -24,5 +25,6 @@ import java.util.Map;
  * @since 2018-02-17
  */
 public interface CustomerRepository {
+    Customer retrieve(UUID id) throws NoCustomerFoundException;
     Customer retrieve(Map<String, String> tags) throws NoCustomerFoundException;
 }

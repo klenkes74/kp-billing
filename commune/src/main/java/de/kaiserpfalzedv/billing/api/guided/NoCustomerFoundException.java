@@ -18,6 +18,7 @@ package de.kaiserpfalzedv.billing.api.guided;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.BillingBusinessException;
 
@@ -30,6 +31,18 @@ public class NoCustomerFoundException extends BillingBusinessException {
     private static final long serialVersionUID = -6624501720871047544L;
 
     private final HashMap<String, String> tags = new HashMap<>();
+
+    public NoCustomerFoundException(final UUID id) {
+        super("No customer found with id: " + id.toString());
+
+        this.tags.put("id", id.toString());
+    }
+
+    public NoCustomerFoundException(final UUID id, final Throwable cause) {
+        super("No customer found with id: " + id.toString(), cause);
+
+        this.tags.put("id", id.toString());
+    }
 
     public NoCustomerFoundException(final Map<String, String> tags) {
         super("No customer found for this record: " + tags);

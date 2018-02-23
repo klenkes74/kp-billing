@@ -19,8 +19,6 @@ package de.kaiserpfalzedv.billing.api.common.impl;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.xml.registry.JAXRException;
-
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -57,7 +55,7 @@ public class EmailAddressImpl implements EmailAddress {
     }
 
     @Override
-    public void setAddress(String address) throws JAXRException {
+    public void setAddress(String address) {
         throw new UnsupportedOperationException("Sorry, this object is inmutable.");
     }
 
@@ -67,7 +65,7 @@ public class EmailAddressImpl implements EmailAddress {
     }
 
     @Override
-    public void setType(String type) throws JAXRException {
+    public void setType(String type) {
         throw new UnsupportedOperationException("Sorry, this object is inmutable.");
     }
 

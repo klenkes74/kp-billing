@@ -18,10 +18,12 @@ package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.cache.annotation.CacheResult;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.CustomerRepository;
@@ -39,6 +41,24 @@ public class JPACustomerRepository implements CustomerRepository {
 
     @PersistenceContext(name = "notitia")
     private EntityManager em;
+
+    @CacheResult
+    @Override
+    public Customer retrieve(final UUID id) throws NoCustomerFoundException {
+        Customer result;
+        try {
+            result = em.find(JPACustomer.class, id);
+        } catch (PersistenceException e) {
+            LOG.warn("Could not load customer data with id '{}': {}", id, e.getMessage());
+            throw new NoCustomerFoundException(id, e);
+        }
+
+        if (result == null) {
+            throw new NoCustomerFoundException(id);
+        }
+
+        return result;
+    }
 
     @CacheResult
     @Override

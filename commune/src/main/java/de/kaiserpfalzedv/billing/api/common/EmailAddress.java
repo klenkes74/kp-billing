@@ -26,6 +26,10 @@ import java.util.UUID;
  */
 public interface EmailAddress extends javax.xml.registry.infomodel.EmailAddress, Serializable {
     UUID getId();
-
     String getName();
+    String getAddress();
+    void setAddress(String address);
+    String getType();
+    void setType(String type);
+
 }

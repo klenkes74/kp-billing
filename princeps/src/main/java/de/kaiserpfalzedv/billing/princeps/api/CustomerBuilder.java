@@ -16,7 +16,11 @@
 
 package de.kaiserpfalzedv.billing.princeps.api;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 import de.kaiserpfalzedv.billing.api.common.impl.NullEmailAddress;
@@ -37,6 +41,8 @@ public class CustomerBuilder implements Builder<Customer> {
     private EmailAddress contactAddress;
     private EmailAddress billingAddress;
 
+    private final HashMap<String, String> tags = new HashMap<>();
+
 
     @Override
     public Customer build() {
@@ -44,7 +50,7 @@ public class CustomerBuilder implements Builder<Customer> {
         validate();
 
         try {
-            return new CustomerImpl(id, name, costReference, contactAddress, billingAddress);
+            return new CustomerImpl(id, name, costReference, contactAddress, billingAddress, tags);
         } finally {
             reset();
         }
@@ -104,12 +110,23 @@ public class CustomerBuilder implements Builder<Customer> {
         return this;
     }
 
+    public CustomerBuilder setTags(@NotNull final Map<String, String> tags) {
+        this.tags.clear();
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
+
+        return this;
+    }
+
     public CustomerBuilder copy(final Customer orig) {
         this.id = orig.getId();
         this.name = orig.getName();
-        this.costReference = orig.getCostReference();
+        this.costReference = orig.getCostCenter();
         this.contactAddress = orig.getContactAddress();
         this.billingAddress = orig.getBillingAddress();
+        this.tags.putAll(orig.getTags());
 
         return this;
     }

@@ -28,6 +28,9 @@ import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.common.Identifiable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -36,8 +39,19 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 @MappedSuperclass
 public class JPAIdentifiable implements Identifiable, Serializable {
-    private static final long serialVersionUID = -4580114255991893374L;
-    
+    private static final long serialVersionUID = 5478532100248757244L;
+
+    /**
+     * The business logger for business relevant events
+     */
+    protected static final Logger BUSINESS = LoggerFactory.getLogger("business");
+
+    /**
+     * The operations logger for operation relevant events
+     */
+    protected static final Logger OPERATIONS = LoggerFactory.getLogger("operations");
+
+
     @Id
     @Column(name = "ID_", columnDefinition = "BINARY(16)", nullable = false)
     private UUID id = UUID.randomUUID();
@@ -45,6 +59,23 @@ public class JPAIdentifiable implements Identifiable, Serializable {
     @Version
     @Column(name = "VERSION_", nullable = false)
     private Long version = 0L;
+
+
+    protected JPAIdentifiable() {}
+
+    protected  JPAIdentifiable(@NotNull final UUID id) {
+        this.id = id;
+    }
+
+    protected JPAIdentifiable(
+            @NotNull final UUID id,
+            @NotNull final Long version
+    ) {
+        this.id = id;
+        this.version = version;
+    }
+
+    
 
     @Override
     public UUID getId() {
@@ -81,8 +112,9 @@ public class JPAIdentifiable implements Identifiable, Serializable {
     
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
+                .append("version", version)
                 .toString();
     }
 }

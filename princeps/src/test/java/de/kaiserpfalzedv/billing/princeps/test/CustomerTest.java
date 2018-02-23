@@ -96,7 +96,7 @@ public class CustomerTest {
 
         assertNotNull("The id should default to a random UUID", result.getId());
         assertEquals("Name does not match", NAME, result.getName());
-        assertEquals("CostReference does not match", COST_REFERENCE, result.getCostReference());
+        assertEquals("CostReference does not match", COST_REFERENCE, result.getCostCenter());
         assertEquals("Contact Address does not match", NullEmailAddress.INSTANCE, result.getContactAddress());
         assertEquals("Billing Address does not match", NullEmailAddress.INSTANCE, result.getBillingAddress());
     }
@@ -116,7 +116,7 @@ public class CustomerTest {
 
         assertEquals("ID does not match", ID, result.getId());
         assertEquals("Name does not match", NAME, result.getName());
-        assertEquals("CostReference does not match", COST_REFERENCE, result.getCostReference());
+        assertEquals("CostReference does not match", COST_REFERENCE, result.getCostCenter());
         assertEquals("Contact Address does not match", CONTACT_ADDRESS, result.getContactAddress());
         assertEquals("Billing Address does not match", BILLING_ADDRESS, result.getBillingAddress());
     }

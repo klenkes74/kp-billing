@@ -111,7 +111,7 @@ public class InvoiceImpl extends IdentifiableImpl implements Invoice {
         return new ToStringBuilder(this)
                 .appendSuper(super.toString())
                 .append("customer", customer.getName())
-                .append("cost reference", customer.getCostReference())
+                .append("cost reference", customer.getCostCenter())
                 .append("invoiceDate", invoiceDate)
                 .append("invoiceNumber", invoiceNumber)
                 .append("amount", amount)

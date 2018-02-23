@@ -37,6 +37,9 @@
         <module>libellum</module>
         <module>quod</module>
         <module>notitia</module>
+        <module>notitia-war</module>
+        <module>notitia-ejb</module>
+        <module>notitia-ear</module>
         <module>openshift</module>
     </modules>
 

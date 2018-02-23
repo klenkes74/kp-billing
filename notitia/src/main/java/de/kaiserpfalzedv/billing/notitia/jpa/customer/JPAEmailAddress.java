@@ -20,6 +20,7 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 import de.kaiserpfalzedv.billing.notitia.jpa.JPAIdentifiable;
@@ -44,6 +45,16 @@ public class JPAEmailAddress extends JPAIdentifiable implements EmailAddress {
 
     @Column(name = "TYPE_", length = 20, nullable = false)
     private String type;
+
+
+    public JPAEmailAddress() {}
+
+    public JPAEmailAddress(@NotNull final EmailAddress orig) {
+        setId(orig.getId());
+        setName(orig.getName());
+        setAddress(orig.getAddress());
+        setType(orig.getType());
+    }
 
 
     public String getName() {

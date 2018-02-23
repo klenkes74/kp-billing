@@ -17,6 +17,7 @@
 package de.kaiserpfalzedv.billing.api.guided;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.UUID;
 
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
@@ -33,9 +34,11 @@ public interface Customer extends Identifiable, Serializable {
 
     String getName();
 
-    String getCostReference();
+    String getCostCenter();
 
     EmailAddress getContactAddress();
 
     EmailAddress getBillingAddress();
+
+    Map<String, String> getTags();
 }

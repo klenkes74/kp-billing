@@ -16,6 +16,8 @@
 
 package de.kaiserpfalzedv.billing.princeps.api;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -35,23 +37,29 @@ public class CustomerImpl implements Customer {
 
     private final UUID id;
     private final String name;
-    private final String costReference;
+    private final String costCenter;
     private final EmailAddress contactAddress;
     private final EmailAddress billingAddress;
+    private final HashMap<String, String> tags = new HashMap<>();
 
 
     CustomerImpl(
             final UUID id,
             final String name,
-            final String costReference,
+            final String costCenter,
             final EmailAddress contactAddress,
-            final EmailAddress billingAddress
+            final EmailAddress billingAddress,
+            final Map<String, String> tags
     ) {
         this.id = id;
         this.name = name;
-        this.costReference = costReference;
+        this.costCenter = costCenter;
         this.contactAddress = contactAddress;
         this.billingAddress = billingAddress;
+
+        if (tags != null) {
+            this.tags.putAll(tags);
+        }
     }
 
     @Override
@@ -73,9 +81,10 @@ public class CustomerImpl implements Customer {
                 .append(System.identityHashCode(this))
                 .append("id", id)
                 .append("name", name)
-                .append("costReference", costReference)
+                .append("costCenter", costCenter)
                 .append("contactAddress", contactAddress)
                 .append("billingAddress", billingAddress)
+                .append("tags", tags)
                 .toString();
     }
 
@@ -90,8 +99,8 @@ public class CustomerImpl implements Customer {
     }
 
     @Override
-    public String getCostReference() {
-        return costReference;
+    public String getCostCenter() {
+        return costCenter;
     }
 
     @Override
@@ -102,5 +111,10 @@ public class CustomerImpl implements Customer {
     @Override
     public EmailAddress getBillingAddress() {
         return billingAddress;
+    }
+
+    @Override
+    public HashMap<String, String> getTags() {
+        return tags;
     }
 }
