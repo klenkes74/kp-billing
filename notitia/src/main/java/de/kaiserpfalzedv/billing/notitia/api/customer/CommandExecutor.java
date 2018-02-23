@@ -17,8 +17,8 @@
 package de.kaiserpfalzedv.billing.notitia.api.customer;
 
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.DELETE;
 
+import de.kaiserpfalzedv.billing.notitia.api.commands.BaseCommand;
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
 
 /**
@@ -26,11 +26,6 @@ import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
  * @version 1.0.0
  * @since 2018-02-22
  */
-public interface CustomerCommandExecutor {
-    void execute(@NotNull final CreateCustomerCommand command) throws CommandFailedException;
-    void execute(@NotNull final UpdateCustomerNameCommand command) throws CommandFailedException;
-    void execute(@NotNull final UpdateCustomerCostCenterCommand command) throws CommandFailedException;
-    void execute(@NotNull final UpdateCustomerContactEmailCommand command) throws CommandFailedException;
-    void execute(@NotNull final UpdateCustomerBillingEmailCommand command) throws CommandFailedException;
-    void execute(@NotNull final DELETE command) throws CommandFailedException;
+public interface CommandExecutor<T extends BaseCommand> {
+    void execute(@NotNull final T command) throws CommandFailedException;
 }

@@ -37,7 +37,7 @@ import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmail
 @Entity
 @DiscriminatorValue("CREATE")
 public class UpdateCustomerContactEmailEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = 1797619660199771982L;
+    private static final long serialVersionUID = -656407805525541659L;
 
     @Column(name = "ADDRESS_ID_")
     private UUID addressId;

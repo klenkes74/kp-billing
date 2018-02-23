@@ -17,6 +17,7 @@
 package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -33,11 +34,15 @@ import de.kaiserpfalzedv.billing.notitia.api.customer.DeleteCustomerCommand;
 @Entity
 @DiscriminatorValue("DELETE")
 public class DeleteCustomerEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = 4636620799533162489L;
+    private static final long serialVersionUID = 2888395068339022430L;
 
     @SuppressWarnings("deprecation")
     @Deprecated
     public DeleteCustomerEvent() {}
+
+    public DeleteCustomerEvent(@NotNull final DeleteCustomerCommand command) {
+        this(command, OffsetDateTime.now(ZoneOffset.UTC));
+    }
 
     public DeleteCustomerEvent(@NotNull final DeleteCustomerCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);

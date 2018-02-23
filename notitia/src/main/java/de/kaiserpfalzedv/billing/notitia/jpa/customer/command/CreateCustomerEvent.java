@@ -17,6 +17,7 @@
 package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -80,6 +81,10 @@ public class CreateCustomerEvent extends BaseCustomerEvent {
     @SuppressWarnings("deprecation")
     @Deprecated
     public CreateCustomerEvent() {}
+
+    public CreateCustomerEvent(@NotNull final CreateCustomerCommand command) {
+        this(command, OffsetDateTime.now(ZoneOffset.UTC));
+    }
 
     public CreateCustomerEvent(@NotNull final CreateCustomerCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);

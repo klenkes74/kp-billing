@@ -236,13 +236,13 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
 
         <createTable tableName="CUSTOMER_DELETE_EVENTS">
             <column name="ID_" type="BINARY(16)">
-                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_DELETE_EVENTS_PK" unique="true" nullable="false"/>
             </column>
         </createTable>
 
         <createTable tableName="CUSTOMER_UPDATE_COST_CENTER_EVENTS">
             <column name="ID_" type="BINARY(16)">
-                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_UPDATE_COST_CENTER_EVENTS_PK" unique="true" nullable="false"/>
             </column>
 
             <column name="COST_CENTER_" type="VARCHAR(100)">
@@ -252,7 +252,7 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
 
         <createTable tableName="CUSTOMER_UPDATE_NAME_EVENTS">
             <column name="ID_" type="BINARY(16)">
-                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_UPDATE_NAME_EVENTS_PK" unique="true" nullable="false"/>
             </column>
 
             <column name="NAME_" type="VARCHAR(200)">
@@ -262,7 +262,7 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
 
         <createTable tableName="CUSTOMER_UPDATE_TAGS_EVENTS">
             <column name="ID_" type="BINARY(16)">
-                <constraints primaryKey="true" primaryKeyName="CUSTOMER_CREATE_EVENTS_PK" unique="true" nullable="false"/>
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_UPDATE_TAGS_EVENTS_PK" unique="true" nullable="false"/>
             </column>
         </createTable>
         <createTable tableName="CUSTOMER_UPDATE_TAGS">
@@ -285,6 +285,47 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
             <column name="VALUE_" type="VARCHAR(255)"/>
         </createTable>
 
+        <createTable tableName="CUSTOMER_UPDATE_BILLING_EMAIL_EVENTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_UPDATE_BILLING_EVENTS_PK" unique="true" nullable="false"/>
+            </column>
+
+            <column name="ADDRESS_ID_" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ADRESS_NAME_" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ADDRESS_ADDRESS_" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ADDRESS_TYPE_" type="VARCHAR(20)"/>
+        </createTable>
+
+        <createTable tableName="CUSTOMER_UPDATE_CONTACT_EMAIL_EVENTS">
+            <column name="ID_" type="BINARY(16)">
+                <constraints primaryKey="true" primaryKeyName="CUSTOMER_UPDATE_CONTACT_EVENTS_PK" unique="true" nullable="false"/>
+            </column>
+
+            <column name="ADDRESS_ID_" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ADRESS_NAME_" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ADDRESS_ADDRESS_" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ADDRESS_TYPE_" type="VARCHAR(20)"/>
+        </createTable>
+
+
 
         <createIndex tableName="CUSTOMER_UPDATE_TAGS" indexName="IDX_CUSTOMER_UPDATE_TAGS_CUSTOMER" unique="false">
             <column name="CUSTOMER_"/>
@@ -300,6 +341,12 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
             <dropIndex tableName="CUSTOMER_UPDATE_TAGS" indexName="IDX_CUSTOMER_UPDATE_TAGS_CUSTOMER"/>
         </rollback>
 
+        <rollback>
+            <dropTable tableName="CUSTOMER_UPDATE_CONTACT_EMAIL_EVENTS"/>
+        </rollback>
+        <rollback>
+            <dropTable tableName="CUSTOMER_UPDATE_BILLING_EMAIL_EVENTS"/>
+        </rollback>
         <rollback>
             <dropTable tableName="CUSTOMER_UPDATE_TAGS"/>
         </rollback>
