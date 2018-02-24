@@ -17,6 +17,7 @@
 package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,8 @@ import javax.validation.constraints.NotNull;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerTagsCommand;
+
+import static java.time.ZoneOffset.UTC;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -55,6 +58,10 @@ public class UpdateCustomerTagsEvent extends BaseCustomerEvent {
     @SuppressWarnings("deprecation")
     @Deprecated
     public UpdateCustomerTagsEvent() {}
+
+    public UpdateCustomerTagsEvent(@NotNull final UpdateCustomerTagsCommand command) {
+        this(command, OffsetDateTime.now(UTC));
+    }
 
     public UpdateCustomerTagsEvent(@NotNull final UpdateCustomerTagsCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);

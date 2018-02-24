@@ -29,6 +29,8 @@ import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
 import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
 
+import static java.time.ZoneOffset.UTC;
+
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
@@ -51,6 +53,10 @@ public class UpdateCustomerBillingEmailEvent extends BaseCustomerEvent {
     @SuppressWarnings("deprecation")
     @Deprecated
     public UpdateCustomerBillingEmailEvent() {}
+
+    public UpdateCustomerBillingEmailEvent(@NotNull final UpdateCustomerBillingEmailCommand command) {
+        this(command, OffsetDateTime.now(UTC));
+    }
 
     public UpdateCustomerBillingEmailEvent(@NotNull final UpdateCustomerBillingEmailCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);

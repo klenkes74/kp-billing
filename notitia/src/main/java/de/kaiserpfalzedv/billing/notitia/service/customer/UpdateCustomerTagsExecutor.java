@@ -20,9 +20,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
-import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerTagsCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.CreateCustomerEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerTagsEvent;
 import de.kaiserpfalzedv.billing.notitia.service.BaseExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,18 +33,27 @@ import org.slf4j.LoggerFactory;
  * @since 2018-02-23
  */
 @RequestScoped
-public class CreateCustomerExecutor extends BaseExecutor<CreateCustomerCommand> {
-    private static final Logger LOG = LoggerFactory.getLogger(CreateCustomerExecutor.class);
+public class UpdateCustomerTagsExecutor extends BaseExecutor<UpdateCustomerTagsCommand> {
+    private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerTagsExecutor.class);
 
     @Override
-    public void execute(@Observes final CreateCustomerCommand command) throws CommandFailedException {
-        JPACustomer jpa = new JPACustomer(command.getData());
-        CreateCustomerEvent event = new CreateCustomerEvent(command);
+    public void execute(@Observes final UpdateCustomerTagsCommand command) throws CommandFailedException {
 
-        em.persist(jpa);
-        em.persist(event);
+        JPACustomer customer = em.find(JPACustomer.class, command.getObjectId());
+        LOG.info("Loaded customer for change: {}", customer);
 
-        BUSINESS.info("Created customer: {}", command);
-        OPERATIONS.info("Created customer: {}", command);
+        if (customer != null) {
+            customer.setTags(command.getTags());
+            em.merge(customer);
+
+            UpdateCustomerTagsEvent event = new UpdateCustomerTagsEvent(command);
+            em.persist(event);
+
+            BUSINESS.info("Update customer: {}", command);
+            OPERATIONS.info("Updated customer: {}", command);
+        } else {
+            BUSINESS.warn("Tried to update customer, but customer not found for command: {}", command);
+            OPERATIONS.info("Could not load customer for change: {}", command);
+        }
     }
 }

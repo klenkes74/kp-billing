@@ -20,9 +20,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
-import de.kaiserpfalzedv.billing.notitia.api.customer.DeleteCustomerCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.DeleteCustomerEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPAEmailAddress;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerBillingEmailEvent;
 import de.kaiserpfalzedv.billing.notitia.service.BaseExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,26 +34,27 @@ import org.slf4j.LoggerFactory;
  * @since 2018-02-23
  */
 @RequestScoped
-public class DeleteCustomerExecutor extends BaseExecutor<DeleteCustomerCommand> {
-    private static final Logger LOG = LoggerFactory.getLogger(DeleteCustomerExecutor.class);
+public class UpdateCustomerBillingEmailExecutor extends BaseExecutor<UpdateCustomerBillingEmailCommand> {
+    private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerBillingEmailExecutor.class);
 
     @Override
-    public void execute(@Observes final DeleteCustomerCommand command) throws CommandFailedException {
+    public void execute(@Observes final UpdateCustomerBillingEmailCommand command) throws CommandFailedException {
 
         JPACustomer customer = em.find(JPACustomer.class, command.getObjectId());
+        LOG.info("Loaded customer for change: {}", customer);
 
         if (customer != null) {
-            em.remove(customer);
+            customer.setBillingAddress(new JPAEmailAddress((command.getEmailAddress())));
+            em.merge(customer);
 
-            DeleteCustomerEvent event = new DeleteCustomerEvent(command);
+            UpdateCustomerBillingEmailEvent event = new UpdateCustomerBillingEmailEvent(command);
             em.persist(event);
 
-            BUSINESS.info("Deleted customer: {}", command);
-            OPERATIONS.info("Deleted customer: {}", command);
+            BUSINESS.info("Update customer: {}", command);
+            OPERATIONS.info("Updated customer: {}", command);
         } else {
-            BUSINESS.info("Deleted already absent customer: {}", command);
-            OPERATIONS.warn("Deleted non existing customer: {}", command);
+            BUSINESS.warn("Tried to update customer, but customer not found for command: {}", command);
+            OPERATIONS.info("Could not load customer for change: {}", command);
         }
-
     }
 }

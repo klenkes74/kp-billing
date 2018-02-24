@@ -26,6 +26,8 @@ import javax.validation.constraints.NotNull;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerCostCenterCommand;
 
+import static java.time.ZoneOffset.UTC;
+
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
@@ -42,6 +44,10 @@ public class UpdateCustomerCostCenterEvent extends BaseCustomerEvent {
     @SuppressWarnings("deprecation")
     @Deprecated
     public UpdateCustomerCostCenterEvent() {}
+
+    public UpdateCustomerCostCenterEvent(@NotNull final UpdateCustomerCostCenterCommand command) {
+        this(command, OffsetDateTime.now(UTC));
+    }
 
     public UpdateCustomerCostCenterEvent(@NotNull final UpdateCustomerCostCenterCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);
