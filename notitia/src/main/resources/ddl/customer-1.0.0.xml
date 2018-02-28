@@ -106,8 +106,8 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
         <createIndex tableName="CUSTOMERS" indexName="IDX_CUSTOMERS_NAME" unique="false">
             <column name="NAME_"/>
         </createIndex>
-        <createIndex tableName="CUSTOMERS" indexName="IDX_CUSTOMERS_COST_REFERENCE" unique="false">
-            <column name="COST_REFERENCE_"/>
+        <createIndex tableName="CUSTOMERS" indexName="IDX_CUSTOMERS_COST_CENTER" unique="false">
+            <column name="COST_CENTER_"/>
         </createIndex>
         <createIndex tableName="CUSTOMERS" indexName="IDX_CUSTOMERS_BILLING_ADDRESS" unique="false">
             <column name="BILLING_ADDRESS_"/>
@@ -123,7 +123,7 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
             <dropIndex indexName="CUSTOMERS_NAME" tableName="CUSTOMERS"/>
         </rollback>
         <rollback>
-            <dropIndex indexName="CUSTOMERS_COST_REFERENCE" tableName="CUSTOMERS"/>
+            <dropIndex indexName="CUSTOMERS_COST_CENTER" tableName="CUSTOMERS"/>
         </rollback>
         <rollback>
             <dropIndex indexName="CUSTOMERS_BILLING_ADDRESS" tableName="CUSTOMERS"/>
@@ -218,16 +218,16 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
             <column name="CUSTOMER_" type="BINARY(16)">
                 <constraints nullable="false"
                              references="CUSTOMERS(ID_)"
-                             foreignKeyName="FK_CUSTOMER_TAGS_CUSTOMERS"
+                             foreignKeyName="FK_CUSTOMER_CREATE_TAGS_CUSTOMER"
                              primaryKey="true"
-                             primaryKeyName="PK_CUSTOMER_TAGS"
+                             primaryKeyName="PK_CUSTOMER_CREATE_TAGS"
                 />
             </column>
 
             <column name="KEY_" type="VARCHAR(255)">
                 <constraints nullable="false"
                              primaryKey="true"
-                             primaryKeyName="PK_CUSTOMER_TAGS"
+                             primaryKeyName="PK_CUSTOMER_CREATE_TAGS"
                 />
             </column>
 
@@ -268,7 +268,7 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
         <createTable tableName="CUSTOMER_UPDATE_TAGS">
             <column name="CUSTOMER_" type="BINARY(16)">
                 <constraints nullable="false"
-                             references="CUSTOMERS_UPDATE_TAGS_EVENTS(ID_)"
+                             references="CUSTOMER_UPDATE_TAGS_EVENTS(ID_)"
                              foreignKeyName="FK_CUSTOMER_UPDATE_TAGS_CUSTOMERS"
                              primaryKey="true"
                              primaryKeyName="PK_CUSTOMER_UPDATE_TAGS"

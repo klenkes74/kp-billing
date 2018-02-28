@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.cache.annotation.CacheResult;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
@@ -36,6 +37,7 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2018-02-17
  */
+@RequestScoped
 public class JPACustomerRepository implements CustomerRepository {
     private static final Logger LOG = LoggerFactory.getLogger(JPACustomerRepository.class);
 

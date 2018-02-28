@@ -23,7 +23,6 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
-import de.kaiserpfalzedv.billing.notitia.api.commands.AbstractBaseCommandImpl;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -32,7 +31,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-22
  */
-public class UpdateCustomerTagsCommand extends AbstractBaseCommandImpl {
+public class UpdateCustomerTagsCommand extends AbstractUpdateCustomerCommand {
     private static final long serialVersionUID = 4629991492647933472L;
 
 

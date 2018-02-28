@@ -38,12 +38,13 @@
             <version>0.0.1</version>
             <type>ejb</type>
         </dependency>
-
+<!--
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>notitia-war</artifactId>
             <version>0.0.1</version>
             <type>war</type>
         </dependency>
+-->
     </dependencies>
 </project>

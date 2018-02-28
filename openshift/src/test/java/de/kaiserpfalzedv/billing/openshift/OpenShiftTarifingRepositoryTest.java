@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.openshift.test;
+package de.kaiserpfalzedv.billing.openshift;
 
 import java.util.UUID;
 
@@ -25,7 +25,6 @@ import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
 import de.kaiserpfalzedv.billing.api.imported.ImportingException;
 import de.kaiserpfalzedv.billing.api.rated.NoTarifFoundException;
 import de.kaiserpfalzedv.billing.api.rated.Tarif;
-import de.kaiserpfalzedv.billing.openshift.OpenShiftTarifingRepository;
 import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import de.kaiserpfalzedv.billing.princeps.api.ProductInfoBuilder;
 import de.kaiserpfalzedv.billing.princeps.api.ProductRecordInfoBuilder;

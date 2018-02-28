@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.test;
+package de.kaiserpfalzedv.billing.notitia.jpa;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

@@ -53,7 +53,7 @@ public class JPACustomer extends JPAIdentifiable implements Customer, Serializab
     @Column(name = "NAME_", length=200, nullable = false)
     private String name;
 
-    @Column(name = "COST_REFERENCE_", length=100, nullable = false)
+    @Column(name = "COST_CENTER_", length=100, nullable = false)
     private String costReference;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)

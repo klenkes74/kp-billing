@@ -56,7 +56,7 @@ public class BaseCustomerEvent extends BaseEvent<CustomerTO> {
     }
 
     @Override
-    public CustomerTO update(CustomerTO data) {
+    public CustomerTO update(@NotNull CustomerTO data) {
         throw new UnsupportedOperationException("Sorry, this operation is not allowed for base customer events!");
     }
 }

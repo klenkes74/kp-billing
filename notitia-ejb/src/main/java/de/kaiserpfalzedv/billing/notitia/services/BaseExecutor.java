@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.service;
+package de.kaiserpfalzedv.billing.notitia.services;
 
 import java.io.Serializable;
 

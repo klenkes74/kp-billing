@@ -20,14 +20,14 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
-import de.kaiserpfalzedv.billing.api.BillingBusinessException;
+import de.kaiserpfalzedv.billing.api.BillingRuntimeException;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-22
  */
-public class CommandFailedException extends BillingBusinessException {
+public class CommandFailedException extends BillingRuntimeException {
     private static final long serialVersionUID = -6984696603211276454L;
 
     private UUID commandId;

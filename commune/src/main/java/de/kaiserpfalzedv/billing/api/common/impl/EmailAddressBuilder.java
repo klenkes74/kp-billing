@@ -18,8 +18,6 @@ package de.kaiserpfalzedv.billing.api.common.impl;
 
 import java.util.UUID;
 
-import javax.xml.registry.JAXRException;
-
 import de.kaiserpfalzedv.billing.api.common.EmailAddress;
 import org.apache.commons.lang3.builder.Builder;
 
@@ -96,14 +94,10 @@ public class EmailAddressBuilder implements Builder<EmailAddress> {
     }
 
     public EmailAddressBuilder copy(final EmailAddress orig) {
-        try {
-            this.id = orig.getId();
-            this.address = orig.getAddress();
-            this.name = orig.getName();
-            this.type = orig.getType();
-        } catch (JAXRException e) {
-            throw new IllegalStateException(e);
-        }
+        this.id = orig.getId();
+        this.address = orig.getAddress();
+        this.name = orig.getName();
+        this.type = orig.getType();
 
         return this;
     }

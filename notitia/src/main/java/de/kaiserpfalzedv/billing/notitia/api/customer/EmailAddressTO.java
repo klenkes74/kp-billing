@@ -114,9 +114,7 @@ public class EmailAddressTO implements EmailAddress {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
-                .append("name", name)
                 .append("address", address)
-                .append("type", type)
                 .toString();
     }
 }

@@ -14,16 +14,17 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.service.customer;
+package de.kaiserpfalzedv.billing.notitia.services.customer;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
+import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.CreateCustomerEvent;
-import de.kaiserpfalzedv.billing.notitia.service.BaseExecutor;
+import de.kaiserpfalzedv.billing.notitia.services.BaseExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,10 +42,21 @@ public class CreateCustomerExecutor extends BaseExecutor<CreateCustomerCommand> 
         JPACustomer jpa = new JPACustomer(command.getData());
         CreateCustomerEvent event = new CreateCustomerEvent(command);
 
-        em.persist(jpa);
-        em.persist(event);
+        try {
+            em.persist(jpa);
+            em.persist(event);
+        } catch (PersistenceException e) {
+            OPERATIONS.warn("Could not create customer (command: {}): {}", command.getId(), command.getData());
+            BUSINESS.info("Could not create customer (command: {}): {}", command.getId(), command.getData());
 
-        BUSINESS.info("Created customer: {}", command);
-        OPERATIONS.info("Created customer: {}", command);
+            if (em.isJoinedToTransaction() && em.getTransaction().isActive()) {
+                em.getTransaction().setRollbackOnly();
+            }
+            
+            throw new CommandFailedException(command.getId(), e.getMessage());
+        }
+
+        BUSINESS.info("Created customer (command: {}): {}", command.getId(), command.getData());
+        OPERATIONS.debug("Created customer (command: {}): {}", command.getId(), command.getData());
     }
 }

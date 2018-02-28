@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.service.customer;
+package de.kaiserpfalzedv.billing.notitia.services.customer;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
@@ -23,7 +23,7 @@ import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerTagsCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerTagsEvent;
-import de.kaiserpfalzedv.billing.notitia.service.BaseExecutor;
+import de.kaiserpfalzedv.billing.notitia.services.BaseExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

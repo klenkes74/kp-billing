@@ -71,7 +71,7 @@ public abstract class BaseEvent<T extends Serializable> extends JPAIdentifiable 
      * Updates the data set with the event data.
      * @param data The data set to be changed according to the event data.
      */
-    public abstract T update(T data);
+    public abstract T update(@NotNull T data);
 
 
     @Override

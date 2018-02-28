@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.openshift.test;
+package de.kaiserpfalzedv.billing.openshift;
 
 import java.io.Reader;
 import java.time.OffsetDateTime;
@@ -26,7 +26,6 @@ import java.util.UUID;
 import de.kaiserpfalzedv.billing.api.imported.ImporterService;
 import de.kaiserpfalzedv.billing.api.imported.ImportingException;
 import de.kaiserpfalzedv.billing.api.imported.RawBaseRecord;
-import de.kaiserpfalzedv.billing.openshift.OpenShiftReportImporter;
 import de.kaiserpfalzedv.billing.openshift.api.ImportOrder;
 import org.junit.AfterClass;
 import org.junit.Before;

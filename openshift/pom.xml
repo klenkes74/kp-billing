@@ -40,42 +40,37 @@
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>commune</artifactId>
-            <classifier>api</classifier>
+            <version>0.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>invectio</artifactId>
             <version>0.0.1</version>
-            <classifier>api</classifier>
         </dependency>
 
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>princeps</artifactId>
             <version>0.0.1</version>
-            <classifier>api</classifier>
         </dependency>
 
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>ratio</artifactId>
             <version>0.0.1</version>
-            <classifier>api</classifier>
         </dependency>
 
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>quod</artifactId>
             <version>0.0.1</version>
-            <classifier>api</classifier>
         </dependency>
 
         <dependency>
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>libellum</artifactId>
             <version>0.0.1</version>
-            <classifier>api</classifier>
         </dependency>
 
         <dependency>

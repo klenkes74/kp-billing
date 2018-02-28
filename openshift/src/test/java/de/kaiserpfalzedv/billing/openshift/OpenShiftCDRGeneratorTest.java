@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.openshift.test;
+package de.kaiserpfalzedv.billing.openshift;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -26,9 +26,6 @@ import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.ProductRecordInfo;
 import de.kaiserpfalzedv.billing.api.rated.RatedMeteredRecord;
 import de.kaiserpfalzedv.billing.api.rated.Tarif;
-import de.kaiserpfalzedv.billing.openshift.OpenShiftCDRGenerator;
-import de.kaiserpfalzedv.billing.openshift.OpenShiftCallDataRecordImpl;
-import de.kaiserpfalzedv.billing.openshift.OpenShiftProductRepository;
 import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import de.kaiserpfalzedv.billing.princeps.api.ProductInfoBuilder;
 import de.kaiserpfalzedv.billing.princeps.api.ProductRecordInfoBuilder;

@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import de.kaiserpfalzedv.billing.api.guided.Customer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -137,9 +138,8 @@ public class CustomerTO implements Customer {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
-                .append("uuid", uuid)
                 .append("name", name)
                 .append("costCenter", costCenter)
                 .append("contactAddress", contactAddress)

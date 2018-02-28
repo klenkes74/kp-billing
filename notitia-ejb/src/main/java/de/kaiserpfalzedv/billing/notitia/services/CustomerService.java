@@ -16,71 +16,89 @@
 
 package de.kaiserpfalzedv.billing.notitia.services;
 
-import java.io.Serializable;
-import java.util.UUID;
-
-import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import de.kaiserpfalzedv.billing.api.guided.CustomerRepository;
-import de.kaiserpfalzedv.billing.api.guided.NoCustomerFoundException;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerCostCenterCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerTagsCommand;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-22
+ * @since 2018-02-27
  */
 @Path("/customer")
-public class CustomerService implements Serializable {
-    private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
-
-    private CustomerRepository repository;
-
-    @Inject
-    public CustomerService(
-            final CustomerRepository repository
-    ) {
-        this.repository = repository;
-    }
-
-    @GET
-    @Path("/customer/{customerId}")
-    @Produces(APPLICATION_JSON)
-    public CustomerTO getCustomer(@PathParam("customerId") @NotNull final String customerId) {
-        UUID id = UUID.fromString(customerId);
-        LOG.info("Retrieving customer with id: {}", id);
-
-        CustomerTO result;
-
-        try {
-            result = new CustomerTO(repository.retrieve(id));
-        } catch (NoCustomerFoundException e) {
-            LOG.error(e.getClass().getSimpleName() + " caught: " + e.getMessage(), e);
-
-            throw new IllegalStateException(e);
-        }
-
-        LOG.info("Returning customer data: {}", result);
-        return result;
-    }
+public interface CustomerService {
 
     @POST
-    @Path("/customer/")
+    @Path("/")
     @Consumes(APPLICATION_JSON)
-    public Response createCustomer(CustomerTO customer) {
-        repository.create(new JPACustomer(customer));
-    }
+    Response createCustomer(@NotNull CreateCustomerCommand command);
+
+    @GET
+    @Path("/{customerId}")
+    @Produces(APPLICATION_JSON)
+    CustomerTO retrieveCustomer(@PathParam("customerId") @NotNull String customerId);
+
+    @PUT
+    @Path("/{customerId}")
+    @Consumes(APPLICATION_JSON)
+    Response updateCustomer(
+            @PathParam("customerId") @NotNull String customerId,
+            @NotNull UpdateCustomerBillingEmailCommand command
+    );
+
+    @PUT
+    @Path("/{customerId}")
+    @Consumes(APPLICATION_JSON)
+    Response updateCustomer(
+            @PathParam("customerId") @NotNull String customerId,
+            @NotNull UpdateCustomerContactEmailCommand command
+    );
+
+    @PUT
+    @Path("/{customerId}")
+    @Consumes(APPLICATION_JSON)
+    Response updateCustomer(
+            @PathParam("customerId") @NotNull String customerId,
+            @NotNull UpdateCustomerCostCenterCommand command
+    );
+
+    @PUT
+    @Path("/{customerId}")
+    @Consumes(APPLICATION_JSON)
+    Response updateCustomer(
+            @PathParam("customerId") @NotNull String customerId,
+            @NotNull UpdateCustomerNameCommand command
+    );
+
+    @PUT
+    @Path("/{customerId}")
+    @Consumes(APPLICATION_JSON)
+    Response updateCustomer(
+            @PathParam("customerId") @NotNull String customerId,
+            @NotNull UpdateCustomerTagsCommand command
+    );
+
+    @DELETE
+    @Path("/{customerId}")
+    @Consumes(APPLICATION_JSON)
+    Response deleteCustomer(
+            @PathParam("customerId") @NotNull String customerId
+    );
 }

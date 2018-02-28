@@ -16,7 +16,6 @@
 
 package de.kaiserpfalzedv.billing.openshift;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -41,43 +40,54 @@ public class OpenShiftProductRepository implements ProductRepository {
 
     private static final HashMap<String, ProductInfo> products = new HashMap<>();
     static {
+        HashMap<String, String> tags = new HashMap<>(1);
+
+        tags.put("product", "POD");
         products.put("POD",
                 new ProductInfoBuilder()
                         .setId(UUID.fromString("11493085-2cb6-4c34-adf9-f80fb798ff90"))
                         .setName("POD")
-                        .setTags(Arrays.asList("cluster","project", "pod"))
+                        .setTags(tags)
                         .build()
         );
 
+        tags.clear();
+        tags.put("product", "CPU");
         products.put("CPU",
                      new ProductInfoBuilder()
                              .setId(UUID.fromString("cf24d806-f303-4c69-85c7-67f5f93a8416"))
                              .setName("CPU Usage")
-                             .setTags(Arrays.asList("cluster","project", "pod"))
+                             .setTags(tags)
                              .build()
         );
 
+        tags.clear();
+        tags.put("product", "Memory");
         products.put("Memory",
                      new ProductInfoBuilder()
                              .setId(UUID.fromString("79b8b0d3-45d2-465f-b147-3a9ed13e5970"))
                              .setName("RAM Usage")
-                             .setTags(Arrays.asList("cluster","project", "pod"))
+                             .setTags(tags)
                              .build()
         );
 
+        tags.clear();
+        tags.put("product", "Network");
         products.put("Network",
                      new ProductInfoBuilder()
                              .setId(UUID.fromString("4ebd7650-7424-4fa0-980b-0e930cbe7866"))
                              .setName("Network Usage")
-                             .setTags(Arrays.asList("cluster","project", "pod"))
+                             .setTags(tags)
                              .build()
         );
 
+        tags.clear();
+        tags.put("product", "Storage");
         products.put("Storage",
                      new ProductInfoBuilder()
                              .setId(UUID.fromString("1016848d-cf44-4cb1-b214-1d78cec2d3db"))
                              .setName("Storage Usage")
-                             .setTags(Arrays.asList("cluster","project", "pod"))
+                             .setTags(tags)
                              .build()
         );
     }

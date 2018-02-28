@@ -14,16 +14,16 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.service.customer;
+package de.kaiserpfalzedv.billing.notitia.services.customer;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerCostCenterCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerCostCenterEvent;
-import de.kaiserpfalzedv.billing.notitia.service.BaseExecutor;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerNameEvent;
+import de.kaiserpfalzedv.billing.notitia.services.BaseExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,20 +33,20 @@ import org.slf4j.LoggerFactory;
  * @since 2018-02-23
  */
 @RequestScoped
-public class UpdateCustomerNameExecutor extends BaseExecutor<UpdateCustomerCostCenterCommand> {
-    private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerNameExecutor.class);
+public class UpdateCustomerCostCenterExecutor extends BaseExecutor<UpdateCustomerNameCommand> {
+    private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerCostCenterExecutor.class);
 
     @Override
-    public void execute(@Observes final UpdateCustomerCostCenterCommand command) throws CommandFailedException {
+    public void execute(@Observes final UpdateCustomerNameCommand command) throws CommandFailedException {
 
         JPACustomer customer = em.find(JPACustomer.class, command.getObjectId());
         LOG.info("Loaded customer for change: {}", customer);
 
         if (customer != null) {
-            customer.setCostReference(command.getCostCenter());
+            customer.setName(command.getCustomerName());
             em.merge(customer);
 
-            UpdateCustomerCostCenterEvent event = new UpdateCustomerCostCenterEvent(command);
+            UpdateCustomerNameEvent event = new UpdateCustomerNameEvent(command);
             em.persist(event);
 
             BUSINESS.info("Update customer: {}", command);

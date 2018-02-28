@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.openshift.test;
+package de.kaiserpfalzedv.billing.openshift;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -23,7 +23,6 @@ import de.kaiserpfalzedv.billing.api.guided.Customer;
 import de.kaiserpfalzedv.billing.api.guided.NoProductFoundException;
 import de.kaiserpfalzedv.billing.api.guided.ProductInfo;
 import de.kaiserpfalzedv.billing.api.imported.ImportingException;
-import de.kaiserpfalzedv.billing.openshift.OpenShiftProductRepository;
 import de.kaiserpfalzedv.billing.princeps.api.CustomerBuilder;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -39,7 +39,6 @@
             <groupId>de.kaiserpfalz-edv.billing</groupId>
             <artifactId>commune</artifactId>
             <version>0.0.1</version>
-            <classifier>api</classifier>
         </dependency>
 
         <dependency>
