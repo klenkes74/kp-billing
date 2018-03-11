@@ -21,10 +21,10 @@ import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerCostCenterCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
 
 import static java.time.ZoneOffset.UTC;
@@ -35,9 +35,10 @@ import static java.time.ZoneOffset.UTC;
  * @since 2018-02-21
  */
 @Entity
+@Table(name = "CUSTOMER_UPDAte_NAME_EVENTS")
 @DiscriminatorValue("UPDATE_NAME")
 public class UpdateCustomerNameEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = 8573397498361513781L;
+    private static final long serialVersionUID = 6010181948451894652L;
 
     @Column(name = "NAME_")
     private String name;

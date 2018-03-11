@@ -17,7 +17,6 @@
 package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
 
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +32,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerTagsCommand;
 
 import static java.time.ZoneOffset.UTC;
@@ -47,7 +45,7 @@ import static java.time.ZoneOffset.UTC;
 @Table(name = "CUSTOMER_UPDATE_TAGS_EVENTS")
 @DiscriminatorValue("UPDATE_TAGS")
 public class UpdateCustomerTagsEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = -501509130673495012L;
+    private static final long serialVersionUID = 3160203538724418368L;
 
     @ElementCollection
     @MapKeyColumn(name="KEY_")
@@ -63,6 +61,7 @@ public class UpdateCustomerTagsEvent extends BaseCustomerEvent {
         this(command, OffsetDateTime.now(UTC));
     }
 
+    @SuppressWarnings("WeakerAccess")
     public UpdateCustomerTagsEvent(@NotNull final UpdateCustomerTagsCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);
 

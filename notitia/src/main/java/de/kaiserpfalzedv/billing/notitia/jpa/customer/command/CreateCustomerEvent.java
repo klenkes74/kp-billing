@@ -45,7 +45,7 @@ import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
 @Table(name = "CUSTOMER_CREATE_EVENTS")
 @DiscriminatorValue("CREATE")
 public class CreateCustomerEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = 3164473870615136023L;
+    private static final long serialVersionUID = 3754644335553946686L;
 
     @Column(name = "NAME_")
     private String name;
@@ -109,6 +109,7 @@ public class CreateCustomerEvent extends BaseCustomerEvent {
         billingAddressType = email.getType();
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void setContactAddress(@NotNull final EmailAddressTO email) {
         contactAddressId = email.getId();
         contactAddressName = email.getName();
@@ -149,6 +150,7 @@ public class CreateCustomerEvent extends BaseCustomerEvent {
         this.name = name;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public String getCostCenter() {
         return costCenter;
     }

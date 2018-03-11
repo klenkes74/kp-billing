@@ -294,7 +294,7 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
                 <constraints nullable="false"/>
             </column>
 
-            <column name="ADRESS_NAME_" type="VARCHAR(200)">
+            <column name="ADDRESS_NAME_" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
 
@@ -314,7 +314,7 @@ http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbch
                 <constraints nullable="false"/>
             </column>
 
-            <column name="ADRESS_NAME_" type="VARCHAR(200)">
+            <column name="ADDRESS_NAME_" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
 

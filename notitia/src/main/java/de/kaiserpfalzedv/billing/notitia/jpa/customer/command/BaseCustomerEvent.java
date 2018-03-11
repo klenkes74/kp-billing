@@ -16,7 +16,6 @@
 
 package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
 
-import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -27,12 +26,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import de.kaiserpfalzedv.billing.api.common.Identifiable;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.jpa.JPAIdentifiable;
 import de.kaiserpfalzedv.billing.notitia.jpa.events.BaseEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -44,14 +39,15 @@ import org.slf4j.LoggerFactory;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE_")
 public class BaseCustomerEvent extends BaseEvent<CustomerTO> {
-    private static final long serialVersionUID = -4635126758379260513L;
+    private static final long serialVersionUID = -6328808854957459787L;
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "DeprecatedIsStillUsed"})
     @Deprecated
     public BaseCustomerEvent() {}
 
+    @SuppressWarnings("WeakerAccess")
     public BaseCustomerEvent(@NotNull final UUID id, @NotNull final UUID objectId,
-                     @NotNull final OffsetDateTime created, @NotNull final OffsetDateTime executed) {
+                             @NotNull final OffsetDateTime created, @NotNull final OffsetDateTime executed) {
         super(id, objectId, created, executed);
     }
 

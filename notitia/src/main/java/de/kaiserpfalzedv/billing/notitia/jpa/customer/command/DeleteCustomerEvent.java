@@ -21,6 +21,7 @@ import java.time.ZoneOffset;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
@@ -32,6 +33,7 @@ import de.kaiserpfalzedv.billing.notitia.api.customer.DeleteCustomerCommand;
  * @since 2018-02-21
  */
 @Entity
+@Table(name = "CUSTOMER_DELETE_EVENTS")
 @DiscriminatorValue("DELETE")
 public class DeleteCustomerEvent extends BaseCustomerEvent {
     private static final long serialVersionUID = 2888395068339022430L;
@@ -44,6 +46,7 @@ public class DeleteCustomerEvent extends BaseCustomerEvent {
         this(command, OffsetDateTime.now(ZoneOffset.UTC));
     }
 
+    @SuppressWarnings("WeakerAccess")
     public DeleteCustomerEvent(@NotNull final DeleteCustomerCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);
     }

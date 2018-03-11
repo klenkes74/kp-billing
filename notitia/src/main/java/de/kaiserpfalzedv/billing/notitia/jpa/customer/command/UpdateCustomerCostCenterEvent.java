@@ -21,6 +21,7 @@ import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
@@ -34,9 +35,10 @@ import static java.time.ZoneOffset.UTC;
  * @since 2018-02-21
  */
 @Entity
+@Table(name = "CUSTOMER_UPDATE_COST_CENTER_EVENTS")
 @DiscriminatorValue("UPDATE_COST_CENTER")
 public class UpdateCustomerCostCenterEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = -6481531819393631268L;
+    private static final long serialVersionUID = 6348483298408306647L;
 
     @Column(name = "COST_CENTER_")
     private String costCenter;
@@ -66,6 +68,7 @@ public class UpdateCustomerCostCenterEvent extends BaseCustomerEvent {
     }
 
 
+    @SuppressWarnings("WeakerAccess")
     public String getCostCenter() {
         return costCenter;
     }

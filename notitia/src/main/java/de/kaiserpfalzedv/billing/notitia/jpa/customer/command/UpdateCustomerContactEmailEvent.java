@@ -17,17 +17,16 @@
 package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
 
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
 import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmailCommand;
 
 import static java.time.ZoneOffset.UTC;
@@ -38,9 +37,10 @@ import static java.time.ZoneOffset.UTC;
  * @since 2018-02-21
  */
 @Entity
+@Table(name = "CUSTOMER_UPDATE_CONTACT_EMAIL_EVENTS")
 @DiscriminatorValue("CREATE")
 public class UpdateCustomerContactEmailEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = -656407805525541659L;
+    private static final long serialVersionUID = -3031296895000905038L;
 
     @Column(name = "ADDRESS_ID_")
     private UUID addressId;
