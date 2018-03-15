@@ -16,8 +16,6 @@
 
 package de.kaiserpfalzedv.billing.notitia.services;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -26,11 +24,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
-import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
 import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.CreateCustomerEvent;
-import de.kaiserpfalzedv.billing.notitia.services.customer.CreateCustomerExecutor;
+import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPAEmailAddress;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerContactEmailEvent;
+import de.kaiserpfalzedv.billing.notitia.services.customer.UpdateCustomerContactEmailExecutor;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -54,10 +53,9 @@ import static org.mockito.Mockito.when;
  * @version 1.0.0
  * @since 2018-02-25
  */
-public class CreateCustomerExecutorTest  {
-    private static final Logger LOG = LoggerFactory.getLogger(CreateCustomerExecutorTest.class);
+public class UpdateCustomerContactEmailExecutorTest {
+    private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerContactEmailExecutorTest.class);
 
-    private static final OffsetDateTime EVENT_CREATED = OffsetDateTime.now(ZoneOffset.UTC);
     private static final UUID CUSTOMER_ID = UUID.randomUUID();
     private static final String CUSTOMER_NAME = "Customer";
     private static final String COST_CENTER = "12345";
@@ -68,22 +66,23 @@ public class CreateCustomerExecutorTest  {
     private static final EmailAddressTO EMAIL_ADDRESS = new EmailAddressTO(
             CUSTOMER_MAIL_ID, CUSTOMER_MAIL_NAME, CUSTOMER_MAIL_ADDRESS, "GENERIC"
     );
+    private static final JPAEmailAddress JPA_EMAIL_ADDRESS = new JPAEmailAddress(EMAIL_ADDRESS);
     private static final HashMap<String, String> TAGS = new HashMap<>();
-    private static final CustomerTO CUSTOMER = new CustomerTO();
+    private static final JPACustomer CUSTOMER = new JPACustomer();
     static {
 
         CUSTOMER.setId(CUSTOMER_ID);
         CUSTOMER.setName(CUSTOMER_NAME);
-        CUSTOMER.setCostCenter(COST_CENTER);
-        CUSTOMER.setBillingAddress(EMAIL_ADDRESS);
-        CUSTOMER.setContactAddress(EMAIL_ADDRESS);
+        CUSTOMER.setCostReference(COST_CENTER);
+        CUSTOMER.setBillingAddress(JPA_EMAIL_ADDRESS);
+        CUSTOMER.setContactAddress(JPA_EMAIL_ADDRESS);
 
         TAGS.put("customer", "12345");
         CUSTOMER.setTags(TAGS);
     }
 
 
-    private CreateCustomerExecutor service;
+    private UpdateCustomerContactEmailExecutor service;
 
     @Mock
     private EntityManager em;
@@ -95,21 +94,28 @@ public class CreateCustomerExecutorTest  {
 
 
     @Test
-    public void shouldCreateCustomerWhenEventListenerIsCalled() throws CommandFailedException {
-        logMethod("simple-call", "Creating customer: {}", CUSTOMER);
+    public void shouldUpdateEmailWhenEventListenerIsCalled() throws CommandFailedException {
+        logMethod("simple-call", "Updating email: {}", EMAIL_ADDRESS);
 
-        CreateCustomerCommand command = new CreateCustomerCommand(CUSTOMER);
+        UpdateCustomerContactEmailCommand command = new UpdateCustomerContactEmailCommand(CUSTOMER_ID, EMAIL_ADDRESS);
+
+        when(em.find(JPACustomer.class, CUSTOMER_ID)).thenReturn(CUSTOMER);
 
         service.execute(command);
+
+        verify(em, atLeastOnce()).merge(any(JPACustomer.class));
+        verify(em, atLeastOnce()).persist(any(UpdateCustomerContactEmailEvent.class));
     }
 
     @Test(expected = CommandFailedException.class)
     public void shouldThrowCommandExceptionWhenPersistenceExceptionIsThrownOutsideTransaction() throws CommandFailedException {
-        logMethod("persistence-failure-outside-transaction", "Creating customer: {}", CUSTOMER);
+        logMethod("persistence-failure-outside-transaction", "Updating email: {}", EMAIL_ADDRESS);
 
-        CreateCustomerCommand command = new CreateCustomerCommand(CUSTOMER);
+        UpdateCustomerContactEmailCommand command = new UpdateCustomerContactEmailCommand(CUSTOMER_ID, EMAIL_ADDRESS);
 
-        doThrow(new PersistenceException()).when(em).persist(any(CreateCustomerEvent.class));
+
+        when(em.find(JPACustomer.class, CUSTOMER_ID)).thenReturn(CUSTOMER);
+        doThrow(new PersistenceException()).when(em).persist(any(UpdateCustomerContactEmailEvent.class));
         when(em.isJoinedToTransaction()).thenReturn(false);
         
         service.execute(command);
@@ -118,12 +124,14 @@ public class CreateCustomerExecutorTest  {
 
     @Test(expected = CommandFailedException.class)
     public void shouldThrowCommandExceptionWhenPersistenceExceptionIsThrownInsideTransaction() throws CommandFailedException {
-        logMethod("persistence-failure-inside-transaction", "Creating customer: {}", CUSTOMER);
+        logMethod("persistence-failure-inside-transaction", "Updating email: {}", EMAIL_ADDRESS);
 
-        CreateCustomerCommand command = new CreateCustomerCommand(CUSTOMER);
+        UpdateCustomerContactEmailCommand command = new UpdateCustomerContactEmailCommand(CUSTOMER_ID, EMAIL_ADDRESS);
 
-        doThrow(new PersistenceException()).when(em).persist(any(CreateCustomerEvent.class));
+        when(em.find(JPACustomer.class, CUSTOMER_ID)).thenReturn(CUSTOMER);
+        doThrow(new PersistenceException()).when(em).persist(any(UpdateCustomerContactEmailEvent.class));
         when(em.isJoinedToTransaction()).thenReturn(true);
+        when(tx.isActive()).thenReturn(true);
 
         service.execute(command);
 
@@ -138,7 +146,7 @@ public class CreateCustomerExecutorTest  {
 
     @Before
     public void setUp() {
-        service = new CreateCustomerExecutor();
+        service = new UpdateCustomerContactEmailExecutor();
         service.setEntityManager(em);
 
         when(em.getTransaction()).thenReturn(tx);
@@ -146,7 +154,7 @@ public class CreateCustomerExecutorTest  {
 
     @BeforeClass
     public static void setUpMDC() {
-        MDC.put("test", "Create Customer Executor");
+        MDC.put("test", "Update Customer Contact Email Executor");
 
         LOG.info("===[{}]========[BEGIN]===", MDC.get("test"));
     }

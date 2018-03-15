@@ -16,8 +16,9 @@
 
 package de.kaiserpfalzedv.billing.notitia.services.customer;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmailCommand;
@@ -33,13 +34,14 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2018-02-23
  */
-@RequestScoped
+@ApplicationScoped
 public class UpdateCustomerContactEmailExecutor extends BaseExecutor<UpdateCustomerContactEmailCommand> {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerContactEmailExecutor.class);
 
     @Override
     public void execute(@Observes final UpdateCustomerContactEmailCommand command) throws CommandFailedException {
 
+        try {
         JPACustomer customer = em.find(JPACustomer.class, command.getObjectId());
         LOG.info("Loaded customer for change: {}", customer);
 
@@ -50,11 +52,24 @@ public class UpdateCustomerContactEmailExecutor extends BaseExecutor<UpdateCusto
             UpdateCustomerContactEmailEvent event = new UpdateCustomerContactEmailEvent(command);
             em.persist(event);
 
-            BUSINESS.info("Update customer: {}", command);
+            BUSINESS.info("Updated customer contact email address: customer={}, new email address={}",
+                          command.getObjectId(), command.getEmailAddress().getAddress());
             OPERATIONS.info("Updated customer: {}", command);
         } else {
-            BUSINESS.warn("Tried to update customer, but customer not found for command: {}", command);
+            BUSINESS.warn("Tried to update customer, but customer not found for update contact email command: customer={}, new email address={}",
+                          command.getObjectId(), command.getEmailAddress().getAddress());
             OPERATIONS.info("Could not load customer for change: {}", command);
         }
+        } catch (PersistenceException e) {
+            if (em.isJoinedToTransaction() && em.getTransaction().isActive()) {
+                em.getTransaction().setRollbackOnly();
+            }
+
+            BUSINESS.error("Can't update contact email address (command: {}): customer={}", command.getId(), command.getObjectId());
+            OPERATIONS.warn("Can't update contact email address (command: {}): customer={}", command.getId(), command.getObjectId());
+
+            throw new CommandFailedException(command.getId(), e.getMessage());
+        }
+
     }
 }

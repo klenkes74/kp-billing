@@ -16,7 +16,7 @@
 
 package de.kaiserpfalzedv.billing.notitia.services.customer;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
@@ -27,12 +27,13 @@ import de.kaiserpfalzedv.billing.notitia.services.BaseExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-23
  */
-@RequestScoped
+@ApplicationScoped
 public class UpdateCustomerCostCenterExecutor extends BaseExecutor<UpdateCustomerNameCommand> {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerCostCenterExecutor.class);
 

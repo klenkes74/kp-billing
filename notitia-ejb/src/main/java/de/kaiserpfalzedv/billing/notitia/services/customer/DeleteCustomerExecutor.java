@@ -16,7 +16,7 @@
 
 package de.kaiserpfalzedv.billing.notitia.services.customer;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.persistence.PersistenceException;
 
@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2018-02-23
  */
-@RequestScoped
+@ApplicationScoped
 public class DeleteCustomerExecutor extends BaseExecutor<DeleteCustomerCommand> {
     private static final Logger LOG = LoggerFactory.getLogger(DeleteCustomerExecutor.class);
 

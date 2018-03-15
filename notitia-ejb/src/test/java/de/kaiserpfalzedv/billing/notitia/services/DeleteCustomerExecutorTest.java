@@ -41,7 +41,9 @@ import org.slf4j.MDC;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -111,9 +113,10 @@ public class DeleteCustomerExecutorTest {
 
         doThrow(new PersistenceException()).when(em).persist(any(CreateCustomerEvent.class));
         when(em.isJoinedToTransaction()).thenReturn(true);
-        when(em.getTransaction()).thenReturn(tx);
 
         service.execute(command);
+
+        verify(tx, atLeastOnce()).setRollbackOnly();
     }
 
 
@@ -127,6 +130,8 @@ public class DeleteCustomerExecutorTest {
     public void setUp() {
         service = new DeleteCustomerExecutor();
         service.setEntityManager(em);
+
+        when(em.getTransaction()).thenReturn(tx);
     }
 
     @BeforeClass

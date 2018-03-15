@@ -16,8 +16,9 @@
 
 package de.kaiserpfalzedv.billing.notitia.services.customer;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
 import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
@@ -33,28 +34,39 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2018-02-23
  */
-@RequestScoped
+@ApplicationScoped
 public class UpdateCustomerBillingEmailExecutor extends BaseExecutor<UpdateCustomerBillingEmailCommand> {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerBillingEmailExecutor.class);
 
     @Override
     public void execute(@Observes final UpdateCustomerBillingEmailCommand command) throws CommandFailedException {
 
-        JPACustomer customer = em.find(JPACustomer.class, command.getObjectId());
-        LOG.info("Loaded customer for change: {}", customer);
+        try {
+            JPACustomer customer = em.find(JPACustomer.class, command.getObjectId());
+            LOG.info("Loaded customer for change: {}", customer);
 
-        if (customer != null) {
-            customer.setBillingAddress(new JPAEmailAddress((command.getEmailAddress())));
-            em.merge(customer);
+            if (customer != null) {
+                customer.setBillingAddress(new JPAEmailAddress((command.getEmailAddress())));
+                em.merge(customer);
 
-            UpdateCustomerBillingEmailEvent event = new UpdateCustomerBillingEmailEvent(command);
-            em.persist(event);
+                UpdateCustomerBillingEmailEvent event = new UpdateCustomerBillingEmailEvent(command);
+                em.persist(event);
 
-            BUSINESS.info("Update customer: {}", command);
-            OPERATIONS.info("Updated customer: {}", command);
-        } else {
-            BUSINESS.warn("Tried to update customer, but customer not found for command: {}", command);
-            OPERATIONS.info("Could not load customer for change: {}", command);
+                BUSINESS.info("Updated customer: {}", command);
+                OPERATIONS.info("Updated customer: {}", command);
+            } else {
+                BUSINESS.warn("Tried to update customer, but customer not found for command: {}", command);
+                OPERATIONS.info("Could not load customer for change: {}", command);
+            }
+        } catch (PersistenceException e) {
+            if (em.isJoinedToTransaction() && em.getTransaction().isActive()) {
+                em.getTransaction().setRollbackOnly();
+            }
+
+            BUSINESS.error("Can't update billing email address (command: {}): {}", command.getId(), command.getObjectId());
+            OPERATIONS.warn("Can't update billing email address (command: {}): {}", command.getId(), command.getObjectId());
+
+            throw new CommandFailedException(command.getId(), e.getMessage());
         }
     }
 }
