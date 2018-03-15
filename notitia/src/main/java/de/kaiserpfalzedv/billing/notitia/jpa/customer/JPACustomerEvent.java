@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -27,7 +27,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.jpa.events.BaseEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.JPABaseEvent;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -38,16 +38,16 @@ import de.kaiserpfalzedv.billing.notitia.jpa.events.BaseEvent;
 @Table(name = "CUSTOMER_EVENTS")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE_")
-public class BaseCustomerEvent extends BaseEvent<CustomerTO> {
-    private static final long serialVersionUID = -6328808854957459787L;
+public class JPACustomerEvent extends JPABaseEvent<CustomerTO> {
+    private static final long serialVersionUID = -1400298785350052002L;
 
     @SuppressWarnings({"deprecation", "DeprecatedIsStillUsed"})
     @Deprecated
-    public BaseCustomerEvent() {}
+    public JPACustomerEvent() {}
 
     @SuppressWarnings("WeakerAccess")
-    public BaseCustomerEvent(@NotNull final UUID id, @NotNull final UUID objectId,
-                             @NotNull final OffsetDateTime created, @NotNull final OffsetDateTime executed) {
+    public JPACustomerEvent(@NotNull final UUID id, @NotNull final UUID objectId,
+                            @NotNull final OffsetDateTime created, @NotNull final OffsetDateTime executed) {
         super(id, objectId, created, executed);
     }
 

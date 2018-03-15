@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -32,7 +32,7 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerCreateCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
 import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
 
@@ -44,8 +44,8 @@ import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
 @Entity
 @Table(name = "CUSTOMER_CREATE_EVENTS")
 @DiscriminatorValue("CREATE")
-public class CreateCustomerEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = 3754644335553946686L;
+public class JPACustomerCreateEvent extends JPACustomerEvent {
+    private static final long serialVersionUID = -4364745964011362307L;
 
     @Column(name = "NAME_")
     private String name;
@@ -80,13 +80,13 @@ public class CreateCustomerEvent extends BaseCustomerEvent {
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public CreateCustomerEvent() {}
+    public JPACustomerCreateEvent() {}
 
-    public CreateCustomerEvent(@NotNull final CreateCustomerCommand command) {
+    public JPACustomerCreateEvent(@NotNull final CustomerCreateCommand command) {
         this(command, OffsetDateTime.now(ZoneOffset.UTC));
     }
 
-    public CreateCustomerEvent(@NotNull final CreateCustomerCommand command, @NotNull final OffsetDateTime executed) {
+    public JPACustomerCreateEvent(@NotNull final CustomerCreateCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);
 
         CustomerTO data = command.getData();

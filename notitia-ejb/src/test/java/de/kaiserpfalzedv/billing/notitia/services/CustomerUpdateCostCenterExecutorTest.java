@@ -24,12 +24,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateCostCenterCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmailCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerUpdateCostCenterEvent;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPAEmailAddress;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerContactEmailEvent;
-import de.kaiserpfalzedv.billing.notitia.services.customer.UpdateCustomerContactEmailExecutor;
+import de.kaiserpfalzedv.billing.notitia.services.customer.CustomerUpdateCostCenterExecutor;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -53,8 +53,8 @@ import static org.mockito.Mockito.when;
  * @version 1.0.0
  * @since 2018-02-25
  */
-public class UpdateCustomerContactEmailExecutorTest {
-    private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerContactEmailExecutorTest.class);
+public class CustomerUpdateCostCenterExecutorTest {
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerUpdateCostCenterExecutorTest.class);
 
     private static final UUID CUSTOMER_ID = UUID.randomUUID();
     private static final String CUSTOMER_NAME = "Customer";
@@ -73,7 +73,7 @@ public class UpdateCustomerContactEmailExecutorTest {
 
         CUSTOMER.setId(CUSTOMER_ID);
         CUSTOMER.setName(CUSTOMER_NAME);
-        CUSTOMER.setCostReference(COST_CENTER);
+        CUSTOMER.setCostCenter(COST_CENTER);
         CUSTOMER.setBillingAddress(JPA_EMAIL_ADDRESS);
         CUSTOMER.setContactAddress(JPA_EMAIL_ADDRESS);
 
@@ -82,7 +82,7 @@ public class UpdateCustomerContactEmailExecutorTest {
     }
 
 
-    private UpdateCustomerContactEmailExecutor service;
+    private CustomerUpdateCostCenterExecutor service;
 
     @Mock
     private EntityManager em;
@@ -95,27 +95,27 @@ public class UpdateCustomerContactEmailExecutorTest {
 
     @Test
     public void shouldUpdateEmailWhenEventListenerIsCalled() throws CommandFailedException {
-        logMethod("simple-call", "Updating email: {}", EMAIL_ADDRESS);
+        logMethod("simple-call", "Updating cost center: {}", COST_CENTER);
 
-        UpdateCustomerContactEmailCommand command = new UpdateCustomerContactEmailCommand(CUSTOMER_ID, EMAIL_ADDRESS);
+        CustomerUpdateCostCenterCommand command = new CustomerUpdateCostCenterCommand(CUSTOMER_ID, COST_CENTER);
 
         when(em.find(JPACustomer.class, CUSTOMER_ID)).thenReturn(CUSTOMER);
 
         service.execute(command);
 
         verify(em, atLeastOnce()).merge(any(JPACustomer.class));
-        verify(em, atLeastOnce()).persist(any(UpdateCustomerContactEmailEvent.class));
+        verify(em, atLeastOnce()).persist(any(JPACustomerUpdateCostCenterEvent.class));
     }
 
     @Test(expected = CommandFailedException.class)
     public void shouldThrowCommandExceptionWhenPersistenceExceptionIsThrownOutsideTransaction() throws CommandFailedException {
-        logMethod("persistence-failure-outside-transaction", "Updating email: {}", EMAIL_ADDRESS);
+        logMethod("persistence-failure-outside-transaction", "Updating cost center for failing outside of transaction: {}", COST_CENTER);
 
-        UpdateCustomerContactEmailCommand command = new UpdateCustomerContactEmailCommand(CUSTOMER_ID, EMAIL_ADDRESS);
+        CustomerUpdateCostCenterCommand command = new CustomerUpdateCostCenterCommand(CUSTOMER_ID, COST_CENTER);
 
 
         when(em.find(JPACustomer.class, CUSTOMER_ID)).thenReturn(CUSTOMER);
-        doThrow(new PersistenceException()).when(em).persist(any(UpdateCustomerContactEmailEvent.class));
+        doThrow(new PersistenceException()).when(em).persist(any(JPACustomerUpdateCostCenterEvent.class));
         when(em.isJoinedToTransaction()).thenReturn(false);
         
         service.execute(command);
@@ -124,12 +124,12 @@ public class UpdateCustomerContactEmailExecutorTest {
 
     @Test(expected = CommandFailedException.class)
     public void shouldThrowCommandExceptionWhenPersistenceExceptionIsThrownInsideTransaction() throws CommandFailedException {
-        logMethod("persistence-failure-inside-transaction", "Updating email: {}", EMAIL_ADDRESS);
+        logMethod("persistence-failure-inside-transaction", "Updating cost center for failing in transaction: {}", COST_CENTER);
 
-        UpdateCustomerContactEmailCommand command = new UpdateCustomerContactEmailCommand(CUSTOMER_ID, EMAIL_ADDRESS);
+        CustomerUpdateCostCenterCommand command = new CustomerUpdateCostCenterCommand(CUSTOMER_ID, COST_CENTER);
 
         when(em.find(JPACustomer.class, CUSTOMER_ID)).thenReturn(CUSTOMER);
-        doThrow(new PersistenceException()).when(em).persist(any(UpdateCustomerContactEmailEvent.class));
+        doThrow(new PersistenceException()).when(em).persist(any(JPACustomerUpdateCostCenterEvent.class));
         when(em.isJoinedToTransaction()).thenReturn(true);
         when(tx.isActive()).thenReturn(true);
 
@@ -146,7 +146,7 @@ public class UpdateCustomerContactEmailExecutorTest {
 
     @Before
     public void setUp() {
-        service = new UpdateCustomerContactEmailExecutor();
+        service = new CustomerUpdateCostCenterExecutor();
         service.setEntityManager(em);
 
         when(em.getTransaction()).thenReturn(tx);
@@ -154,7 +154,7 @@ public class UpdateCustomerContactEmailExecutorTest {
 
     @BeforeClass
     public static void setUpMDC() {
-        MDC.put("test", "Update Customer Contact Email Executor");
+        MDC.put("test", "Update Customer CostCenter Executor");
 
         LOG.info("===[{}]========[BEGIN]===", MDC.get("test"));
     }

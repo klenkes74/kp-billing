@@ -23,7 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.BaseCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.CommandExecutor;
+import de.kaiserpfalzedv.billing.notitia.api.commands.CommandExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +41,7 @@ public abstract class BaseExecutor<T extends BaseCommand> implements CommandExec
     @PersistenceContext(name = "notitia")
     protected EntityManager em;
 
+    @SuppressWarnings("WeakerAccess")
     public void setEntityManager(@NotNull final EntityManager em) {
         this.em = em;
     }

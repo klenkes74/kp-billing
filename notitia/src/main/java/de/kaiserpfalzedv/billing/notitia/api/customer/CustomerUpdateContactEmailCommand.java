@@ -28,30 +28,30 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-22
  */
-public class UpdateCustomerNameCommand extends AbstractUpdateCustomerCommand {
-    private static final long serialVersionUID = 834839107392759842L;
+public class CustomerUpdateContactEmailCommand extends CustomerUpdateCommand {
+    private static final long serialVersionUID = -956975781930917829L;
 
 
-    private String customerName;
+    private EmailAddressTO emailAddress;
 
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public UpdateCustomerNameCommand() {}
+    public CustomerUpdateContactEmailCommand() {}
 
-    public UpdateCustomerNameCommand(@NotNull final UUID customerId, @NotNull final String customerName) {
+    public CustomerUpdateContactEmailCommand(@NotNull final UUID customerId, @NotNull final EmailAddressTO emailAddress) {
         super(customerId);
 
-        this.customerName = customerName;
+        this.emailAddress = emailAddress;
     }
 
 
-    public String getCustomerName() {
-        return customerName;
+    public EmailAddressTO getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setCustomerName(@NotNull final String customerName) {
-        this.customerName = customerName;
+    public void setEmailAddress(@NotNull final EmailAddressTO emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
 
@@ -59,7 +59,7 @@ public class UpdateCustomerNameCommand extends AbstractUpdateCustomerCommand {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .appendSuper(super.toString())
-                .append("customerName", customerName)
+                .append("emailAddress", emailAddress)
                 .toString();
     }
 }

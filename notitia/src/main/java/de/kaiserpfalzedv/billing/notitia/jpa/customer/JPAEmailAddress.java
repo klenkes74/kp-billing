@@ -35,7 +35,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Table(name = "EMAIL_ADDRESSES")
 @Cacheable
 public class JPAEmailAddress extends JPAIdentifiable implements EmailAddress {
-    private static final long serialVersionUID = 6910202434762768145L;
+    private static final long serialVersionUID = -7522171017678929170L;
 
     @Column(name = "NAME_", length = 100, nullable = false)
     private String name;

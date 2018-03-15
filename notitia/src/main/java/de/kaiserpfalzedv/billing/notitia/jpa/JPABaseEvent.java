@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.events;
+package de.kaiserpfalzedv.billing.notitia.jpa;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -26,8 +26,6 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.BaseCommand;
-import de.kaiserpfalzedv.billing.notitia.jpa.JPAIdentifiable;
-import de.kaiserpfalzedv.billing.notitia.jpa.JPAOffsetDateTimeConverter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -36,7 +34,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @since 2018-02-22
  */
 @MappedSuperclass
-public abstract class BaseEvent<T extends Serializable> extends JPAIdentifiable implements BaseCommand {
+public abstract class JPABaseEvent<T extends Serializable> extends JPAIdentifiable implements BaseCommand {
     private static final long serialVersionUID = 8098424114572437615L;
 
 
@@ -55,10 +53,10 @@ public abstract class BaseEvent<T extends Serializable> extends JPAIdentifiable 
 
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    public BaseEvent() {}
+    public JPABaseEvent() {}
 
-    public BaseEvent(@NotNull final UUID id, @NotNull final UUID objectId,
-                     @NotNull final OffsetDateTime created, @NotNull final OffsetDateTime executed) {
+    public JPABaseEvent(@NotNull final UUID id, @NotNull final UUID objectId,
+                        @NotNull final OffsetDateTime created, @NotNull final OffsetDateTime executed) {
         super(id);
 
         this.objectId = objectId;

@@ -28,8 +28,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-22
  */
-public class UpdateCustomerContactEmailCommand extends AbstractUpdateCustomerCommand {
-    private static final long serialVersionUID = -956975781930917829L;
+public class CustomerUpdateBillingEmailCommand extends CustomerUpdateCommand {
+    private static final long serialVersionUID = -2064239826800997113L;
 
 
     private EmailAddressTO emailAddress;
@@ -37,9 +37,9 @@ public class UpdateCustomerContactEmailCommand extends AbstractUpdateCustomerCom
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public UpdateCustomerContactEmailCommand() {}
+    public CustomerUpdateBillingEmailCommand() {}
 
-    public UpdateCustomerContactEmailCommand(@NotNull final UUID customerId, @NotNull final EmailAddressTO emailAddress) {
+    public CustomerUpdateBillingEmailCommand(@NotNull final UUID customerId, @NotNull final EmailAddressTO emailAddress) {
         super(customerId);
 
         this.emailAddress = emailAddress;

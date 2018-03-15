@@ -16,24 +16,26 @@
 
 package de.kaiserpfalzedv.billing.notitia.api.customer;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 
-import de.kaiserpfalzedv.billing.notitia.api.commands.DataHoldingCommand;
+import de.kaiserpfalzedv.billing.notitia.api.commands.AbstractBaseCommandImpl;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-22
+ * @since 2018-02-27
  */
-public class CreateCustomerCommand extends DataHoldingCommand<CustomerTO> {
-    private static final long serialVersionUID = -1833256458107318054L;
+public abstract class CustomerUpdateCommand extends AbstractBaseCommandImpl {
+    private static final long serialVersionUID = 3038212830329474965L;
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "DeprecatedIsStillUsed"})
     @Deprecated
-    public CreateCustomerCommand() {}
+    public CustomerUpdateCommand() {}
 
-    public CreateCustomerCommand(@NotNull final CustomerTO customer) {
-        super(customer);
+    @SuppressWarnings("WeakerAccess")
+    public CustomerUpdateCommand(@NotNull final UUID customerId) {
+        super(customerId);
     }
-    
 }

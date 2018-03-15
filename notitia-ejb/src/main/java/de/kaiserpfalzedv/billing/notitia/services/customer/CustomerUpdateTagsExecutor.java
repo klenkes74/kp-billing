@@ -21,9 +21,9 @@ import javax.enterprise.event.Observes;
 import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
-import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateTagsCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.CreateCustomerEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerUpdateTagsEvent;
 import de.kaiserpfalzedv.billing.notitia.services.BaseExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,29 +34,38 @@ import org.slf4j.LoggerFactory;
  * @since 2018-02-23
  */
 @ApplicationScoped
-public class CreateCustomerExecutor extends BaseExecutor<CreateCustomerCommand> {
-    private static final Logger LOG = LoggerFactory.getLogger(CreateCustomerExecutor.class);
+public class CustomerUpdateTagsExecutor extends BaseExecutor<CustomerUpdateTagsCommand> {
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerUpdateTagsExecutor.class);
 
     @Override
-    public void execute(@Observes final CreateCustomerCommand command) throws CommandFailedException {
-        JPACustomer jpa = new JPACustomer(command.getData());
-        CreateCustomerEvent event = new CreateCustomerEvent(command);
+    public void execute(@Observes final CustomerUpdateTagsCommand command) throws CommandFailedException {
 
         try {
-            em.persist(jpa);
-            em.persist(event);
-        } catch (PersistenceException e) {
-            OPERATIONS.warn("Could not create customer (command: {}): {}", command.getId(), command.getData());
-            BUSINESS.info("Could not create customer (command: {}): {}", command.getId(), command.getData());
+            JPACustomer customer = em.find(JPACustomer.class, command.getObjectId());
+            LOG.info("Loaded customer for change: {}", customer);
 
+            if (customer != null) {
+                customer.setTags(command.getTags());
+                em.merge(customer);
+
+                JPACustomerUpdateTagsEvent event = new JPACustomerUpdateTagsEvent(command);
+                em.persist(event);
+
+                BUSINESS.info("Update customer: {}", command);
+                OPERATIONS.info("Updated customer: {}", command);
+            } else {
+                BUSINESS.warn("Tried to update customer, but customer not found for command: {}", command);
+                OPERATIONS.info("Could not load customer for change: {}", command);
+            }
+        } catch (PersistenceException e) {
             if (em.isJoinedToTransaction() && em.getTransaction().isActive()) {
                 em.getTransaction().setRollbackOnly();
             }
-            
+
+            BUSINESS.error("Can't update customer tags (command: {}): customer={}", command.getId(), command.getObjectId());
+            OPERATIONS.warn("Can't update customer tags (command: {}): customer={}", command.getId(), command.getObjectId());
+
             throw new CommandFailedException(command.getId(), e.getMessage());
         }
-
-        BUSINESS.info("Created customer (command: {}): {}", command.getId(), command.getData());
-        OPERATIONS.debug("Created customer (command: {}): {}", command.getId(), command.getData());
     }
 }

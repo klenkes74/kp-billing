@@ -48,7 +48,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Table(name = "CUSTOMERS")
 @Cacheable
 public class JPACustomer extends JPAIdentifiable implements Customer, Serializable {
-    private static final long serialVersionUID = -4162491450493912448L;
+    private static final long serialVersionUID = -4925864089260398164L;
 
     @Column(name = "NAME_", length=200, nullable = false)
     private String name;
@@ -76,7 +76,7 @@ public class JPACustomer extends JPAIdentifiable implements Customer, Serializab
     public JPACustomer(@NotNull final Customer orig) {
         setId(orig.getId());
         setName(orig.getName());
-        setCostReference(orig.getCostCenter());
+        setCostCenter(orig.getCostCenter());
         setContactAddress(new JPAEmailAddress(orig.getContactAddress()));
         setBillingAddress(new JPAEmailAddress(orig.getBillingAddress()));
     }
@@ -94,7 +94,7 @@ public class JPACustomer extends JPAIdentifiable implements Customer, Serializab
         return costReference;
     }
 
-    public void setCostReference(final String costReference) {
+    public void setCostCenter(final String costReference) {
         this.costReference = costReference;
     }
     

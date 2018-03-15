@@ -21,10 +21,9 @@ import javax.enterprise.event.Observes;
 import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerDeleteCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPAEmailAddress;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerBillingEmailEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerDeleteEvent;
 import de.kaiserpfalzedv.billing.notitia.services.BaseExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,38 +34,35 @@ import org.slf4j.LoggerFactory;
  * @since 2018-02-23
  */
 @ApplicationScoped
-public class UpdateCustomerBillingEmailExecutor extends BaseExecutor<UpdateCustomerBillingEmailCommand> {
-    private static final Logger LOG = LoggerFactory.getLogger(UpdateCustomerBillingEmailExecutor.class);
+public class CustomerDeleteExecutor extends BaseExecutor<CustomerDeleteCommand> {
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerDeleteExecutor.class);
 
     @Override
-    public void execute(@Observes final UpdateCustomerBillingEmailCommand command) throws CommandFailedException {
-
+    public void execute(@Observes final CustomerDeleteCommand command) throws CommandFailedException {
         try {
             JPACustomer customer = em.find(JPACustomer.class, command.getObjectId());
-            LOG.info("Loaded customer for change: {}", customer);
 
             if (customer != null) {
-                customer.setBillingAddress(new JPAEmailAddress((command.getEmailAddress())));
-                em.merge(customer);
+                em.remove(customer);
 
-                UpdateCustomerBillingEmailEvent event = new UpdateCustomerBillingEmailEvent(command);
+                JPACustomerDeleteEvent event = new JPACustomerDeleteEvent(command);
                 em.persist(event);
 
-                BUSINESS.info("Updated customer: {}", command);
-                OPERATIONS.info("Updated customer: {}", command);
+                BUSINESS.info("Deleted customer (command: {}): {}", command.getId(), command.getObjectId());
+                OPERATIONS.debug("Deleted customer (command: {}): {}", command.getId(), command.getObjectId());
             } else {
-                BUSINESS.warn("Tried to update customer, but customer not found for command: {}", command);
-                OPERATIONS.info("Could not load customer for change: {}", command);
+                BUSINESS.info("Deleted already absent customer (command: {}): {}", command.getId(), command.getObjectId());
+                OPERATIONS.debug("Deleted non existing customer (command: {}): {}", command.getId(), command.getObjectId());
             }
         } catch (PersistenceException e) {
             if (em.isJoinedToTransaction() && em.getTransaction().isActive()) {
                 em.getTransaction().setRollbackOnly();
             }
 
-            BUSINESS.error("Can't update billing email address (command: {}): {}", command.getId(), command.getObjectId());
-            OPERATIONS.warn("Can't update billing email address (command: {}): {}", command.getId(), command.getObjectId());
+            BUSINESS.error("Can't delete customer (command: {}): {}", command.getId(), command.getObjectId());
+            OPERATIONS.warn("Can't delete customer (command: {}): {}", command.getId(), command.getObjectId());
 
             throw new CommandFailedException(command.getId(), e.getMessage());
-        }
+         }
     }
 }

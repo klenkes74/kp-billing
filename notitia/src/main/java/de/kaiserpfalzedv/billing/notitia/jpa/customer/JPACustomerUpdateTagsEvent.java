@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.time.OffsetDateTime;
 import java.util.Collections;
@@ -32,7 +32,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerTagsCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateTagsCommand;
 
 import static java.time.ZoneOffset.UTC;
 
@@ -44,8 +44,8 @@ import static java.time.ZoneOffset.UTC;
 @Entity
 @Table(name = "CUSTOMER_UPDATE_TAGS_EVENTS")
 @DiscriminatorValue("UPDATE_TAGS")
-public class UpdateCustomerTagsEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = 3160203538724418368L;
+public class JPACustomerUpdateTagsEvent extends JPACustomerEvent {
+    private static final long serialVersionUID = 8834749613175007120L;
 
     @ElementCollection
     @MapKeyColumn(name="KEY_")
@@ -55,14 +55,14 @@ public class UpdateCustomerTagsEvent extends BaseCustomerEvent {
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public UpdateCustomerTagsEvent() {}
+    public JPACustomerUpdateTagsEvent() {}
 
-    public UpdateCustomerTagsEvent(@NotNull final UpdateCustomerTagsCommand command) {
+    public JPACustomerUpdateTagsEvent(@NotNull final CustomerUpdateTagsCommand command) {
         this(command, OffsetDateTime.now(UTC));
     }
 
     @SuppressWarnings("WeakerAccess")
-    public UpdateCustomerTagsEvent(@NotNull final UpdateCustomerTagsCommand command, @NotNull final OffsetDateTime executed) {
+    public JPACustomerUpdateTagsEvent(@NotNull final CustomerUpdateTagsCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);
 
         tags.putAll(command.getTags());

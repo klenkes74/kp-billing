@@ -20,7 +20,6 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
-import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -29,30 +28,30 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-22
  */
-public class UpdateCustomerBillingEmailCommand extends AbstractUpdateCustomerCommand {
-    private static final long serialVersionUID = -2064239826800997113L;
+public class CustomerUpdateNameCommand extends CustomerUpdateCommand {
+    private static final long serialVersionUID = 834839107392759842L;
 
 
-    private EmailAddressTO emailAddress;
+    private String customerName;
 
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public UpdateCustomerBillingEmailCommand() {}
+    public CustomerUpdateNameCommand() {}
 
-    public UpdateCustomerBillingEmailCommand(@NotNull final UUID customerId, @NotNull final EmailAddressTO emailAddress) {
+    public CustomerUpdateNameCommand(@NotNull final UUID customerId, @NotNull final String customerName) {
         super(customerId);
 
-        this.emailAddress = emailAddress;
+        this.customerName = customerName;
     }
 
 
-    public EmailAddressTO getEmailAddress() {
-        return emailAddress;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setEmailAddress(@NotNull final EmailAddressTO emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setCustomerName(@NotNull final String customerName) {
+        this.customerName = customerName;
     }
 
 
@@ -60,7 +59,7 @@ public class UpdateCustomerBillingEmailCommand extends AbstractUpdateCustomerCom
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .appendSuper(super.toString())
-                .append("emailAddress", emailAddress)
+                .append("customerName", customerName)
                 .toString();
     }
 }

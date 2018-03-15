@@ -31,14 +31,14 @@ import javax.ws.rs.core.UriInfo;
 import de.kaiserpfalzedv.billing.api.guided.CustomerRepository;
 import de.kaiserpfalzedv.billing.api.guided.NoCustomerFoundException;
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
-import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerCreateCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerDeleteCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.DeleteCustomerCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmailCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerCostCenterCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerTagsCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateBillingEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateContactEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateCostCenterCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateNameCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateTagsCommand;
 import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerRepository;
 import de.kaiserpfalzedv.billing.notitia.services.CustomerService;
 import org.slf4j.Logger;
@@ -74,7 +74,7 @@ public class CustomerServiceImpl implements Serializable, CustomerService {
     }
 
     @Override
-    public Response createCustomer(@NotNull final CreateCustomerCommand command) {
+    public Response createCustomer(@NotNull final CustomerCreateCommand command) {
         LOG.info("Called: {}", uriInfo.getRequestUri().toASCIIString());
 
         try {
@@ -113,7 +113,7 @@ public class CustomerServiceImpl implements Serializable, CustomerService {
     @Override
     public Response updateCustomer(
             @NotNull final String customerId,
-            @NotNull final UpdateCustomerBillingEmailCommand command
+            @NotNull final CustomerUpdateBillingEmailCommand command
     ) {
         LOG.info("Called: {}", uriInfo.getRequestUri().toASCIIString());
 
@@ -129,7 +129,7 @@ public class CustomerServiceImpl implements Serializable, CustomerService {
     @Override
     public Response updateCustomer(
             @NotNull final String customerId,
-            @NotNull final UpdateCustomerContactEmailCommand command
+            @NotNull final CustomerUpdateContactEmailCommand command
     ) {
         LOG.info("Called: {}", uriInfo.getRequestUri().toASCIIString());
 
@@ -145,7 +145,7 @@ public class CustomerServiceImpl implements Serializable, CustomerService {
     @Override
     public Response updateCustomer(
             @NotNull final String customerId,
-            @NotNull final UpdateCustomerCostCenterCommand command
+            @NotNull final CustomerUpdateCostCenterCommand command
     ) {
         LOG.info("Called: {}", uriInfo.getRequestUri().toASCIIString());
 
@@ -161,7 +161,7 @@ public class CustomerServiceImpl implements Serializable, CustomerService {
     @Override
     public Response updateCustomer(
             @NotNull final String customerId,
-            @NotNull final UpdateCustomerNameCommand command
+            @NotNull final CustomerUpdateNameCommand command
     ) {
         LOG.info("Called: {}", uriInfo.getRequestUri().toASCIIString());
 
@@ -177,7 +177,7 @@ public class CustomerServiceImpl implements Serializable, CustomerService {
     @Override
     public Response updateCustomer(
             @NotNull final String customerId,
-            @NotNull final UpdateCustomerTagsCommand command
+            @NotNull final CustomerUpdateTagsCommand command
     ) {
         LOG.info("Called: {}", uriInfo.getRequestUri().toASCIIString());
 
@@ -195,7 +195,7 @@ public class CustomerServiceImpl implements Serializable, CustomerService {
         LOG.info("Called: {}", uriInfo.getRequestUri().toASCIIString());
 
         try {
-            DeleteCustomerCommand command = new DeleteCustomerCommand(UUID.fromString(customerId));
+            CustomerDeleteCommand command = new CustomerDeleteCommand(UUID.fromString(customerId));
             beanManager.fireEvent(command);
         } catch (IllegalArgumentException | CommandFailedException e) {
             return Response.status(404).entity(e.getMessage()).build();

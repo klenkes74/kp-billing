@@ -31,7 +31,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @version 1.0.0
  * @since 2018-02-22
  */
-public class UpdateCustomerTagsCommand extends AbstractUpdateCustomerCommand {
+public class CustomerUpdateTagsCommand extends CustomerUpdateCommand {
     private static final long serialVersionUID = 4629991492647933472L;
 
 
@@ -39,9 +39,9 @@ public class UpdateCustomerTagsCommand extends AbstractUpdateCustomerCommand {
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public UpdateCustomerTagsCommand() {}
+    public CustomerUpdateTagsCommand() {}
 
-    public UpdateCustomerTagsCommand(@NotNull final UUID customerId, @NotNull final Map<String, String> tags) {
+    public CustomerUpdateTagsCommand(@NotNull final UUID customerId, @NotNull final Map<String, String> tags) {
         super(customerId);
 
         if (tags != null) {

@@ -78,7 +78,7 @@ public class JPACustomerIT {
         JPACustomer customer = new JPACustomer();
         customer.setId(CUSTOMER_ID);
         customer.setName("TestCustomer");
-        customer.setCostReference("23141");
+        customer.setCostCenter("23141");
         customer.setBillingAddress(billingEmail);
         customer.setContactAddress(contactEmail);
         customer.setTags(customerTags);
@@ -89,6 +89,9 @@ public class JPACustomerIT {
 
     @Test
     public void shouldHaveCustomerRolandLichtiWhenSelectedByCostCenter92131() {
+        logMethod("check-customer-by-uuid",
+                  "Load customer by name and check UUID: name='{}', UUID='{}'",
+                  "Roland Lichti", "4136ac16-6520-4234-ae86-db81912f0dbc");
         JPACustomer result = em
                 .createQuery("select c from Customers c where name = :name", JPACustomer.class)
                 .setParameter("name", "Roland Lichti")

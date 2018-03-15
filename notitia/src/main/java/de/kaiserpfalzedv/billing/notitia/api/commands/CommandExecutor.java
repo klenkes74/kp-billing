@@ -14,28 +14,15 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.api.customer;
-
-import java.util.UUID;
+package de.kaiserpfalzedv.billing.notitia.api.commands;
 
 import javax.validation.constraints.NotNull;
-
-import de.kaiserpfalzedv.billing.notitia.api.commands.AbstractBaseCommandImpl;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-22
  */
-public class DeleteCustomerCommand extends AbstractBaseCommandImpl {
-    private static final long serialVersionUID = -8789233688666508994L;
-
-
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public DeleteCustomerCommand() {}
-
-    public DeleteCustomerCommand(@NotNull final UUID customerId) {
-        super(customerId);
-    }
+public interface CommandExecutor<T extends BaseCommand> {
+    void execute(@NotNull final T command) throws CommandFailedException;
 }

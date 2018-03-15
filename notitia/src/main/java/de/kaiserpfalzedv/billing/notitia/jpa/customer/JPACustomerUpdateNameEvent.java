@@ -14,18 +14,20 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.DeleteCustomerCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateNameCommand;
+
+import static java.time.ZoneOffset.UTC;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -33,29 +35,46 @@ import de.kaiserpfalzedv.billing.notitia.api.customer.DeleteCustomerCommand;
  * @since 2018-02-21
  */
 @Entity
-@Table(name = "CUSTOMER_DELETE_EVENTS")
-@DiscriminatorValue("DELETE")
-public class DeleteCustomerEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = 2888395068339022430L;
+@Table(name = "CUSTOMER_UPDAte_NAME_EVENTS")
+@DiscriminatorValue("UPDATE_NAME")
+public class JPACustomerUpdateNameEvent extends JPACustomerEvent {
+    private static final long serialVersionUID = -9108063307952169028L;
+
+    @Column(name = "NAME_")
+    private String name;
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public DeleteCustomerEvent() {}
+    public JPACustomerUpdateNameEvent() {}
 
-    public DeleteCustomerEvent(@NotNull final DeleteCustomerCommand command) {
-        this(command, OffsetDateTime.now(ZoneOffset.UTC));
+
+    public JPACustomerUpdateNameEvent(@NotNull final CustomerUpdateNameCommand command) {
+        this(command, OffsetDateTime.now(UTC));
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public DeleteCustomerEvent(@NotNull final DeleteCustomerCommand command, @NotNull final OffsetDateTime executed) {
+
+    public JPACustomerUpdateNameEvent(@NotNull final CustomerUpdateNameCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);
-    }
 
+        name = command.getCustomerName();
+    }
 
     @Override
     public CustomerTO update(@NotNull CustomerTO data) {
-        BUSINESS.trace("Command {} deleted customer {} on {}.", getId(), data.getId(), getExecuted());
-        
-        return new CustomerTO();
+        BUSINESS.trace("Command {} updated customer on {} and changed name: {} -> {}",
+                       getId(), getExecuted(), data.getName(), getName());
+
+        data.setName(getName());
+
+        return data;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NotNull final String name) {
+        this.name = name;
     }
 }

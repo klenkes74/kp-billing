@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.time.OffsetDateTime;
 
@@ -25,7 +25,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateCostCenterCommand;
 
 import static java.time.ZoneOffset.UTC;
 
@@ -35,46 +35,45 @@ import static java.time.ZoneOffset.UTC;
  * @since 2018-02-21
  */
 @Entity
-@Table(name = "CUSTOMER_UPDAte_NAME_EVENTS")
-@DiscriminatorValue("UPDATE_NAME")
-public class UpdateCustomerNameEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = 6010181948451894652L;
+@Table(name = "CUSTOMER_UPDATE_COST_CENTER_EVENTS")
+@DiscriminatorValue("UPDATE_COST_CENTER")
+public class JPACustomerUpdateCostCenterEvent extends JPACustomerEvent {
+    private static final long serialVersionUID = -4678959168942837584L;
 
-    @Column(name = "NAME_")
-    private String name;
+    @Column(name = "COST_CENTER_")
+    private String costCenter;
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public UpdateCustomerNameEvent() {}
+    public JPACustomerUpdateCostCenterEvent() {}
 
-
-    public UpdateCustomerNameEvent(@NotNull final UpdateCustomerNameCommand command) {
+    public JPACustomerUpdateCostCenterEvent(@NotNull final CustomerUpdateCostCenterCommand command) {
         this(command, OffsetDateTime.now(UTC));
     }
 
-
-    public UpdateCustomerNameEvent(@NotNull final UpdateCustomerNameCommand command, @NotNull final OffsetDateTime executed) {
+    public JPACustomerUpdateCostCenterEvent(@NotNull final CustomerUpdateCostCenterCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);
 
-        name = command.getCustomerName();
+        costCenter = command.getCostCenter();
     }
 
     @Override
     public CustomerTO update(@NotNull CustomerTO data) {
-        BUSINESS.trace("Command {} updated customer on {} and changed name: {} -> {}",
-                       getId(), getExecuted(), data.getName(), getName());
+        BUSINESS.trace("Command {} updated customer on {} and changed cost center: {} -> {}",
+                       getId(), getExecuted(), data.getCostCenter(), getCostCenter());
 
-        data.setName(getName());
+        data.setCostCenter(getCostCenter());
 
         return data;
     }
 
 
-    public String getName() {
-        return name;
+    @SuppressWarnings("WeakerAccess")
+    public String getCostCenter() {
+        return costCenter;
     }
 
-    public void setName(@NotNull final String name) {
-        this.name = name;
+    public void setCostCenter(@NotNull final String costCenter) {
+        this.costCenter = costCenter;
     }
 }

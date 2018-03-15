@@ -24,19 +24,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerCreateCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateBillingEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateContactEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateCostCenterCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateNameCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmailCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerCostCenterCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.BaseCustomerEvent;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.CreateCustomerEvent;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerBillingEmailEvent;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerContactEmailEvent;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerCostCenterEvent;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.UpdateCustomerNameEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerCreateEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerUpdateBillingEmailEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerUpdateContactEmailEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerUpdateCostCenterEvent;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerUpdateNameEvent;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -85,8 +85,8 @@ public class CustomerCommandTest {
 
         UUID eventId = UUID.randomUUID();
 
-        CreateCustomerCommand command = new CreateCustomerCommand(CUSTOMER);
-        CreateCustomerEvent event = new CreateCustomerEvent(command, EVENT_CREATED);
+        CustomerCreateCommand command = new CustomerCreateCommand(CUSTOMER);
+        JPACustomerCreateEvent event = new JPACustomerCreateEvent(command, EVENT_CREATED);
 
         CustomerTO result = new CustomerTO();
 
@@ -107,23 +107,23 @@ public class CustomerCommandTest {
         EmailAddressTO billingAddress = new EmailAddressTO(UUID.randomUUID(), "Customer Fincance", "finance@kaiserpfalz-edv.de", "BILLING");
         EmailAddressTO contactAddress = new EmailAddressTO(UUID.randomUUID(), "Customer Info", "info@kaiserpfalz-edv.de", "CONTACT");
 
-        CreateCustomerCommand createCommand = new CreateCustomerCommand(CUSTOMER);
-        UpdateCustomerNameCommand nameUpdateCommand = new UpdateCustomerNameCommand(CUSTOMER_ID, "Neuer Name");
-        UpdateCustomerCostCenterCommand costCenterUpdateCommand = new UpdateCustomerCostCenterCommand(CUSTOMER_ID, "54321");
-        UpdateCustomerBillingEmailCommand billingEmailUpdateCommand = new UpdateCustomerBillingEmailCommand(CUSTOMER_ID, billingAddress);
-        UpdateCustomerContactEmailCommand contactEmailUpdateCommand = new UpdateCustomerContactEmailCommand(CUSTOMER_ID, contactAddress);
+        CustomerCreateCommand createCommand = new CustomerCreateCommand(CUSTOMER);
+        CustomerUpdateNameCommand nameUpdateCommand = new CustomerUpdateNameCommand(CUSTOMER_ID, "Neuer Name");
+        CustomerUpdateCostCenterCommand costCenterUpdateCommand = new CustomerUpdateCostCenterCommand(CUSTOMER_ID, "54321");
+        CustomerUpdateBillingEmailCommand billingEmailUpdateCommand = new CustomerUpdateBillingEmailCommand(CUSTOMER_ID, billingAddress);
+        CustomerUpdateContactEmailCommand contactEmailUpdateCommand = new CustomerUpdateContactEmailCommand(CUSTOMER_ID, contactAddress);
 
-        CreateCustomerEvent createEvent = new CreateCustomerEvent(createCommand, EVENT_CREATED);
-        UpdateCustomerNameEvent updateNameEvent = new UpdateCustomerNameEvent(nameUpdateCommand, EVENT_CREATED);
-        UpdateCustomerCostCenterEvent updateCostCenterEvent = new UpdateCustomerCostCenterEvent(costCenterUpdateCommand, EVENT_CREATED);
-        UpdateCustomerBillingEmailEvent updateBillingEmailEvent = new UpdateCustomerBillingEmailEvent(billingEmailUpdateCommand, EVENT_CREATED);
-        UpdateCustomerContactEmailEvent updateContactEmailEvent = new UpdateCustomerContactEmailEvent(contactEmailUpdateCommand, EVENT_CREATED);
+        JPACustomerCreateEvent createEvent = new JPACustomerCreateEvent(createCommand, EVENT_CREATED);
+        JPACustomerUpdateNameEvent updateNameEvent = new JPACustomerUpdateNameEvent(nameUpdateCommand, EVENT_CREATED);
+        JPACustomerUpdateCostCenterEvent updateCostCenterEvent = new JPACustomerUpdateCostCenterEvent(costCenterUpdateCommand, EVENT_CREATED);
+        JPACustomerUpdateBillingEmailEvent updateBillingEmailEvent = new JPACustomerUpdateBillingEmailEvent(billingEmailUpdateCommand, EVENT_CREATED);
+        JPACustomerUpdateContactEmailEvent updateContactEmailEvent = new JPACustomerUpdateContactEmailEvent(contactEmailUpdateCommand, EVENT_CREATED);
 
-        List<BaseCustomerEvent> commands = new ArrayList<>(5);
+        List<JPACustomerEvent> commands = new ArrayList<>(5);
         Collections.addAll(commands, createEvent, updateNameEvent, updateCostCenterEvent, updateBillingEmailEvent, updateContactEmailEvent);
 
         CustomerTO result = new CustomerTO();
-        for(BaseCustomerEvent event : commands) {
+        for(JPACustomerEvent event : commands) {
             result = event.update(result);
         }
         LOG.trace("Result: {}", result);

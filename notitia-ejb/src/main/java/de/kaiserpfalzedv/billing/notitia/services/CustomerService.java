@@ -27,13 +27,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import de.kaiserpfalzedv.billing.notitia.api.customer.CreateCustomerCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerCreateCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerContactEmailCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerCostCenterCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerNameCommand;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerTagsCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateBillingEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateContactEmailCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateCostCenterCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateNameCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateTagsCommand;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -48,7 +48,7 @@ public interface CustomerService {
     @POST
     @Path("/")
     @Consumes(APPLICATION_JSON)
-    Response createCustomer(@NotNull CreateCustomerCommand command);
+    Response createCustomer(@NotNull CustomerCreateCommand command);
 
     @GET
     @Path("/{customerId}")
@@ -60,7 +60,7 @@ public interface CustomerService {
     @Consumes(APPLICATION_JSON)
     Response updateCustomer(
             @PathParam("customerId") @NotNull String customerId,
-            @NotNull UpdateCustomerBillingEmailCommand command
+            @NotNull CustomerUpdateBillingEmailCommand command
     );
 
     @PUT
@@ -68,7 +68,7 @@ public interface CustomerService {
     @Consumes(APPLICATION_JSON)
     Response updateCustomer(
             @PathParam("customerId") @NotNull String customerId,
-            @NotNull UpdateCustomerContactEmailCommand command
+            @NotNull CustomerUpdateContactEmailCommand command
     );
 
     @PUT
@@ -76,7 +76,7 @@ public interface CustomerService {
     @Consumes(APPLICATION_JSON)
     Response updateCustomer(
             @PathParam("customerId") @NotNull String customerId,
-            @NotNull UpdateCustomerCostCenterCommand command
+            @NotNull CustomerUpdateCostCenterCommand command
     );
 
     @PUT
@@ -84,7 +84,7 @@ public interface CustomerService {
     @Consumes(APPLICATION_JSON)
     Response updateCustomer(
             @PathParam("customerId") @NotNull String customerId,
-            @NotNull UpdateCustomerNameCommand command
+            @NotNull CustomerUpdateNameCommand command
     );
 
     @PUT
@@ -92,7 +92,7 @@ public interface CustomerService {
     @Consumes(APPLICATION_JSON)
     Response updateCustomer(
             @PathParam("customerId") @NotNull String customerId,
-            @NotNull UpdateCustomerTagsCommand command
+            @NotNull CustomerUpdateTagsCommand command
     );
 
     @DELETE

@@ -18,14 +18,22 @@ package de.kaiserpfalzedv.billing.notitia.api.customer;
 
 import javax.validation.constraints.NotNull;
 
-import de.kaiserpfalzedv.billing.notitia.api.commands.BaseCommand;
-import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
+import de.kaiserpfalzedv.billing.notitia.api.commands.DataHoldingCommand;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2018-02-22
  */
-public interface CommandExecutor<T extends BaseCommand> {
-    void execute(@NotNull final T command) throws CommandFailedException;
+public class CustomerCreateCommand extends DataHoldingCommand<CustomerTO> {
+    private static final long serialVersionUID = -1833256458107318054L;
+
+    @SuppressWarnings("deprecation")
+    @Deprecated
+    public CustomerCreateCommand() {}
+
+    public CustomerCreateCommand(@NotNull final CustomerTO customer) {
+        super(customer);
+    }
+    
 }

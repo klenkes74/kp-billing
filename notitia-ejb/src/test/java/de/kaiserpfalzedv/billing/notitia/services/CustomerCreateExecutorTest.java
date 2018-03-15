@@ -16,6 +16,9 @@
 
 package de.kaiserpfalzedv.billing.notitia.services;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
@@ -23,10 +26,11 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 
 import de.kaiserpfalzedv.billing.notitia.api.commands.CommandFailedException;
-import de.kaiserpfalzedv.billing.notitia.api.customer.DeleteCustomerCommand;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomer;
-import de.kaiserpfalzedv.billing.notitia.jpa.customer.command.CreateCustomerEvent;
-import de.kaiserpfalzedv.billing.notitia.services.customer.DeleteCustomerExecutor;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerCreateCommand;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
+import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
+import de.kaiserpfalzedv.billing.notitia.jpa.customer.JPACustomerCreateEvent;
+import de.kaiserpfalzedv.billing.notitia.services.customer.CustomerCreateExecutor;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -40,7 +44,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -51,74 +54,81 @@ import static org.mockito.Mockito.when;
  * @version 1.0.0
  * @since 2018-02-25
  */
-public class DeleteCustomerExecutorTest {
-    private static final Logger LOG = LoggerFactory.getLogger(DeleteCustomerExecutorTest.class);
+public class CustomerCreateExecutorTest {
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerCreateExecutorTest.class);
 
+    private static final OffsetDateTime EVENT_CREATED = OffsetDateTime.now(ZoneOffset.UTC);
     private static final UUID CUSTOMER_ID = UUID.randomUUID();
+    private static final String CUSTOMER_NAME = "Customer";
+    private static final String COST_CENTER = "12345";
+    private static final String CUSTOMER_MAIL_NAME = "Customer Info";
+    private static final String CUSTOMER_MAIL_ADDRESS = "info@kaiserpfalz-edv.de";
+    private static final UUID CUSTOMER_MAIL_ID = UUID.randomUUID();
+
+    private static final EmailAddressTO EMAIL_ADDRESS = new EmailAddressTO(
+            CUSTOMER_MAIL_ID, CUSTOMER_MAIL_NAME, CUSTOMER_MAIL_ADDRESS, "GENERIC"
+    );
+    private static final HashMap<String, String> TAGS = new HashMap<>();
+    private static final CustomerTO CUSTOMER = new CustomerTO();
+    static {
+
+        CUSTOMER.setId(CUSTOMER_ID);
+        CUSTOMER.setName(CUSTOMER_NAME);
+        CUSTOMER.setCostCenter(COST_CENTER);
+        CUSTOMER.setBillingAddress(EMAIL_ADDRESS);
+        CUSTOMER.setContactAddress(EMAIL_ADDRESS);
+
+        TAGS.put("customer", "12345");
+        CUSTOMER.setTags(TAGS);
+    }
 
 
-    private DeleteCustomerExecutor service;
+    private CustomerCreateExecutor service;
 
     @Mock
     private EntityManager em;
     @Mock
     private EntityTransaction tx;
-    @Mock
-    private JPACustomer customer;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
 
     @Test
-    public void shouldDeleteCustomerWhenEventListenerIsCalled() throws CommandFailedException {
-        logMethod("simple-call", "Deleting customer: {}", CUSTOMER_ID);
+    public void shouldCreateCustomerWhenEventListenerIsCalled() throws CommandFailedException {
+        logMethod("simple-call", "Creating customer: {}", CUSTOMER);
 
-        DeleteCustomerCommand command = new DeleteCustomerCommand(CUSTOMER_ID);
-
-        when(em.find(JPACustomer.class, CUSTOMER_ID)).thenReturn(customer);
+        CustomerCreateCommand command = new CustomerCreateCommand(CUSTOMER);
 
         service.execute(command);
     }
-
-
-    @Test
-    public void shouldReportCustomerWhenCustomerDidNotExist() throws CommandFailedException {
-        logMethod("simple-call-not-existing-customer", "Deleting customer: {}", CUSTOMER_ID);
-
-        DeleteCustomerCommand command = new DeleteCustomerCommand(CUSTOMER_ID);
-
-        service.execute(command);
-    }
-
 
     @Test(expected = CommandFailedException.class)
-    public void shouldThrowCommandExceptionWhenPersistenceExceptionIsThrown() throws CommandFailedException {
-        logMethod("persistence-failure-outside-transaction", "Creating customer: {}", CUSTOMER_ID);
+    public void shouldThrowCommandExceptionWhenPersistenceExceptionIsThrownOutsideTransaction() throws CommandFailedException {
+        logMethod("persistence-failure-outside-transaction", "Creating customer for failing outside of transaction: {}", CUSTOMER);
 
-        DeleteCustomerCommand command = new DeleteCustomerCommand(CUSTOMER_ID);
+        CustomerCreateCommand command = new CustomerCreateCommand(CUSTOMER);
 
-        when(em.find(eq(JPACustomer.class), any())).thenThrow(new PersistenceException());
-
+        doThrow(new PersistenceException()).when(em).persist(any(JPACustomerCreateEvent.class));
+        when(em.isJoinedToTransaction()).thenReturn(false);
+        
         service.execute(command);
     }
+
 
     @Test(expected = CommandFailedException.class)
     public void shouldThrowCommandExceptionWhenPersistenceExceptionIsThrownInsideTransaction() throws CommandFailedException {
-        logMethod("persistence-failure-inside-transaction", "Creating customer: {}", CUSTOMER_ID);
+        logMethod("persistence-failure-inside-transaction", "Creating customer for failing inside transaction: {}", CUSTOMER);
 
-        DeleteCustomerCommand command = new DeleteCustomerCommand(CUSTOMER_ID);
+        CustomerCreateCommand command = new CustomerCreateCommand(CUSTOMER);
 
-        when(em.find(eq(JPACustomer.class), any())).thenThrow(new PersistenceException());
-
-        doThrow(new PersistenceException()).when(em).persist(any(CreateCustomerEvent.class));
+        doThrow(new PersistenceException()).when(em).persist(any(JPACustomerCreateEvent.class));
         when(em.isJoinedToTransaction()).thenReturn(true);
 
         service.execute(command);
 
         verify(tx, atLeastOnce()).setRollbackOnly();
     }
-
 
     private void logMethod(final String method, final String message, final Object... paramater) {
         MDC.put("id", method);
@@ -128,7 +138,7 @@ public class DeleteCustomerExecutorTest {
 
     @Before
     public void setUp() {
-        service = new DeleteCustomerExecutor();
+        service = new CustomerCreateExecutor();
         service.setEntityManager(em);
 
         when(em.getTransaction()).thenReturn(tx);

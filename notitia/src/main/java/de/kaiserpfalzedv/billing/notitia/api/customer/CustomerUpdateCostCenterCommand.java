@@ -20,21 +20,46 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
-import de.kaiserpfalzedv.billing.notitia.api.commands.AbstractBaseCommandImpl;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * @author klenkes {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
- * @since 2018-02-27
+ * @since 2018-02-22
  */
-public abstract class AbstractUpdateCustomerCommand extends AbstractBaseCommandImpl {
-    private static final long serialVersionUID = 3038212830329474965L;
+public class CustomerUpdateCostCenterCommand extends CustomerUpdateCommand {
+    private static final long serialVersionUID = 4590981250329964978L;
+
+
+    private String costCenter;
+
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public AbstractUpdateCustomerCommand() {}
+    public CustomerUpdateCostCenterCommand() {}
 
-    public AbstractUpdateCustomerCommand(@NotNull final UUID customerId) {
+    public CustomerUpdateCostCenterCommand(@NotNull final UUID customerId, @NotNull final String costCenter) {
         super(customerId);
+
+        this.costCenter = costCenter;
+    }
+
+
+    public String getCostCenter() {
+        return costCenter;
+    }
+
+    public void setCostCenter(@NotNull final String costCenter) {
+        this.costCenter = costCenter;
+    }
+
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .appendSuper(super.toString())
+                .append("costCenter", costCenter)
+                .toString();
     }
 }

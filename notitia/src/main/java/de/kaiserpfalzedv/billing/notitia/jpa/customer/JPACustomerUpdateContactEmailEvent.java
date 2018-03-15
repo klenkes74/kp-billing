@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package de.kaiserpfalzedv.billing.notitia.jpa.customer.command;
+package de.kaiserpfalzedv.billing.notitia.jpa.customer;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -26,8 +26,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerTO;
+import de.kaiserpfalzedv.billing.notitia.api.customer.CustomerUpdateContactEmailCommand;
 import de.kaiserpfalzedv.billing.notitia.api.customer.EmailAddressTO;
-import de.kaiserpfalzedv.billing.notitia.api.customer.UpdateCustomerBillingEmailCommand;
 
 import static java.time.ZoneOffset.UTC;
 
@@ -37,29 +37,29 @@ import static java.time.ZoneOffset.UTC;
  * @since 2018-02-21
  */
 @Entity
-@Table(name = "CUSTOMER_UPDATE_BILLING_EMAIL_EVENTS")
+@Table(name = "CUSTOMER_UPDATE_CONTACT_EMAIL_EVENTS")
 @DiscriminatorValue("CREATE")
-public class UpdateCustomerBillingEmailEvent extends BaseCustomerEvent {
-    private static final long serialVersionUID = -3939177420686685939L;
+public class JPACustomerUpdateContactEmailEvent extends JPACustomerEvent {
+    private static final long serialVersionUID = 8081299556631164188L;
 
     @Column(name = "ADDRESS_ID_")
     private UUID addressId;
-    @Column(name = "ADDRESS_NAME_", length = 200)
+    @Column(name = "ADDRESS_NAME_")
     private String addressName;
-    @Column(name = "ADDRESS_ADDRESS_", length = 100)
+    @Column(name = "ADDRESS_ADDRESS_")
     private String addressAddress;
-    @Column(name = "ADDRESS_TYPE_", length = 20)
+    @Column(name = "ADDRESS_TYPE_")
     private String addressType;
 
     @SuppressWarnings("deprecation")
     @Deprecated
-    public UpdateCustomerBillingEmailEvent() {}
+    public JPACustomerUpdateContactEmailEvent() {}
 
-    public UpdateCustomerBillingEmailEvent(@NotNull final UpdateCustomerBillingEmailCommand command) {
+    public JPACustomerUpdateContactEmailEvent(@NotNull final CustomerUpdateContactEmailCommand command) {
         this(command, OffsetDateTime.now(UTC));
     }
 
-    public UpdateCustomerBillingEmailEvent(@NotNull final UpdateCustomerBillingEmailCommand command, @NotNull final OffsetDateTime executed) {
+    public JPACustomerUpdateContactEmailEvent(@NotNull final CustomerUpdateContactEmailCommand command, @NotNull final OffsetDateTime executed) {
         super(command.getId(), command.getObjectId(), command.getCreated(), executed);
 
         EmailAddressTO data = command.getEmailAddress();
@@ -74,10 +74,10 @@ public class UpdateCustomerBillingEmailEvent extends BaseCustomerEvent {
     public CustomerTO update(@NotNull CustomerTO data) {
         EmailAddressTO email = generateEmailAddressTO(addressId, addressName, addressAddress, addressName);
 
-        BUSINESS.trace("Command {} changed customer on {} and changed the billing address: {} -> {}",
+        BUSINESS.trace("Command {} changed customer on {} and changed the contact address: {} -> {}",
                        getId(), getExecuted(), data.getBillingAddress(), email);
 
-        data.setBillingAddress(email);
+        data.setContactAddress(email);
         return data;
     }
 
